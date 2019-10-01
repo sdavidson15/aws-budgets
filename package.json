@@ -1,0 +1,18 @@
+{
+    "name": "dashboard",
+    "version": "4.0.0",
+    "description": "Dashboard demo",
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build"
+    },
+    "dependencies": {
+        "@material-ui/core": "latest",
+        "@material-ui/icons": "latest",
+        "clsx": "latest",
+        "react": "latest",
+        "react-dom": "latest",
+        "react-scripts": "latest",
+        "recharts": "latest"
+    }
+}
