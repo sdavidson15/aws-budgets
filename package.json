@@ -1,18 +1,30 @@
 {
-    "name": "dashboard",
-    "version": "4.0.0",
-    "description": "Dashboard demo",
-    "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build"
-    },
-    "dependencies": {
-        "@material-ui/core": "latest",
-        "@material-ui/icons": "latest",
-        "clsx": "latest",
-        "react": "latest",
-        "react-dom": "latest",
-        "react-scripts": "latest",
-        "recharts": "latest"
-    }
+  "name": "dashboard",
+  "version": "4.0.0",
+  "description": "Dashboard demo",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "dependencies": {
+    "@material-ui/core": "latest",
+    "@material-ui/icons": "latest",
+    "clsx": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-scripts": "latest",
+    "recharts": "latest"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
