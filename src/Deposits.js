@@ -12,22 +12,28 @@ const useStyles = makeStyles({
   },
 });
 
+// TODO: hit an endpoint to collect the spend
+var currentSpend = '$767.72\t(76.77% of budgeted)'
+var forecastedSpend= '$788.99\t(78.90% of budgeted)'
+
 export default function Deposits() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Recent Deposits</Title>
-      <Typography component="p" variant="h4">
-        $3,024.00
+      <Title>Month to Date</Title>
+      <Typography component="p" variant="h6">
+        {currentSpend}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2019
+        Current
       </Typography>
-      <div>
-        <Link color="primary" href="javascript:;">
-          View balance
-        </Link>
-      </div>
+      <hr/>
+      <Typography component="p" variant="h6">
+        {forecastedSpend}
+      </Typography>
+      <Typography color="textSecondary" className={classes.depositContext}>
+        Forecasted
+      </Typography>
     </React.Fragment>
   );
 }
