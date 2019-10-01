@@ -19,8 +19,7 @@ var data = [
   createData('Jun 2019', 399.78, 1000),
   createData('Jul 2019', 446.48, 1000),
   createData('Aug 2019', 554.94, 1000),
-  createData('Sep 2019', 776.88, 1000),
-  createData('Oct 2019', undefined, 1000),
+  createData('Sep 2019', 776.88, 1000)
 ];
 
 // TODO: hit an endpoint to collect the title
