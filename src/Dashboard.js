@@ -21,6 +21,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import CurrentSpend from './CurrentSpend';
 import BudgetHistory from './BudgetHistory';
+import ForecastedSpend from './ForecastedSpend';
 
 function Copyright() {
   return (
@@ -173,9 +174,15 @@ export default function Dashboard() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Current Spend */}
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <Paper className={fixedHeightPaper}>
                 <CurrentSpend />
+              </Paper>
+            </Grid>
+            {/* Forecasted Spend */}
+            <Grid item xs={6}>
+              <Paper className={fixedHeightPaper}>
+                <ForecastedSpend />
               </Paper>
             </Grid>
             {/* Chart */}
