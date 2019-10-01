@@ -41,7 +41,7 @@ export default function Orders() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Recent Orders</Title>
+      <Title>Budget History</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -65,8 +65,8 @@ export default function Orders() {
         </TableBody>
       </Table>
       <div className={classes.seeMore}>
-        <Link color="primary" href="javascript:;">
-          Expand spending history
+        <Link color="primary" href="https://en.wikipedia.org/wiki/Special:Random">
+          Expand budget history
         </Link>
       </div>
     </React.Fragment>
