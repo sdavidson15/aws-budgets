@@ -173,19 +173,19 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Current Spend */}
+            {/* Current Spend TODO: make this shorter */}
             <Grid item xs={6}>
               <Paper className={fixedHeightPaper}>
                 <CurrentSpend />
               </Paper>
             </Grid>
-            {/* Forecasted Spend */}
+            {/* Forecasted Spend TODO: make this shorter */}
             <Grid item xs={6}>
               <Paper className={fixedHeightPaper}>
                 <ForecastedSpend />
               </Paper>
             </Grid>
-            {/* Chart */}
+            {/* Chart TODO: make this taller */}
             <Grid item xs={12}>
               <Paper className={fixedHeightPaper}>
                 <Chart />

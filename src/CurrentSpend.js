@@ -30,7 +30,7 @@ export default function Deposits() {
         {budget}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        Budgeted
+        Budgeted amount
       </Typography>
     </React.Fragment>
   );
