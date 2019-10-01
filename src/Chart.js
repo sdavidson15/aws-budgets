@@ -8,18 +8,18 @@ function createData(date, spend, budget) {
 
 // TODO: hit an endpoint to collect the data.
 var data = [
-  createData('Oct 2018', 1341.69, 1000),
-  createData('Nov 2018', 1115.29, 1000),
-  createData('Dec 2018', 1275.56, 1000),
-  createData('Jan 2019', 357.57, 1000),
-  createData('Feb 2019', 170.19, 1000),
-  createData('Mar 2019', 191.53, 1000),
-  createData('Apr 2019', 412.81, 1000),
-  createData('May 2019', 385.70, 1000),
-  createData('Jun 2019', 399.78, 1000),
-  createData('Jul 2019', 446.48, 1000),
-  createData('Aug 2019', 554.94, 1000),
-  createData('Sep 2019', 776.88, 1000)
+  createData('Oct \'18', 1341.69, 1000),
+  createData('Nov \'18', 1115.29, 1000),
+  createData('Dec \'18', 1275.56, 1000),
+  createData('Jan', 357.57, 1000),
+  createData('Feb', 170.19, 1000),
+  createData('Mar', 191.53, 1000),
+  createData('Apr', 412.81, 1000),
+  createData('May', 385.70, 1000),
+  createData('Jun', 399.78, 1000),
+  createData('Jul', 446.48, 1000),
+  createData('Aug', 554.94, 1000),
+  createData('Sep', 776.88, 1000)
 ];
 
 // TODO: hit an endpoint to collect the title
