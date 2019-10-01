@@ -13,17 +13,24 @@ const useStyles = makeStyles({
 
 // TODO: hit an endpoint to collect the spend
 var currentSpend = '$767.72\t(76.77% of budgeted)'
+var budget = '$1,000'
 
 export default function Deposits() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Month to Date</Title>
+      <Title>Current vs. budgeted</Title>
       <Typography component="p" variant="h6">
         {currentSpend}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         Current
+      </Typography>
+      <Typography component="p" variant="h6">
+        {budget}
+      </Typography>
+      <Typography color="textSecondary" className={classes.depositContext}>
+        Budgeted
       </Typography>
     </React.Fragment>
   );
