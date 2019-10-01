@@ -172,20 +172,20 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={15} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
-            </Grid>
             {/* Current Spend */}
-            <Grid item xs={15} md={7} lg={6}>
+            <Grid item xs={12}>
               <Paper className={fixedHeightPaper}>
                 <CurrentSpend />
               </Paper>
             </Grid>
+            {/* Chart */}
+            <Grid item xs={12}>
+              <Paper className={fixedHeightPaper}>
+                <Chart />
+              </Paper>
+            </Grid>
             {/* Budget History */}
-            <Grid item xs={15}>
+            <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <BudgetHistory />
               </Paper>
