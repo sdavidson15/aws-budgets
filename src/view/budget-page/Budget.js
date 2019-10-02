@@ -16,14 +16,12 @@ import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import AppState from './../../controller/State';
 import { mainListItems, secondaryListItems } from './../menu/MenuItems';
 import Chart from './Chart';
 import CurrentSpend from './CurrentSpend';
 import BudgetHistory from './BudgetHistory';
 import ForecastedSpend from './ForecastedSpend';
-
-// TODO: hit an endpoint to get the budget name
-var budgetName = "Monthly AWS Budget Alert io-example 012345678901"
 
 const drawerWidth = 240;
 
@@ -109,7 +107,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Budget() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -120,6 +118,7 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const fixedHeightChart = clsx(classes.paper, classes.chartFixedHeight);
+  AppState.init()
 
   return (
     <div className={classes.root}>
@@ -136,7 +135,7 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            {budgetName}
+            {AppState.BudgetName}
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
