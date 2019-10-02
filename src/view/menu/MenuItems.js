@@ -16,7 +16,7 @@ function onDashboardClick() {
 }
 
 function onAccountBudgetsClick() {
-  View.RenderBudgetPage();
+  View.RenderAccountBudgetsPage();
 }
 
 export const mainListItems = (

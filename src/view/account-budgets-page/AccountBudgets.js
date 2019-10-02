@@ -15,15 +15,12 @@ import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import AppState from './../../controller/State';
 import { mainListItems, secondaryListItems } from './../menu/MenuItems';
-import Chart from './Chart';
-import CurrentSpend from './CurrentSpend';
-import BudgetHistory from './BudgetHistory';
-import ForecastedSpend from './ForecastedSpend';
+import BudgetsListing from './BudgetsListing';
 import { defaultStyles } from './../DefaultStyles';
+import Search from './Search';
 
-export default function Budget() {
+export default function AccountBudgets() {
   const classes = defaultStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -32,8 +29,7 @@ export default function Budget() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  const fixedHeightChart = clsx(classes.paper, classes.chartFixedHeight);
+  const fixedHeightSearch = clsx(classes.paper, classes.searchfixedHeight);
 
   return (
     <div className={classes.root}>
@@ -50,7 +46,7 @@ export default function Budget() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            {AppState.BudgetName()}
+            Account Budgets
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -80,28 +76,16 @@ export default function Budget() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Current Spend */}
-            <Grid item xs={6}>
-              <Paper className={fixedHeightPaper}>
-                <CurrentSpend />
-              </Paper>
-            </Grid>
-            {/* Forecasted Spend */}
-            <Grid item xs={6}>
-              <Paper className={fixedHeightPaper}>
-                <ForecastedSpend />
-              </Paper>
-            </Grid>
-            {/* Chart */}
+            {/* Search */}
             <Grid item xs={12}>
-              <Paper className={fixedHeightChart}>
-                <Chart />
+              <Paper className={fixedHeightSearch}>
+                <Search />
               </Paper>
             </Grid>
-            {/* Budget History */}
+            {/* Budgets Listing */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <BudgetHistory />
+                <BudgetsListing />
               </Paper>
             </Grid>
           </Grid>
