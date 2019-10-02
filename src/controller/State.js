@@ -1,32 +1,28 @@
-var AppState = (function() {
+var AppState = (function () {
     var BudgetName,
         BudgetAmount,
         BudgetHistory,
         CurrentSpend,
         ForecastedSpend,
 
-        getBudgetName = function() {
+        GetBudgetName = function () {
             return BudgetName;
         },
 
-        getBudgetAmount = function() {
+        GetBudgetAmount = function () {
             return BudgetAmount;
         },
 
-        getBudgetHistory = function() {
+        GetBudgetHistory = function () {
             return BudgetHistory.slice(0);
         },
 
-        getCurrentSpend = function() {
+        GetCurrentSpend = function () {
             return CurrentSpend;
         },
 
-        getForecastedSpend = function() {
+        GetForecastedSpend = function () {
             return ForecastedSpend;
-        },
-
-        createBudgetHistoryData = function (id, date, actual, budgeted, variance, varianceDescr) {
-            return { id, date, actual, budgeted, variance, varianceDescr };
         },
 
         init = function () {
@@ -34,6 +30,11 @@ var AppState = (function() {
             BudgetAmount = '$1,000';
             CurrentSpend = '$767.72\t(76.77% of budgeted)';
             ForecastedSpend = '$788.99\t(78.90% of budgeted)';
+
+            function createBudgetHistoryData(id, date, actual, budgeted, variance, varianceDescr) {
+                return { id, date, actual, budgeted, variance, varianceDescr };
+            };
+
             BudgetHistory = [
                 createBudgetHistoryData(0, 'Oct 2019 (MTD)', 0, 1000, 1000, '100% under budget'),
                 createBudgetHistoryData(1, 'Sep 2019', 776.88, 1000, 223.12, '22.31% under budget'),
@@ -51,14 +52,14 @@ var AppState = (function() {
             ];
         };
 
-        return {
-            init: init,
-            BudgetName: getBudgetName,
-            BudgetAmount: getBudgetAmount,
-            BudgetHistory: getBudgetHistory,
-            CurrentSpend: getCurrentSpend,
-            ForecastedSpend: getForecastedSpend
-        };
+    return {
+        init: init,
+        BudgetName: GetBudgetName,
+        BudgetAmount: GetBudgetAmount,
+        BudgetHistory: GetBudgetHistory,
+        CurrentSpend: GetCurrentSpend,
+        ForecastedSpend: GetForecastedSpend
+    };
 }());
 
 export default AppState;

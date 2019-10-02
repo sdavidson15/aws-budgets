@@ -118,7 +118,6 @@ export default function Budget() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const fixedHeightChart = clsx(classes.paper, classes.chartFixedHeight);
-  AppState.init()
 
   return (
     <div className={classes.root}>

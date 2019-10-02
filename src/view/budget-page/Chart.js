@@ -6,7 +6,7 @@ import AppState from './../../controller/State'
 function formatRow(date, actual, budgeted) {
   // Date formatting for the x-axis labels
   var month = date.substring(0, 3);
-  var year = date.substring(date.length-2, date.length);
+  var year = date.substring(date.length - 2, date.length);
   date = month.concat(" ", year);
   return { date, actual, budgeted };
 }
@@ -14,7 +14,7 @@ function formatRow(date, actual, budgeted) {
 function formatData(data) {
   data.reverse(); // Read left to right chronologically
   data.pop(); // Don't include current month
-  return data.map(function(row) {
+  return data.map(function (row) {
     return formatRow(row.date, row.actual, row.budgeted);
   });
 }
