@@ -7,7 +7,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import ListIcon from '@material-ui/icons/List'
 
 export const mainListItems = (
@@ -35,6 +35,12 @@ export const mainListItems = (
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Reports" />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <NotificationsIcon />
+      </ListItemIcon>
+      <ListItemText primary="Notifications" />
     </ListItem>
   </div>
 );
