@@ -42,7 +42,7 @@ export default function Chart() {
               Spend ($)
             </Label>
           </YAxis>
-          <Line type="monotone" dataKey="spend" stroke="#556CD6" dot={false} />
+          <Line type="monotone" dataKey="spend" stroke="#556CD6" dot={true} />
           <Line type="monotone" dataKey="budget" stroke="#CF2727" dot={false} />
         </LineChart>
       </ResponsiveContainer>
