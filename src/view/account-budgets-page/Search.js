@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField'
 import Title from './../budget-page/Title'; // FIXME: pull this into somewhere more reusable
 
 const useStyles = makeStyles({
@@ -16,9 +16,7 @@ export default function Search() {
   return (
     <React.Fragment>
       <Title>Search</Title>
-      <Typography component="p" variant="h6">
-        Placeholder
-      </Typography>
+      <TextField></TextField>
     </React.Fragment>
   );
 }

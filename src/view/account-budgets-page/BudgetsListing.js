@@ -35,7 +35,11 @@ export default function BudgetHistory() {
           {AppState.BudgetsListing().map(row => (
             <TableRow key={row.id}>
               <TableCell>{row.accountId}</TableCell>
-              <TableCell>{row.name}</TableCell>
+              <TableCell>
+                <Link color="primary" href="https://en.wikipedia.org/wiki/Special:Random">
+                    {row.name}
+                </Link>
+              </TableCell>
               <TableCell>{row.budgetAmount}</TableCell>
               <TableCell>{row.spend}</TableCell>
               <TableCell>cool progress meter</TableCell>

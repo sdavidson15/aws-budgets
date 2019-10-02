@@ -14,18 +14,18 @@ var View = (function() {
     var currentPage,
 
     RenderDashboardPage = function () {
-        if (currentPage == DashboardPage) return;
+        if (currentPage === DashboardPage) return;
         // renderPage(<Dashboard />); TODO: change this back
         renderPage(<Budget />, DashboardPage);
     },
 
     RenderAccountBudgetsPage = function () {
-        if (currentPage == AccountBudgetsPage) return;
+        if (currentPage === AccountBudgetsPage) return;
         renderPage(<AccountBudgets />, AccountBudgetsPage);
     },
 
     RenderBudgetPage = function () {
-        if (currentPage == BudgetPage) return;
+        if (currentPage === BudgetPage) return;
         renderPage(<Budget />, BudgetPage);
     },
 
