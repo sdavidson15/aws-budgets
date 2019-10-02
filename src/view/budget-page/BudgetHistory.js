@@ -8,7 +8,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Title from './Title';
 
 function createData(id, date, actual, budgeted, variance, varianceDescr) {
   return { id, date, actual, budgeted, variance, varianceDescr };
@@ -41,7 +40,6 @@ export default function Orders() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Budget History</Title>
       <Table size="small">
         <TableHead>
           <TableRow>

@@ -22,13 +22,10 @@ var data = [
   createData('Sep', 776.88, 1000)
 ];
 
-// TODO: hit an endpoint to collect the title
-var title = 'Monthly AWS Budget io-example 000000000000'
-
 export default function Chart() {
   return (
     <React.Fragment>
-      <Title>{title}</Title>
+      <Title>Budget History</Title>
       <ResponsiveContainer>
         <LineChart
           data={data}
