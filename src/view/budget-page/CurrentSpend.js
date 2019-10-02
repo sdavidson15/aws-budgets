@@ -12,19 +12,19 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Deposits() {
+export default function CurrentSpend() {
   const classes = useStyles();
   return (
     <React.Fragment>
       <Title>Current vs. budgeted</Title>
       <Typography component="p" variant="h6">
-        {AppState.CurrentSpend}
+        {AppState.CurrentSpend()}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         Current
       </Typography>
       <Typography component="p" variant="h6">
-        {AppState.BudgetAmount}
+        {AppState.BudgetAmount()}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         Budgeted amount

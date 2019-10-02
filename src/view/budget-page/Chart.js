@@ -1,26 +1,23 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
+import AppState from './../../controller/State'
 
-function createData(date, spend, budget) {
-  return { date, spend, budget };
+function formatRow(date, actual, budgeted) {
+  // Date formatting for the x-axis labels
+  var month = date.substring(0, 3);
+  var year = date.substring(date.length-2, date.length);
+  date = month.concat(" ", year);
+  return { date, actual, budgeted };
 }
 
-// TODO: hit an endpoint to collect the data.
-var data = [
-  createData('Oct \'18', 1341.69, 1000),
-  createData('Nov \'18', 1115.29, 1000),
-  createData('Dec \'18', 1275.56, 1000),
-  createData('Jan', 357.57, 1000),
-  createData('Feb', 170.19, 1000),
-  createData('Mar', 191.53, 1000),
-  createData('Apr', 412.81, 1000),
-  createData('May', 385.70, 1000),
-  createData('Jun', 399.78, 1000),
-  createData('Jul', 446.48, 1000),
-  createData('Aug', 554.94, 1000),
-  createData('Sep', 776.88, 1000)
-];
+function formatData(data) {
+  data.reverse(); // Read left to right chronologically
+  data.pop(); // Don't include current month
+  return data.map(function(row) {
+    return formatRow(row.date, row.actual, row.budgeted);
+  });
+}
 
 export default function Chart() {
   return (
@@ -28,7 +25,7 @@ export default function Chart() {
       <Title>Budget History</Title>
       <ResponsiveContainer>
         <LineChart
-          data={data}
+          data={formatData(AppState.BudgetHistory())}
           margin={{
             top: 16,
             right: 16,
@@ -42,8 +39,8 @@ export default function Chart() {
               Spend ($)
             </Label>
           </YAxis>
-          <Line type="monotone" dataKey="spend" stroke="#556CD6" dot={true} />
-          <Line type="monotone" dataKey="budget" stroke="#CF2727" dot={false} />
+          <Line type="monotone" dataKey="actual" stroke="#556CD6" dot={true} />
+          <Line type="monotone" dataKey="budgeted" stroke="#CF2727" dot={false} />
         </LineChart>
       </ResponsiveContainer>
     </React.Fragment>

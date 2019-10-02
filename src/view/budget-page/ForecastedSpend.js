@@ -12,19 +12,19 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Deposits() {
+export default function ForecastedSpend() {
   const classes = useStyles();
   return (
     <React.Fragment>
       <Title>Forecasted vs. budgeted</Title>
       <Typography component="p" variant="h6">
-        {AppState.ForecastedSpend}
+        {AppState.ForecastedSpend()}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         Forecasted
       </Typography>
       <Typography component="p" variant="h6">
-        {AppState.BudgetAmount}
+        {AppState.BudgetAmount()}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         Budgeted amount

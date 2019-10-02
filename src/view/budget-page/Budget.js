@@ -135,7 +135,7 @@ export default function Budget() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            {AppState.BudgetName}
+            {AppState.BudgetName()}
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">

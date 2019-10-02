@@ -5,6 +5,26 @@ var AppState = (function() {
         CurrentSpend,
         ForecastedSpend,
 
+        getBudgetName = function() {
+            return BudgetName;
+        },
+
+        getBudgetAmount = function() {
+            return BudgetAmount;
+        },
+
+        getBudgetHistory = function() {
+            return BudgetHistory.slice(0);
+        },
+
+        getCurrentSpend = function() {
+            return CurrentSpend;
+        },
+
+        getForecastedSpend = function() {
+            return ForecastedSpend;
+        },
+
         createBudgetHistoryData = function (id, date, actual, budgeted, variance, varianceDescr) {
             return { id, date, actual, budgeted, variance, varianceDescr };
         },
@@ -33,10 +53,12 @@ var AppState = (function() {
 
         return {
             init: init,
-            BudgetName: BudgetName,
-            BudgetAmount: BudgetAmount,
-            BudgetHistory: BudgetHistory,
-            CurrentSpend: CurrentSpend,
-            ForecastedSpend: ForecastedSpend
+            BudgetName: getBudgetName,
+            BudgetAmount: getBudgetAmount,
+            BudgetHistory: getBudgetHistory,
+            CurrentSpend: getCurrentSpend,
+            ForecastedSpend: getForecastedSpend
         };
 }());
+
+export default AppState;
