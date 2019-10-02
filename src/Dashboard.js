@@ -23,19 +23,6 @@ import CurrentSpend from './CurrentSpend';
 import BudgetHistory from './BudgetHistory';
 import ForecastedSpend from './ForecastedSpend';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -113,7 +100,10 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
   },
   fixedHeight: {
-    height: 240,
+    height: 200,
+  },
+  chartFixedHeight: {
+    height: 400,
   },
 }));
 
@@ -127,6 +117,7 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const fixedHeightChart = clsx(classes.paper, classes.chartFixedHeight);
 
   return (
     <div className={classes.root}>
@@ -173,21 +164,21 @@ export default function Dashboard() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Current Spend TODO: make this shorter */}
+            {/* Current Spend */}
             <Grid item xs={6}>
               <Paper className={fixedHeightPaper}>
                 <CurrentSpend />
               </Paper>
             </Grid>
-            {/* Forecasted Spend TODO: make this shorter */}
+            {/* Forecasted Spend */}
             <Grid item xs={6}>
               <Paper className={fixedHeightPaper}>
                 <ForecastedSpend />
               </Paper>
             </Grid>
-            {/* Chart TODO: make this taller */}
+            {/* Chart */}
             <Grid item xs={12}>
-              <Paper className={fixedHeightPaper}>
+              <Paper className={fixedHeightChart}>
                 <Chart />
               </Paper>
             </Grid>
@@ -199,7 +190,6 @@ export default function Dashboard() {
             </Grid>
           </Grid>
         </Container>
-        <Copyright />
       </main>
     </div>
   );
