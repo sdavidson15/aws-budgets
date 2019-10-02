@@ -47,7 +47,7 @@ export default function Orders() {
             <TableCell>Actual</TableCell>
             <TableCell>Budgeted</TableCell>
             <TableCell>Budget variance ($)</TableCell>
-            <TableCell align="right">Budget variance (%)</TableCell>
+            <TableCell>Budget variance (%)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -57,7 +57,7 @@ export default function Orders() {
               <TableCell>{row.actual}</TableCell>
               <TableCell>{row.budgeted}</TableCell>
               <TableCell>{row.variance}</TableCell>
-              <TableCell align="right">{row.varianceDescr}</TableCell>
+              <TableCell>{row.varianceDescr}</TableCell>
             </TableRow>
           ))}
         </TableBody>
