@@ -1,9 +1,7 @@
 import AppState from './State'
 
 var Controller = (function () {
-    var dummy,
-
-        init = function () {
+    var init = function () {
             AppState.init();
         };
 
