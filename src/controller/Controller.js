@@ -7,7 +7,7 @@ var Controller = (function () {
         var accountBudgets = RestApp.GetAccountBudgets(),
             budgets = [];
 
-        for (i = 0; i < accountBudgets.length; i++) {
+        for (var i = 0; i < accountBudgets.length; i++) {
             var b = accountBudgets[i];
             var data = Formatters.formatAccountBudgetsData(i, b.AccountId, b.BudgetName, b.BudgetAmount, b.CurrentSpend, b.ForecastedSpend, b.BudgetHistory);
             budgets.push(data);
@@ -30,7 +30,7 @@ var Controller = (function () {
             if (index >= accountBudgets.length)
                 alert('Error: could not find budget.');
 
-            for (i = 0; i < budget.BudgetHistory.length; i++) {
+            for (var i = 0; i < budget.BudgetHistory.length; i++) {
                 var id = budget.BudgetHistory.length - i,
                     bh = budget.BudgetHistory[i],
                     date;
@@ -41,7 +41,7 @@ var Controller = (function () {
                     alert('Error: could not retrieve date from budget history item.');
 
                 var varianceDescr = Formatters.formatVarianceDescription(budget.budgetAmount, bh[date]);
-                var data = Formatters.formatBudgetHistoryData(id, date, spend, budget.budgetAmount, budget.budgetAmount - bh[date], varianceDescr);
+                var data = Formatters.formatBudgetHistoryData(id, date, budget.currentSpend, budget.budgetAmount, budget.budgetAmount - bh[date], varianceDescr);
                 budgetHistory.push(data);
             }
 
