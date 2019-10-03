@@ -11,13 +11,16 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import AppState from './../../controller/State'
 
-function onBudgetNameClick() {
+function onBudgetNameClick(event) {
   // var budgetName = $(obj).text();
   alert('Checkpoint');
+  alert(event);
 }
 
 const useStyles = makeStyles(theme => ({
   button: {
+    textTransform: 'none',
+    textAlign: 'left',
     margin: theme.spacing(1),
   },
   seeMore: {
