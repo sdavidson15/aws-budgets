@@ -47,8 +47,8 @@ var Controller = (function () {
 
             // Push month-to-date (MTD) data
             var variance = budget.budgetAmount - budget.currentSpend;
-            var varianceDescr = Formatters.formatVarianceDescription(budget.budgetAmount, budget.currentSpend);
-            budgetHistory.push(Formatters.formatBudgetHistoryData(0, 'Oct 2019 (MTD)', budget.currentSpend, budget.budgetAmount, variance, varianceDescr)); // TODO: intelligently determine current month string
+            var descr = Formatters.formatVarianceDescription(budget.budgetAmount, budget.currentSpend);
+            budgetHistory.push(Formatters.formatBudgetHistoryData(0, 'Oct 2019 (MTD)', budget.currentSpend, budget.budgetAmount, variance, descr)); // TODO: intelligently determine current month string
 
             AppState.SetBudgetName(budgetName);
             AppState.SetBudgetAmount(budget.budgetAmount);
