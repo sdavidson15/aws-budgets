@@ -1,5 +1,3 @@
-import Formatters from './../model/Formatters';
-
 var RestApp = (function () {
     var GetAccountBudgets = function () {
         // var req = new XMLHttpRequest()
