@@ -1,10 +1,11 @@
 var RestApp = (function () {
     var GetAccountBudgets = function () {
-        var req = new XMLHttpRequest()
-        req.open("GET", "/accountbudgets")
-        req.send();
+        // var req = new XMLHttpRequest()
+        // req.open("GET", "/accountbudgets")
+        // req.send();
 
-        return JSON.parse(req.responseText);
+        // return JSON.parse(req.responseText);
+        return [];
     };
 
     return {
