@@ -27,13 +27,13 @@ var Formatters = (function () {
 
         formatSpend = function (spend, budgetAmount) {
             var spendString = numToCurrencyString(spend);
-            var spendPercent = spendToSpendPercent(budgetAmount, spend);
+            var spendPercent = numToPercentString(spend, budgetAmount);
             return spendString.concat('\t(', spendPercent, ' of budgeted)');
         },
 
         formatVarianceDescription = function (budgetAmount, spend) {
             var variance = budgetAmount - spend;
-            var spendPercent = spendToSpendPercent(budgetAmount, spend);
+            var spendPercent = numToPercentString(variance, budgetAmount);
             var overUnder = (variance < 0) ? 'over' : 'under';
             return spendPercent.concat(' ', overUnder, ' budget');
         },
@@ -48,10 +48,9 @@ var Formatters = (function () {
             return defaultCurrency.concat(num.toFixed(2).toString());
         },
 
-        spendToSpendPercent = function (budgetAmount, spend) {
-            var variance = budgetAmount - spend;
-            var variancePercent = variance / budgetAmount;
-            return variancePercent.toFixed(2).toString().concat('%');
+        numToPercentString = function (num, divisor) {
+            var percent = num / divisor;
+            return percent.toFixed(2).toString().concat('%');
         };
 
     return {
