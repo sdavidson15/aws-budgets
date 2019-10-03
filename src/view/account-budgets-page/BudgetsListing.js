@@ -10,7 +10,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import AppState from './../../controller/State'
 
+function onBudgetNameClick() {
+  // var budgetName = $(obj).text();
+  alert('Checkpoint');
+}
+
 const useStyles = makeStyles(theme => ({
+  button: {
+    margin: theme.spacing(1),
+  },
   seeMore: {
     marginTop: theme.spacing(3),
   },
@@ -36,17 +44,17 @@ export default function BudgetHistory() {
             <TableRow key={row.id}>
               <TableCell>{row.accountId}</TableCell>
               <TableCell>
-                <Link color="primary" href="https://en.wikipedia.org/wiki/Special:Random">
+                <Button className={classes.button} onClick={onBudgetNameClick}>
                   {row.name}
-                </Link>
+                </Button>
               </TableCell>
               <TableCell>{row.budgetAmount}</TableCell>
               <TableCell>{row.currentSpend}</TableCell>
               <TableCell>cool progress meter</TableCell>
               <TableCell>
-                <Link color="primary" href="https://en.wikipedia.org/wiki/Special:Random">
+                <Button className={classes.button} onClick={onBudgetNameClick}>
                   See alert list
-                </Link>
+                </Button>
               </TableCell>
             </TableRow>
           ))}
