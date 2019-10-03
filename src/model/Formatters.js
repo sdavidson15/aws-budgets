@@ -49,7 +49,7 @@ var Formatters = (function () {
         },
 
         numToPercentString = function (num, divisor) {
-            var percent = num / divisor;
+            var percent = (num / divisor) * 100;
             return percent.toFixed(2).toString().concat('%');
         };
 

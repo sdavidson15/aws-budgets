@@ -8,7 +8,9 @@ var RestApp = (function () {
 
         // return JSON.parse(req.responseText);
         return [
-            Formatters.formatAccountBudgetsData(0, '012345678901', 'Monthly AWS Budget Alert io-example 012345678901', 1000, 767.72, 788.99, [])
+            Formatters.formatAccountBudgetsData(0, '012345678901', 'Monthly AWS Budget Alert io-example 012345678901', 1000, 767.72, 788.99, []),
+            Formatters.formatAccountBudgetsData(0, '012345678901', 'Monthly AWS Budget Alert io-mock 012345678901', 500, 213.65, 400.70, []),
+            Formatters.formatAccountBudgetsData(0, '012345678901', 'Monthly AWS Budget Alert io-dummy 012345678901', 500, 455.55, 641.99, [])
         ];
     };
 
