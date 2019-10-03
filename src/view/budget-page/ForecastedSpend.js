@@ -4,7 +4,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
-import AppState from './../../controller/State'
+import AppState from './../../controller/State';
+import Formatters from './../../model/Formatters';
 
 const useStyles = makeStyles({
   depositContext: {
@@ -18,13 +19,13 @@ export default function ForecastedSpend() {
     <React.Fragment>
       <Title>Forecasted vs. budgeted</Title>
       <Typography component="p" variant="h6">
-        {AppState.ForecastedSpend()}
+        {Formatters.formatSpend(AppState.ForecastedSpend(), AppState.BudgetAmount())}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         Forecasted
       </Typography>
       <Typography component="p" variant="h6">
-        {AppState.BudgetAmount()}
+        {Formatters.numToCurrencyString(AppState.BudgetAmount())}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
         Budgeted amount

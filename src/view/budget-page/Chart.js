@@ -1,23 +1,8 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
-import AppState from './../../controller/State'
-
-function formatRow(date, actual, budgeted) {
-  // Date formatting for the x-axis labels
-  var month = date.substring(0, 3);
-  var year = date.substring(date.length - 2, date.length);
-  date = month.concat(" ", year);
-  return { date, actual, budgeted };
-}
-
-function formatData(data) {
-  data.reverse(); // Read left to right chronologically
-  data.pop(); // Don't include current month
-  return data.map(function (row) {
-    return formatRow(row.date, row.actual, row.budgeted);
-  });
-}
+import AppState from './../../controller/State';
+import Formatters from './../../model/Formatters';
 
 export default function Chart() {
   return (
@@ -25,7 +10,7 @@ export default function Chart() {
       <Title>Budget History</Title>
       <ResponsiveContainer>
         <LineChart
-          data={formatData(AppState.BudgetHistory())}
+          data={Formatters.formatChartData(AppState.BudgetHistory())}
           margin={{
             top: 16,
             right: 16,
