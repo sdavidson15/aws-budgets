@@ -1,3 +1,5 @@
+import Formatters from './../model/Formatters';
+
 var RestApp = (function () {
     var GetAccountBudgets = function () {
         // var req = new XMLHttpRequest()
@@ -5,7 +7,9 @@ var RestApp = (function () {
         // req.send();
 
         // return JSON.parse(req.responseText);
-        return [];
+        return [
+            Formatters.formatAccountBudgetsData(0, '012345678901', 'Monthly AWS Budget Alert io-example 012345678901', 1000, 767.72, 788.99, [])
+        ];
     };
 
     return {
