@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from "react-dom"
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/styles";
-// import Dashboard from "./dashboard-page/Dashboard"; TODO: uncomment this
+import Dashboard from "./dashboard-page/Dashboard";
 import Budget from "./budget-page/Budget";
 import AccountBudgets from "./account-budgets-page/AccountBudgets";
 
@@ -15,8 +15,7 @@ var View = (function() {
 
     RenderDashboardPage = function () {
         if (currentPage === DashboardPage) return;
-        // renderPage(<Dashboard />); TODO: change this back
-        renderPage(<Budget />, DashboardPage);
+        renderPage(<Dashboard />, DashboardPage);
     },
 
     RenderAccountBudgetsPage = function () {

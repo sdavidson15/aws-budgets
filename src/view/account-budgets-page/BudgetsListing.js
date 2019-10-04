@@ -9,12 +9,14 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import AppState from './../../controller/State'
+import AppState from './../../controller/State';
+import Controller from './../../controller/Controller';
+import View from './../View';
+import Formatters from './../../model/Formatters';
 
-function onBudgetNameClick(event) {
-  // var budgetName = $(obj).text();
-  alert('Checkpoint');
-  alert(event);
+function onBudgetNameClick(accountId, name) {
+  Controller.LoadBudget(accountId, name);
+  View.RenderBudgetPage();
 }
 
 const useStyles = makeStyles(theme => ({
@@ -48,12 +50,12 @@ export default function BudgetHistory() {
             <TableRow key={row.id}>
               <TableCell>{row.accountId}</TableCell>
               <TableCell>
-                <Button className={classes.button} onClick={onBudgetNameClick}>
+                <Button className={classes.button} onClick={() => onBudgetNameClick(row.accountId, row.name)}>
                   {row.name}
                 </Button>
               </TableCell>
-              <TableCell>{row.budgetAmount}</TableCell>
-              <TableCell>{row.currentSpend}</TableCell>
+              <TableCell>{Formatters.numToCurrencyString(row.budgetAmount)}</TableCell>
+              <TableCell>{Formatters.numToCurrencyString(row.currentSpend)}</TableCell>
               <TableCell>cool progress meter</TableCell>
               <TableCell>
                 <Button className={classes.button} onClick={onBudgetNameClick}>

@@ -8,7 +8,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import AppState from './../../controller/State'
+import AppState from './../../controller/State';
+import Formatters from './../../model/Formatters';
 
 const useStyles = makeStyles(theme => ({
   seeMore: {
@@ -34,9 +35,9 @@ export default function BudgetHistory() {
           {AppState.BudgetHistory().map(row => (
             <TableRow key={row.id}>
               <TableCell>{row.date}</TableCell>
-              <TableCell>{row.actual}</TableCell>
-              <TableCell>{row.budgeted}</TableCell>
-              <TableCell>{row.variance}</TableCell>
+              <TableCell>{Formatters.numToCurrencyString(row.actual)}</TableCell>
+              <TableCell>{Formatters.numToCurrencyString(row.budgeted)}</TableCell>
+              <TableCell>{Formatters.numToCurrencyString(row.variance)}</TableCell>
               <TableCell>{row.varianceDescr}</TableCell>
             </TableRow>
           ))}

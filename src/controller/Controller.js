@@ -24,15 +24,17 @@ var Controller = (function () {
 
             while (index < accountBudgets.length) {
                 budget = accountBudgets[index];
-                if (budget.AccountId === accountId && budget.BudgetName === budgetName) break;
+                if (budget.accountId === accountId && budget.name === budgetName) break;
                 index++;
             }
-            if (index >= accountBudgets.length)
-                alert('Error: could not find budget.');
+            if (index >= accountBudgets.length) {
+                alert('Error: could not find budget.'); // TODO: throw an exception
+                return;
+            }
 
-            for (var i = 0; i < budget.BudgetHistory.length; i++) {
-                var id = budget.BudgetHistory.length - i,
-                    bh = budget.BudgetHistory[i],
+            for (var i = 0; i < budget.budgetHistory.length; i++) {
+                var id = budget.budgetHistory.length - i,
+                    bh = budget.budgetHistory[i],
                     date;
 
                 for (var d in bh)
@@ -41,7 +43,7 @@ var Controller = (function () {
                     alert('Error: could not retrieve date from budget history item.');
 
                 var varianceDescr = Formatters.formatVarianceDescription(budget.budgetAmount, bh[date]);
-                var data = Formatters.formatBudgetHistoryData(id, date, budget.currentSpend, budget.budgetAmount, budget.budgetAmount - bh[date], varianceDescr);
+                var data = Formatters.formatBudgetHistoryData(id, date, bh[date], budget.budgetAmount, budget.budgetAmount - bh[date], varianceDescr);
                 budgetHistory.push(data);
             }
 
@@ -49,6 +51,7 @@ var Controller = (function () {
             var variance = budget.budgetAmount - budget.currentSpend;
             var descr = Formatters.formatVarianceDescription(budget.budgetAmount, budget.currentSpend);
             budgetHistory.push(Formatters.formatBudgetHistoryData(0, 'Oct 2019 (MTD)', budget.currentSpend, budget.budgetAmount, variance, descr)); // TODO: intelligently determine current month string
+            budgetHistory.reverse();
 
             AppState.SetBudgetName(budgetName);
             AppState.SetBudgetAmount(budget.budgetAmount);
