@@ -3,8 +3,8 @@ import Formatters from './../model/Formatters';
 import RestApp from './Rest';
 
 var Controller = (function () {
-    var LoadAccountBudgets = function () {
-        var accountBudgets = RestApp.GetAccountBudgets(),
+    var LoadAccountBudgets = async function () {
+        var accountBudgets = await RestApp.GetAccountBudgets(),
             budgets = [];
 
         for (var i = 0; i < accountBudgets.length; i++) {

@@ -33,7 +33,7 @@ var Formatters = (function () {
 
         formatVarianceDescription = function (budgetAmount, spend) {
             var variance = budgetAmount - spend;
-            var spendPercent = numToPercentString(variance, budgetAmount);
+            var spendPercent = numToPercentString(variance, budgetAmount, true);
             var overUnder = (variance < 0) ? 'over' : 'under';
             return spendPercent.concat(' ', overUnder, ' budget');
         },
@@ -48,8 +48,9 @@ var Formatters = (function () {
             return defaultCurrency.concat(num.toFixed(2).toString());
         },
 
-        numToPercentString = function (num, divisor) {
+        numToPercentString = function (num, divisor, abs=false) {
             var percent = (num / divisor) * 100;
+            if (abs) percent = Math.abs(percent);
             return percent.toFixed(2).toString().concat('%');
         };
 
