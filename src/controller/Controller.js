@@ -4,6 +4,7 @@ import RestApp from './Rest';
 
 var Controller = (function () {
     var LoadAccountBudgets = async function () {
+        AppState.SetLoadingAccountBudgets(true);
         var accountBudgets = await RestApp.GetAccountBudgets(),
             budgets = [];
 
@@ -14,6 +15,7 @@ var Controller = (function () {
         }
 
         AppState.SetAccountBudgets(budgets);
+        AppState.SetLoadingAccountBudgets(false);
     },
 
         LoadBudget = function (accountId, budgetName) {

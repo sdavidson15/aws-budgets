@@ -19,6 +19,14 @@ import { mainListItems, secondaryListItems } from './../menu/MenuItems';
 import BudgetsListing from './BudgetsListing';
 import { defaultStyles } from './../DefaultStyles';
 import Search from './Search';
+import Loading from './Loading';
+import AppState from './../../controller/State';
+
+function viewBudgetsOrLoading() {
+  if (AppState.LoadingAccountBudgets())
+    return (<Loading />);
+  return (<BudgetsListing />);
+}
 
 export default function AccountBudgets() {
   const classes = defaultStyles();
@@ -85,7 +93,7 @@ export default function AccountBudgets() {
             {/* Budgets Listing */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <BudgetsListing />
+                {viewBudgetsOrLoading()}
               </Paper>
             </Grid>
           </Grid>
