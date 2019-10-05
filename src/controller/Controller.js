@@ -10,7 +10,7 @@ var Controller = (function () {
 
         for (var i = 0; i < accountBudgets.length; i++) {
             var b = accountBudgets[i];
-            var data = Formatters.formatAccountBudgetsData(i, b.AccountId, b.BudgetName, b.BudgetAmount, b.CurrentSpend, b.ForecastedSpend, b.BudgetHistory);
+            var data = Formatters.formatAccountBudgetsData(i, b.AccountID, b.BudgetName, b.BudgetAmount, b.CurrentSpend, b.ForecastedSpend, b.BudgetHistory);
             budgets.push(data);
         }
 

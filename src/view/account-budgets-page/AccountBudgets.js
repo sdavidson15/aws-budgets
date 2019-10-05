@@ -18,6 +18,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './../menu/MenuItems';
 import BudgetsListing from './BudgetsListing';
 import { defaultStyles } from './../DefaultStyles';
+import Sort from './Sort';
 import Search from './Search';
 import Loading from './Loading';
 import AppState from './../../controller/State';
@@ -37,7 +38,7 @@ export default function AccountBudgets() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightSearch = clsx(classes.paper, classes.searchfixedHeight);
+  const fixedHeightSearchSort = clsx(classes.paper, classes.searchfixedHeight);
 
   return (
     <div className={classes.root}>
@@ -85,9 +86,15 @@ export default function AccountBudgets() {
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             {/* Search */}
-            <Grid item xs={12}>
-              <Paper className={fixedHeightSearch}>
+            <Grid item xs={8}>
+              <Paper className={fixedHeightSearchSort}>
                 <Search />
+              </Paper>
+            </Grid>
+            {/* Sort */}
+            <Grid item xs={4}>
+              <Paper className={fixedHeightSearchSort}>
+                <Sort />
               </Paper>
             </Grid>
             {/* Budgets Listing */}
