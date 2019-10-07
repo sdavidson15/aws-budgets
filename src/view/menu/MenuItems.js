@@ -4,31 +4,40 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import ListIcon from '@material-ui/icons/List';
+import View from './../View';
+
+function onDashboardClick() {
+  View.RenderDashboardPage();
+}
+
+function onAccountBudgetsClick() {
+  View.RenderAccountBudgetsPage();
+}
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem button onClick={onDashboardClick}>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={onAccountBudgetsClick}>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <ListIcon />
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Account Budgets" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Account Owners" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
@@ -38,9 +47,9 @@ export const mainListItems = (
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <LayersIcon />
+        <NotificationsIcon />
       </ListItemIcon>
-      <ListItemText primary="Integrations" />
+      <ListItemText primary="Notifications" />
     </ListItem>
   </div>
 );
@@ -64,7 +73,7 @@ export const secondaryListItems = (
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Year-end" />
     </ListItem>
   </div>
 );
