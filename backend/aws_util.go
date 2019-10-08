@@ -35,7 +35,7 @@ func (aws *awsUtil) getBudgets(accountID string) (Budgets, error) {
 		PATH_SEPARATOR,
 		PATH_SEPARATOR,
 		PATH_SEPARATOR,
-		accountID
+		accountID,
 	))
 	if err != nil {
 		return Budgets{}, err
@@ -61,7 +61,7 @@ func (aws *awsUtil) getBudgetHistory(accountID, budgetName string) ([]BudgetHist
 		PATH_SEPARATOR,
 		PATH_SEPARATOR,
 		accountID,
-		budgetName
+		budgetName,
 	))
 	if err != nil {
 		return []BudgetHistoryItem{}, err
