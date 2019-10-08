@@ -29,7 +29,14 @@ func (aws *awsUtil) getBudgets(accountID string) (Budgets, error) {
 		return Budgets{}, err
 	}
 
-	bytes, err := ioutil.ReadFile(fmt.Sprintf("%s\\mockData\\accountbudgets\\%s.json", pwd, accountID))
+	bytes, err := ioutil.ReadFile(fmt.Sprintf(
+		"%s%smockData%saccountbudgets%s%s.json",
+		pwd,
+		PATH_SEPARATOR,
+		PATH_SEPARATOR,
+		PATH_SEPARATOR,
+		accountID
+	))
 	if err != nil {
 		return Budgets{}, err
 	}
@@ -47,7 +54,15 @@ func (aws *awsUtil) getBudgetHistory(accountID, budgetName string) ([]BudgetHist
 		return []BudgetHistoryItem{}, err
 	}
 
-	bytes, err := ioutil.ReadFile(fmt.Sprintf("%s\\mockData\\budgetHistory\\%s_%s.json", pwd, accountID, budgetName))
+	bytes, err := ioutil.ReadFile(fmt.Sprintf(
+		"%s%smockData%sbudgetHistory%s%s_%s.json",
+		pwd,
+		PATH_SEPARATOR,
+		PATH_SEPARATOR,
+		PATH_SEPARATOR,
+		accountID,
+		budgetName
+	))
 	if err != nil {
 		return []BudgetHistoryItem{}, err
 	}
