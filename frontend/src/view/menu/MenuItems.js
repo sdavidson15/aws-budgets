@@ -4,7 +4,6 @@ import React from 'react';
 
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import ListIcon from '@material-ui/icons/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -16,22 +15,16 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import View from './../View';
 
-function onDashboardClick() {
-  View.RenderDashboardPage();
-}
-
 function onAccountBudgetsClick() {
   View.RenderAccountBudgetsPage();
 }
 
+function onReportsClick() {
+  View.RenderReportsPage();
+}
+
 export const mainListItems = (
   <div>
-    <ListItem button onClick={onDashboardClick}>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItem>
     <ListItem button onClick={onAccountBudgetsClick}>
       <ListItemIcon>
         <ListIcon />
@@ -44,7 +37,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Account Owners" />
     </ListItem>
-    <ListItem button>
+    <ListItem button onClick={onReportsClick}>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>

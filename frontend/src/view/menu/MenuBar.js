@@ -12,6 +12,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import View from './../View';
 
+function onEditClick() {
+    View.HandleEditClick();
+}
+
 function showEditIcon() {
     if (View.CurrentPageIsEditable()) return {};
     return {
@@ -72,7 +76,7 @@ export default function MenuBar(args) {
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                     {args.title}
                 </Typography>
-                <IconButton color="inherit" style={showEditIcon()}>
+                <IconButton color="inherit" style={showEditIcon()} onClick={onEditClick}>
                     <EditIcon />
                 </IconButton>
                 <IconButton color="inherit">

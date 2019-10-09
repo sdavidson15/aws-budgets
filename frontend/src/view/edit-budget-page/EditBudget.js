@@ -12,7 +12,7 @@ import MenuBar from './../menu/MenuBar';
 import MenuDrawer from './../menu/MenuDrawer';
 import View from './../View';
 
-export default function Dashboard() {
+export default function EditBudget() {
   const classes = defaultStyles();
   const [open, setOpen] = React.useState(View.DrawerOpen());
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -20,7 +20,7 @@ export default function Dashboard() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <MenuBar open={open} setOpen={setOpen} title='AWS Budget Manager' />
+      <MenuBar open={open} setOpen={setOpen} title='Reports' />
       <MenuDrawer open={open} setOpen={setOpen} />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -28,7 +28,16 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             <Grid item xs={6}>
               <Paper className={fixedHeightPaper}>
-                <Typography>Homepage</Typography>
+                <Typography>Name (bold)</Typography>
+                <Typography>Editable name box</Typography>
+                <Typography>Budget amount (bold)</Typography>
+                <Typography>Editable budget amount box</Typography>
+                <Typography>12 month spend chart</Typography>
+                <Typography>Alerts title line</Typography>
+                <Typography>Alert threshold (locked in at percent)</Typography>
+                <Typography>Editable email contacts list (add and remove)</Typography>
+                <Typography>Create new alert button with the same fields</Typography>
+                <Typography>Cancel and Confirm footer</Typography>
               </Paper>
             </Grid>
           </Grid>

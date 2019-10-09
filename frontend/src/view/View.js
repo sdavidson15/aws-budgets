@@ -6,32 +6,29 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import AccountBudgets from "./account-budgets-page/AccountBudgets";
 import AppState from './../controller/State';
-import Budget from "./budget-page/Budget";
-import Dashboard from "./dashboard-page/Dashboard";
+import Budget from './budget-page/Budget';
+import EditBudget from './edit-budget-page/EditBudget';
+import Reports from './reports-page/Reports';
 
-const DashboardPage = 'Dashboard';
 const AccountBudgetsPage = 'AccountBudgets';
 const BudgetPage = 'Budget';
+const EditBudgetPage = 'EditBudget';
+const ReportsPage = 'Reports';
 
 var View = (function () {
     var currentPage,
-        drawerOpen=true,
+        drawerOpen = true,
 
-        CurrentPageIsEditable = function() {
-            return (currentPage === BudgetPage);
+        CurrentPageIsEditable = function () {
+            return (currentPage === BudgetPage || currentPage === ReportsPage);
         },
 
         GetDrawerOpen = function () {
             return drawerOpen;
         },
 
-        SetDrawerOpen = function (open) {
-            drawerOpen = open;
-        },
-
-        RenderDashboardPage = function () {
-            if (currentPage === DashboardPage) return;
-            renderPage(<Dashboard />, DashboardPage);
+        HandleEditClick = function () {
+            if (currentPage === BudgetPage) RenderEditBudgetPage();
         },
 
         RenderAccountBudgetsPage = async function () {
@@ -53,6 +50,16 @@ var View = (function () {
             renderPage(<Budget />, BudgetPage);
         },
 
+        RenderEditBudgetPage = function () {
+            if (currentPage === EditBudgetPage) return;
+            renderPage(<EditBudget />, EditBudgetPage);
+        },
+
+        RenderReportsPage = function () {
+            if (currentPage === ReportsPage) return;
+            renderPage(<Reports />, ReportsPage);
+        },
+
         renderPage = function (_page, _page_const) {
             ReactDOM.render(
                 <ThemeProvider>
@@ -64,18 +71,23 @@ var View = (function () {
             currentPage = _page_const;
         },
 
+        SetDrawerOpen = function (open) {
+            drawerOpen = open;
+        },
+
         init = function () {
-            RenderDashboardPage();
+            RenderAccountBudgetsPage();
         };
 
     return {
         init: init,
         CurrentPageIsEditable: CurrentPageIsEditable,
         DrawerOpen: GetDrawerOpen,
-        SetDrawerOpen: SetDrawerOpen,
-        RenderDashboardPage: RenderDashboardPage,
+        HandleEditClick: HandleEditClick,
         RenderAccountBudgetsPage: RenderAccountBudgetsPage,
         RenderBudgetPage: RenderBudgetPage,
+        RenderReportsPage: RenderReportsPage,
+        SetDrawerOpen: SetDrawerOpen,
     };
 }());
 

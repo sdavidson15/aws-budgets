@@ -2,8 +2,6 @@
 
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,14 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import AppState from './../../controller/State';
 import Formatters from './../../model/Formatters';
 
-const useStyles = makeStyles(theme => ({
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
-}));
-
 export default function BudgetHistory() {
-  const classes = useStyles();
   return (
     <React.Fragment>
       <Table size="small">
@@ -45,11 +36,6 @@ export default function BudgetHistory() {
           ))}
         </TableBody>
       </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="https://en.wikipedia.org/wiki/Special:Random">
-          Expand budget history
-        </Link>
-      </div>
     </React.Fragment>
   );
 }
