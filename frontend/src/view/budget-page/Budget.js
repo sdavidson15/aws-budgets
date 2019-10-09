@@ -14,10 +14,11 @@ import CurrentSpend from './CurrentSpend';
 import ForecastedSpend from './ForecastedSpend';
 import MenuBar from '../menu/MenuBar';
 import MenuDrawer from '../menu/MenuDrawer';
+import View from './../View';
 
 export default function Budget() {
   const classes = defaultStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(View.DrawerOpen());
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const fixedHeightChart = clsx(classes.paper, classes.chartFixedHeight);
 

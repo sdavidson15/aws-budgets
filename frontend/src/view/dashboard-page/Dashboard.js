@@ -10,10 +10,11 @@ import Typography from '@material-ui/core/Typography';
 import { defaultStyles } from './../DefaultStyles';
 import MenuBar from './../menu/MenuBar';
 import MenuDrawer from './../menu/MenuDrawer';
+import View from './../View';
 
 export default function Dashboard() {
   const classes = defaultStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(View.DrawerOpen());
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (

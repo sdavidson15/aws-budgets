@@ -15,6 +15,15 @@ const BudgetPage = 'Budget';
 
 var View = (function () {
     var currentPage,
+        drawerOpen=true,
+
+        GetDrawerOpen = function () {
+            return drawerOpen;
+        },
+
+        SetDrawerOpen = function (open) {
+            drawerOpen = open;
+        },
 
         RenderDashboardPage = function () {
             if (currentPage === DashboardPage) return;
@@ -57,9 +66,11 @@ var View = (function () {
 
     return {
         init: init,
+        DrawerOpen: GetDrawerOpen,
+        SetDrawerOpen: SetDrawerOpen,
         RenderDashboardPage: RenderDashboardPage,
         RenderAccountBudgetsPage: RenderAccountBudgetsPage,
-        RenderBudgetPage: RenderBudgetPage
+        RenderBudgetPage: RenderBudgetPage,
     };
 }());
 

@@ -14,6 +14,7 @@ import BudgetsListing from './BudgetsListing';
 import Loading from './Loading';
 import Search from './Search';
 import Sort from './Sort';
+import View from './../View';
 
 function viewBudgetsOrLoading() {
   if (AppState.LoadingAccountBudgets())
@@ -23,7 +24,7 @@ function viewBudgetsOrLoading() {
 
 export default function AccountBudgets() {
   const classes = defaultStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(View.DrawerOpen());
   const fixedHeightSearchSort = clsx(classes.paper, classes.searchfixedHeight);
 
   return (

@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 
 import { mainListItems, secondaryListItems } from './MenuItems';
+import View from './../View';
 
 const drawerWidth = 240;
 
@@ -47,6 +48,7 @@ export default function MenuDrawer(args) {
     var open = args.open;
     const handleDrawerClose = () => {
         args.setOpen(false);
+        View.SetDrawerOpen(false);
     };
 
     return (

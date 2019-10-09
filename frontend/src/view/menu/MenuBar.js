@@ -9,6 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import View from './../View';
 
 const drawerWidth = 240;
 
@@ -47,6 +48,7 @@ export default function MenuBar(args) {
     var open = args.open;
     const handleDrawerOpen = () => {
         args.setOpen(true);
+        View.SetDrawerOpen(true);
     };
 
     return (
