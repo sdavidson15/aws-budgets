@@ -17,6 +17,10 @@ var View = (function () {
     var currentPage,
         drawerOpen=true,
 
+        CurrentPageIsEditable = function() {
+            return (currentPage === BudgetPage);
+        },
+
         GetDrawerOpen = function () {
             return drawerOpen;
         },
@@ -66,6 +70,7 @@ var View = (function () {
 
     return {
         init: init,
+        CurrentPageIsEditable: CurrentPageIsEditable,
         DrawerOpen: GetDrawerOpen,
         SetDrawerOpen: SetDrawerOpen,
         RenderDashboardPage: RenderDashboardPage,

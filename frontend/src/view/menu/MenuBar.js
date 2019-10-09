@@ -4,6 +4,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
+import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -11,7 +12,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import View from './../View';
 
-const drawerWidth = 240;
+function showEditIcon() {
+    if (View.CurrentPageIsEditable()) return {};
+    return {
+        display: "none",
+    }
+}
 
 const overrideStyles = makeStyles(theme => ({
     toolbar: {
@@ -25,8 +31,8 @@ const overrideStyles = makeStyles(theme => ({
         }),
     },
     appBarShift: {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: 240,
+        width: `calc(100% - 240px)`,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -66,6 +72,9 @@ export default function MenuBar(args) {
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                     {args.title}
                 </Typography>
+                <IconButton color="inherit" style={showEditIcon()}>
+                    <EditIcon />
+                </IconButton>
                 <IconButton color="inherit">
                     <Badge badgeContent={4} color="secondary">
                         <NotificationsIcon />
