@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from "react-dom"
-import CssBaseline from "@material-ui/core/CssBaseline";
+
 import { ThemeProvider } from "@material-ui/styles"; // TODO: actually provide a theme
-import Dashboard from "./dashboard-page/Dashboard";
-import Budget from "./budget-page/Budget";
+import CssBaseline from "@material-ui/core/CssBaseline";
+
 import AccountBudgets from "./account-budgets-page/AccountBudgets";
 import AppState from './../controller/State';
+import Budget from "./budget-page/Budget";
+import Dashboard from "./dashboard-page/Dashboard";
 
 const DashboardPage = 'Dashboard';
 const AccountBudgetsPage = 'AccountBudgets';

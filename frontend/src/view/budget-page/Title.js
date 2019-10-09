@@ -1,5 +1,8 @@
-import React from 'react';
+/* eslint-disable no-script-url */
+
 import PropTypes from 'prop-types';
+import React from 'react';
+
 import Typography from '@material-ui/core/Typography';
 
 export default function Title(props) {

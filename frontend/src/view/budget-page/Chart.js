@@ -1,8 +1,11 @@
-import React from 'react';
+/* eslint-disable no-script-url */
+
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
-import Title from './Title';
+import React from 'react';
+
 import AppState from './../../controller/State';
 import Formatters from './../../model/Formatters';
+import Title from './Title';
 
 export default function Chart() {
   return (

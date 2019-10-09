@@ -1,11 +1,13 @@
 /* eslint-disable no-script-url */
 
 import React from 'react';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Title from './Title';
+
 import AppState from './../../controller/State';
 import Formatters from './../../model/Formatters';
+import Title from './Title';
 
 const useStyles = makeStyles({
   depositContext: {
