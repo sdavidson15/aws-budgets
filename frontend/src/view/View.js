@@ -28,6 +28,7 @@ var View = (function () {
         },
 
         HandleEditClick = function () {
+            // FIXME: this is on onclick function. This doesn't belong here.
             if (currentPage === BudgetPage) RenderEditBudgetPage();
         },
 

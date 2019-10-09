@@ -1,5 +1,8 @@
 var AppState = (function () {
+    // TODO: don't capitalize private vars
     var AccountBudgets,
+        AlertEmails,
+        AlertThreshold,
         BudgetAmount,
         BudgetHistory,
         BudgetName,
@@ -11,6 +14,12 @@ var AppState = (function () {
         GetAccountBudgets = function () {
             if (typeof AccountBudgets === 'undefined') return [];
             return AccountBudgets.slice(0);
+        },
+        GetAlertEmails = function () {
+            return AlertEmails.slice(0);
+        },
+        GetAlertThreshold = function () {
+            return AlertThreshold;
         },
         GetBudgetAmount = function () {
             return BudgetAmount;
@@ -57,11 +66,13 @@ var AppState = (function () {
 
         init = function () {
             // TODO: just get rid of init
-            BudgetName = '';
+            AlertEmails = ['dummy.mock@email.com', 'mock.dummy@email.com'];
+            AlertThreshold = 90;
             BudgetAmount = -1;
+            BudgetHistory = [];
+            BudgetName = '';
             CurrentSpend = -1;
             ForecastedSpend = -1;
-            BudgetHistory = [];
         };
 
     return {
@@ -69,6 +80,8 @@ var AppState = (function () {
 
         // Getters
         AccountBudgets: GetAccountBudgets,
+        AlertEmails: GetAlertEmails,
+        AlertThreshold: GetAlertThreshold,
         BudgetAmount: GetBudgetAmount,
         BudgetHistory: GetBudgetHistory,
         BudgetName: GetBudgetName,
