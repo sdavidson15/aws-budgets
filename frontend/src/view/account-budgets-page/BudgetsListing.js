@@ -2,14 +2,12 @@
 
 import React from 'react';
 
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import AppState from './../../controller/State';
 import Button from '@material-ui/core/Button';
 import Controller from './../../controller/Controller';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -17,6 +15,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 
+import { StyledSwitch } from './../DefaultStyles';
 import Formatters from './../../model/Formatters';
 import View from './../View';
 
@@ -25,77 +24,40 @@ function onBudgetNameClick(accountId, name) {
   View.RenderBudgetPage();
 }
 
-const useStyles = makeStyles(theme => ({
+function getSpendProgressColor(spend, budgetAmount) {
+  let spendColor = 'red';
+  if (spend < budgetAmount) {
+    let percent = spend / budgetAmount;
+    let greenNum = (spend < budgetAmount / 2) ? 255 : (1 - percent) * 255 * 2;
+    let redNum = (spend > budgetAmount / 2) ? 255 : percent * 255 * 2;
+    let g = greenNum.toFixed(0).toString();
+    let r = redNum.toFixed(0).toString();
+    spendColor = ('rgb(').concat(r, ', ', g, ', 0)');
+  }
+
+  return {
+    background: spendColor,
+    color: spendColor,
+  };
+}
+
+const overrideStyles = makeStyles(theme => ({
   button: {
     textTransform: 'none',
     fontWeight: 'normal',
     textAlign: 'left',
     margin: theme.spacing(1),
   },
-  seeMore: {
-    marginTop: theme.spacing(3),
-  },
 }));
 
-// TODO: pull this into it's own file
-const StyledSwitch = withStyles(theme => ({
-  root: {
-    width: 28,
-    height: 16,
-    padding: 0,
-    display: 'flex',
-  },
-  switchBase: {
-    padding: 2,
-    color: theme.palette.grey[500],
-    '&$checked': {
-      transform: 'translateX(12px)',
-      color: theme.palette.common.white,
-      '& + $track': {
-        opacity: 1,
-        backgroundColor: theme.palette.primary.main,
-        borderColor: theme.palette.primary.main,
-      },
-    },
-  },
-  thumb: {
-    width: 12,
-    height: 12,
-    boxShadow: 'none',
-  },
-  track: {
-    border: `1px solid ${theme.palette.grey[500]}`,
-    borderRadius: 8,
-    opacity: 1,
-    backgroundColor: theme.palette.common.white,
-  },
-  checked: {},
-}))(Switch);
-
 export default function BudgetHistory() {
-  const classes = useStyles();
   const [state, setState] = React.useState({
     checked: false,
   });
   const handleChange = name => event => {
     setState({ ...state, [name]: event.target.checked });
   };
-  function getSpendProgressColor(spend, budgetAmount) {
-    let spendColor = 'red';
-    if (spend < budgetAmount) {
-      let percent = spend / budgetAmount;
-      let greenNum = (spend < budgetAmount / 2) ? 255 : (1 - percent) * 255 * 2;
-      let redNum = (spend > budgetAmount / 2) ? 255 : percent * 255 * 2;
-      let g = greenNum.toFixed(0).toString();
-      let r = redNum.toFixed(0).toString();
-      spendColor = ('rgb(').concat(r, ', ', g, ', 0)');
-    }
-
-    return {
-      background: spendColor,
-      color: spendColor,
-    };
-  }
+  const classes = overrideStyles();
 
   return (
     <React.Fragment>
@@ -138,11 +100,6 @@ export default function BudgetHistory() {
           ))}
         </TableBody>
       </Table>
-      <div className={classes.seeMore}>
-        <Link color="primary" href="https://en.wikipedia.org/wiki/Special:Random">
-          Load more budgets
-        </Link>
-      </div>
     </React.Fragment>
   );
 }
