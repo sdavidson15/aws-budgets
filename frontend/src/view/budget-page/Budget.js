@@ -1,8 +1,6 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import AppBar from '@material-ui/core/AppBar';
-import Badge from '@material-ui/core/Badge';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,26 +9,20 @@ import Drawer from '@material-ui/core/Drawer';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
-import MenuIcon from '@material-ui/icons/Menu';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import Paper from '@material-ui/core/Paper';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 import { defaultStyles } from './../DefaultStyles';
 import { mainListItems, secondaryListItems } from './../menu/MenuItems';
-import AppState from './../../controller/State';
+import AppState from '../../controller/State';
 import BudgetHistory from './BudgetHistory';
 import Chart from './Chart';
 import CurrentSpend from './CurrentSpend';
 import ForecastedSpend from './ForecastedSpend';
+import MenuBar from '../menu/MenuBar';
 
 export default function Budget() {
   const classes = defaultStyles();
   const [open, setOpen] = React.useState(true);
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -40,27 +32,7 @@ export default function Budget() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            {AppState.BudgetName()}
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+      <MenuBar open={open} setOpen={setOpen} title={AppState.BudgetName()} />
       <Drawer
         variant="permanent"
         classes={{
