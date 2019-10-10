@@ -18,24 +18,31 @@ const ReportsPage = 'Reports';
 var View = (function () {
     var currentPage,
         drawerOpen = true,
+        editAccountBudgets = false,
 
         CurrentPageIsEditable = function () {
-            return (currentPage === BudgetPage || currentPage === ReportsPage);
+            return (currentPage === AccountBudgetsPage ||
+                    currentPage === BudgetPage ||
+                    currentPage === ReportsPage);
         },
 
         GetDrawerOpen = function () {
             return drawerOpen;
         },
 
+        GetEditAccountBudgets = function () {
+            return editAccountBudgets;
+        },
+
         HandleEditClick = function () {
-            // FIXME: this is on onclick function. This doesn't belong here.
             if (currentPage === BudgetPage) RenderEditBudgetPage();
+            if (currentPage === AccountBudgetsPage) {
+                editAccountBudgets = true;
+                RenderAccountBudgetsPage();
+            }
         },
 
         RenderAccountBudgetsPage = async function () {
-            if (currentPage === AccountBudgetsPage) return;
-            renderPage(<AccountBudgets />, AccountBudgetsPage);
-
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
@@ -62,6 +69,7 @@ var View = (function () {
         },
 
         renderPage = function (_page, _page_const) {
+            if (_page_const !== AccountBudgetsPage) editAccountBudgets = false;
             ReactDOM.render(
                 <ThemeProvider>
                     <CssBaseline />
@@ -76,6 +84,10 @@ var View = (function () {
             drawerOpen = open;
         },
 
+        SetEditAccountBudgets = function (bool) {
+            editAccountBudgets = bool;
+        },
+
         init = function () {
             RenderAccountBudgetsPage();
         };
@@ -84,11 +96,13 @@ var View = (function () {
         init: init,
         CurrentPageIsEditable: CurrentPageIsEditable,
         DrawerOpen: GetDrawerOpen,
+        EditAccountBudgets: GetEditAccountBudgets,
         HandleEditClick: HandleEditClick,
         RenderAccountBudgetsPage: RenderAccountBudgetsPage,
         RenderBudgetPage: RenderBudgetPage,
         RenderReportsPage: RenderReportsPage,
         SetDrawerOpen: SetDrawerOpen,
+        SetEditAccountBudgets: SetEditAccountBudgets,
     };
 }());
 

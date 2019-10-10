@@ -7,12 +7,14 @@ import AppState from './../../controller/State';
 import Button from '@material-ui/core/Button';
 import Controller from './../../controller/Controller';
 import Grid from '@material-ui/core/Grid';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import { StyledSwitch } from './../DefaultStyles';
@@ -39,6 +41,15 @@ function getSpendProgressColor(spend, budgetAmount) {
     background: spendColor,
     color: spendColor,
   };
+}
+
+function getBudgetAmount(budgetAmount) {
+  if (View.EditAccountBudgets()) {
+    return (<TextField fullWidth defaultValue={budgetAmount}
+        InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}
+      />)
+  }
+  return Formatters.numToCurrencyString(budgetAmount);
 }
 
 const useStyles = makeStyles(theme => ({
@@ -89,7 +100,7 @@ export default function BudgetHistory() {
                   {row.name}
                 </Button>
               </TableCell>
-              <TableCell>{Formatters.numToCurrencyString(row.budgetAmount)}</TableCell>
+              <TableCell>{getBudgetAmount(row.budgetAmount)}</TableCell>
               <TableCell>{Formatters.numToCurrencyString(row.currentSpend)}</TableCell>
               <TableCell>
                 <Paper style={getSpendProgressColor(row.currentSpend, row.budgetAmount)}>

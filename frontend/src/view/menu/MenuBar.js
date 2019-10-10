@@ -4,6 +4,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -16,8 +18,25 @@ function onEditClick() {
     View.HandleEditClick();
 }
 
+function onSubmitClick() {
+    View.SetEditAccountBudgets(false);
+    View.RenderAccountBudgetsPage();
+}
+
+function onCancelClick() {
+    View.SetEditAccountBudgets(false);
+    View.RenderAccountBudgetsPage();
+}
+
 function showEditIcon() {
-    if (View.CurrentPageIsEditable()) return {};
+    if (View.CurrentPageIsEditable() && !View.EditAccountBudgets()) return {};
+    return {
+        display: "none",
+    }
+}
+
+function showSubmitCancelIcon() {
+    if (View.EditAccountBudgets()) return {};
     return {
         display: "none",
     }
@@ -78,6 +97,12 @@ export default function MenuBar(args) {
                 </Typography>
                 <IconButton color="inherit" style={showEditIcon()} onClick={onEditClick}>
                     <EditIcon />
+                </IconButton>
+                <IconButton color="inherit" style={showSubmitCancelIcon()} onClick={onCancelClick}>
+                    <CloseIcon />
+                </IconButton>
+                <IconButton color="inherit" style={showSubmitCancelIcon()} onClick={onSubmitClick}>
+                    <CheckIcon />
                 </IconButton>
                 <IconButton color="inherit">
                     <Badge badgeContent={4} color="secondary">
