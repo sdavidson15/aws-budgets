@@ -23,7 +23,7 @@ function showEditIcon() {
     }
 }
 
-const overrideStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme => ({
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
     },
@@ -54,7 +54,7 @@ const overrideStyles = makeStyles(theme => ({
 }));
 
 export default function MenuBar(args) {
-    const classes = overrideStyles();
+    const classes = useStyles();
     var open = args.open;
     const handleDrawerOpen = () => {
         args.setOpen(true);

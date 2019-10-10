@@ -41,7 +41,7 @@ function getSpendProgressColor(spend, budgetAmount) {
   };
 }
 
-const overrideStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme => ({
   button: {
     textTransform: 'none',
     fontWeight: 'normal',
@@ -57,7 +57,7 @@ export default function BudgetHistory() {
   const handleChange = name => event => {
     setState({ ...state, [name]: event.target.checked });
   };
-  const classes = overrideStyles();
+  const classes = useStyles();
 
   return (
     <React.Fragment>

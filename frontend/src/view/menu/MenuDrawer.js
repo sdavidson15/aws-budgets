@@ -13,7 +13,7 @@ import View from './../View';
 
 const drawerWidth = 240;
 
-const overrideStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme => ({
     toolbarIcon: {
         display: 'flex',
         alignItems: 'center',
@@ -44,7 +44,7 @@ const overrideStyles = makeStyles(theme => ({
 }));
 
 export default function MenuDrawer(args) {
-    const classes = overrideStyles();
+    const classes = useStyles();
     var open = args.open;
     const handleDrawerClose = () => {
         args.setOpen(false);
