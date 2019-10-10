@@ -78,7 +78,9 @@ export default function BudgetHistory() {
             <TableCell>Account ID</TableCell>
             <TableCell>Budget Name</TableCell>
             <TableCell>Budget Amount ($)</TableCell>
-            <TableCell>Current Spend ($)</TableCell>
+            <TableCell>
+              {(state.checked) ? "Forecasted Spend ($)" : "Current Spend ($)"}
+            </TableCell>
             <TableCell>
               <Typography component="div">
                 <Grid component="label" container alignItems="center" spacing={1}>
@@ -101,9 +103,11 @@ export default function BudgetHistory() {
                 </Button>
               </TableCell>
               <TableCell>{getBudgetAmount(row.budgetAmount)}</TableCell>
-              <TableCell>{Formatters.numToCurrencyString(row.currentSpend)}</TableCell>
               <TableCell>
-                <Paper style={getSpendProgressColor(row.currentSpend, row.budgetAmount)}>
+                {Formatters.numToCurrencyString((state.checked) ? row.forecastedSpend : row.currentSpend)}
+              </TableCell>
+              <TableCell>
+                <Paper style={getSpendProgressColor((state.checked) ? row.forecastedSpend : row.currentSpend, row.budgetAmount)}>
                   @
                 </Paper>
               </TableCell>
