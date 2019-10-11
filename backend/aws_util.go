@@ -125,8 +125,8 @@ func newAwsClient(accountID string, region string, roleName string) *awsClient {
 }
 
 func awsBudgetsToBudgets(accountID string, awsBudgets []*awsbudgets.Budget) (Budgets, error) {
-	budgets := make(Budgets, len(awsBudgets))
-	for i, awsBudget := range awsBudgets {
+	budgets := make(Budgets, 0, len(awsBudgets))
+	for _, awsBudget := range awsBudgets {
 		budget, err := awsBudgetToBudget(accountID, awsBudget)
 		if err != nil {
 			return Budgets{}, err
@@ -135,7 +135,7 @@ func awsBudgetsToBudgets(accountID string, awsBudgets []*awsbudgets.Budget) (Bud
 			continue
 		}
 
-		budgets[i] = budget
+		budgets = append(budgets, budget)
 	}
 
 	return budgets, nil
