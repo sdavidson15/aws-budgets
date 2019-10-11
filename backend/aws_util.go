@@ -109,7 +109,7 @@ func newAwsClient(accountID string, region string, roleName string) *awsClient {
 		accountID: accountID,
 		region:    region,
 		roleName:  roleName,
-		// cache:     &cache{},
+		cache:     &cache{},
 		budgetsClient: awsbudgets.New(
 			session,
 			aws.NewConfig().WithCredentials(roleCreds).WithRegion(region),
