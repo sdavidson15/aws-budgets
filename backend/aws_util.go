@@ -142,13 +142,13 @@ func awsBudgetsToBudgets(accountID string, awsBudgets []*awsbudgets.Budget) (Bud
 }
 
 func awsBudgetToBudget(accountID string, awsBudget *awsbudgets.Budget) (Budget, error) {
-	if (awsBudget == nil || awsBudget.BudgetLimit == nil || aws.BudgetLimit.Amount == nil ||
+	if awsBudget == nil || awsBudget.BudgetLimit == nil || aws.BudgetLimit.Amount == nil ||
 		awsBudget.CalculatedSpend == nil || awsBudget.CalculatedSpend.ActualSpend == nil ||
 		awsBudget.CalculatedSpend.ActualSpend.Amount == nil ||
 		awsBudget.CalculatedSpend.ForecastedSpend == nil ||
 		awsBudget.CalculatedSpend.ForecastedSpend.Amount == nil {
-			log.Printf("[WARN] AWS Budget in account %s is unprocessable: %+v", accountID, awsBudget)
-			return Budget{}, nil
+		log.Printf("[WARN] AWS Budget in account %s is unprocessable: %+v", accountID, awsBudget)
+		return Budget{}, nil
 	}
 
 	budgetAmount, err := strconv.ParseFloat(*awsBudget.BudgetLimit.Amount, 64)
