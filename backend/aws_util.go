@@ -142,7 +142,7 @@ func awsBudgetsToBudgets(accountID string, awsBudgets []*awsbudgets.Budget) (Bud
 }
 
 func awsBudgetToBudget(accountID string, awsBudget *awsbudgets.Budget) (Budget, error) {
-	if awsBudget == nil || awsBudget.BudgetLimit == nil || aws.BudgetLimit.Amount == nil ||
+	if awsBudget == nil || awsBudget.BudgetLimit == nil || awsBudget.BudgetLimit.Amount == nil ||
 		awsBudget.CalculatedSpend == nil || awsBudget.CalculatedSpend.ActualSpend == nil ||
 		awsBudget.CalculatedSpend.ActualSpend.Amount == nil ||
 		awsBudget.CalculatedSpend.ForecastedSpend == nil ||
