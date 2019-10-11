@@ -20,6 +20,11 @@ var View = (function () {
         drawerOpen = true,
         editAccountBudgets = false,
         editFieldBudgetAmount,
+        edittedBudgets = {},
+
+        AddBudgetEdit = function (budget) {
+            edittedBudgets[budget.id] = budget;
+        },
 
         CurrentPageIsEditable = function () {
             return (currentPage === AccountBudgetsPage ||
@@ -37,6 +42,11 @@ var View = (function () {
 
         GetEditFieldBudgetAmount = function () {
             return editFieldBudgetAmount;
+        },
+
+        GetEdittedBudgets = function () {
+            if (typeof edittedBudgets === 'undefined') return {};
+            return edittedBudgets;
         },
 
         HandleEditClick = function () {
@@ -75,7 +85,11 @@ var View = (function () {
         },
 
         renderPage = function (_page, _page_const) {
-            if (_page_const !== AccountBudgetsPage) editAccountBudgets = false;
+            if (_page_const !== AccountBudgetsPage) {
+                editAccountBudgets = false;
+            }
+            edittedBudgets = {};
+
             ReactDOM.render(
                 <ThemeProvider>
                     <CssBaseline />
@@ -104,10 +118,12 @@ var View = (function () {
 
     return {
         init: init,
+        AddBudgetEdit: AddBudgetEdit,
         CurrentPageIsEditable: CurrentPageIsEditable,
         DrawerOpen: GetDrawerOpen,
         EditAccountBudgets: GetEditAccountBudgets,
         EditFieldBudgetAmount: GetEditFieldBudgetAmount,
+        EdittedBudgets: GetEdittedBudgets,
         HandleEditClick: HandleEditClick,
         RenderAccountBudgetsPage: RenderAccountBudgetsPage,
         RenderBudgetPage: RenderBudgetPage,

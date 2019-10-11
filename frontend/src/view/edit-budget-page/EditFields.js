@@ -12,7 +12,7 @@ import ConfigureAlerts from './ConfigureAlerts';
 import Title from '../budget-page/Title';
 import View from '../View';
 
-function handleBudgetAmountChange(e) {
+function handleEditBudgetAmount(e) {
   View.SetEditFieldBudgetAmount(parseFloat(e.target.value));
 }
 
@@ -58,7 +58,7 @@ export default function EditFields() {
               $
             </InputAdornment>,
         }}
-        onChange={handleBudgetAmountChange}
+        onChange={handleEditBudgetAmount}
       />
       {/* Configure Alerts */}
       <ConfigureAlerts />

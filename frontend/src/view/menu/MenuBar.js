@@ -12,6 +12,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+
+import Controller from '../../controller/Controller';
 import View from './../View';
 
 function onEditClick() {
@@ -19,6 +21,15 @@ function onEditClick() {
 }
 
 function onSubmitClick() {
+    var edittedBudgets = View.EdittedBudgets(),
+        budgets = [];
+
+    for (var id in edittedBudgets) {
+        if (edittedBudgets.hasOwnProperty(id))
+            budgets.push(edittedBudgets[id]);
+    }
+
+    Controller.UpdateAccountBudgets(budgets);
     View.SetEditAccountBudgets(false);
     View.RenderAccountBudgetsPage();
 }

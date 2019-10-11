@@ -21,6 +21,11 @@ import { StyledSwitch } from './../DefaultStyles';
 import Formatters from './../../model/Formatters';
 import View from './../View';
 
+function handleBudgetAmountChange(e, row) {
+  row.budgetAmount = parseFloat(e.target.value);
+  View.AddBudgetEdit(row);
+}
+
 function onBudgetNameClick(accountId, name) {
   Controller.LoadBudget(accountId, name);
   View.RenderBudgetPage();
@@ -43,13 +48,22 @@ function getSpendProgressColor(spend, budgetAmount) {
   };
 }
 
-function getBudgetAmount(budgetAmount) {
+function getBudgetAmount(row) {
   if (View.EditAccountBudgets()) {
-    return (<TextField fullWidth defaultValue={budgetAmount}
-        InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment>}}
+    return (
+      <TextField
+        fullWidth
+        defaultValue={row.budgetAmount}
+        InputProps={{
+          startAdornment:
+            <InputAdornment position="start">
+              $
+            </InputAdornment>
+        }}
+        onChange={(e) => handleBudgetAmountChange(e, row)}
       />)
   }
-  return Formatters.numToCurrencyString(budgetAmount);
+  return Formatters.numToCurrencyString(row.budgetAmount);
 }
 
 const useStyles = makeStyles(theme => ({
@@ -102,7 +116,7 @@ export default function BudgetHistory() {
                   {row.name}
                 </Button>
               </TableCell>
-              <TableCell>{getBudgetAmount(row.budgetAmount)}</TableCell>
+              <TableCell>{getBudgetAmount(row)}</TableCell>
               <TableCell>
                 {Formatters.numToCurrencyString((state.checked) ? row.forecastedSpend : row.currentSpend)}
               </TableCell>
