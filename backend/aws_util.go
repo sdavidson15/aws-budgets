@@ -24,8 +24,8 @@ type awsClient struct {
 	costexplorerClient *awscostexplorer.CostExplorer
 }
 
-func (aws *awsClient) getBudgetHistory(budgetName string) (BudgetHistory, error) {
-	budgetHistory, err := aws.cache.getBudgetHistory(aws.accountID, budgetName)
+func (aws *awsClient) getBudgetHistory() (BudgetHistory, error) {
+	budgetHistory, err := aws.cache.getBudgetHistory(aws.accountID)
 	if err != nil {
 		return BudgetHistory{}, err
 	}

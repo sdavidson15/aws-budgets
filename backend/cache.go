@@ -38,7 +38,8 @@ func (c *cache) getBudgets(accountID string) (Budgets, error) {
 	return budgets, nil
 }
 
-func (c *cache) getBudgetHistory(accountID, budgetName string) (BudgetHistory, error) {
+// FIXME: budget history cache files should be for account, not account+budgetName combo
+func (c *cache) getBudgetHistory(accountID string) (BudgetHistory, error) {
 	if !c.useCache {
 		return BudgetHistory{}, nil
 	}

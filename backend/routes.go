@@ -62,6 +62,12 @@ func updateAccountBudgetsHandler(w http.ResponseWriter, r *http.Request) {
 
 // TODO: move these to a controller layer ==========================================================
 func getAccountBudgets() (Budgets, error) {
+
+	// TODO: chunk these by 50 to avoid getting rate limited. This won't help!! The problem is when
+	// multiple users are trying to get the data.
+	// What you need to do instead is have the cache ready, and do a slow, periodic load, or have
+	// wait and retry logic.
+
 	var wg sync.WaitGroup
 	wg.Add(len(accountList))
 	terr := newThreadSafeError()
@@ -77,12 +83,12 @@ func getAccountBudgets() (Budgets, error) {
 				terr.set(err)
 			}
 
-			for j, budget := range budgets {
-				budgetHistory, err := awsClient.getBudgetHistory(budget.BudgetName)
-				if err != nil {
-					terr.set(err)
-				}
+			budgetHistory, err := awsClient.getBudgetHistory()
+			if err != nil {
+				terr.set(err)
+			}
 
+			for j, _ := range budgets {
 				budgets[j].BudgetHistory = budgetHistory
 			}
 
