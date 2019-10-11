@@ -58,6 +58,7 @@ var View = (function () {
         },
 
         RenderAccountBudgetsPage = async function () {
+            renderPage(<AccountBudgets />, AccountBudgetsPage);
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
