@@ -5,6 +5,10 @@ var Formatters = (function () {
             return { id, accountId, name, budgetAmount, currentSpend, forecastedSpend, budgetHistory };
         },
 
+        formatAccountBudgetsUploadData = function (AccountID, BudgetName, BudgetAmount, CurrentSpend, ForecastedSpend, BudgetHistory = []) {
+            return { AccountID, BudgetName, BudgetAmount, CurrentSpend, ForecastedSpend, BudgetHistory };
+        },
+
         formatBudgetHistoryData = function (id, date, actual, budgeted, variance, varianceDescr) {
             return { id, date, actual, budgeted, variance, varianceDescr };
         },
@@ -48,7 +52,7 @@ var Formatters = (function () {
             return defaultCurrency.concat(num.toFixed(2).toString());
         },
 
-        numToPercentString = function (num, divisor, abs=false) {
+        numToPercentString = function (num, divisor, abs = false) {
             var percent = (num / divisor) * 100;
             if (abs) percent = Math.abs(percent);
             return percent.toFixed(2).toString().concat('%');
@@ -56,6 +60,7 @@ var Formatters = (function () {
 
     return {
         formatAccountBudgetsData: formatAccountBudgetsData,
+        formatAccountBudgetsUploadData: formatAccountBudgetsUploadData,
         formatBudgetHistoryData: formatBudgetHistoryData,
         formatChartData: formatChartData,
         formatSpend: formatSpend,

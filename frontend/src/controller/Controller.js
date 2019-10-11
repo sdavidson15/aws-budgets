@@ -3,20 +3,22 @@ import Formatters from './../model/Formatters';
 import RestApp from './Rest';
 
 var Controller = (function () {
-    var LoadAccountBudgets = async function () {
-        AppState.SetLoadingAccountBudgets(true);
-        var accountBudgets = await RestApp.GetAccountBudgets(),
-            budgets = [];
+    var dummy = true,
 
-        for (var i = 0; i < accountBudgets.length; i++) {
-            var b = accountBudgets[i];
-            var data = Formatters.formatAccountBudgetsData(i, b.AccountID, b.BudgetName, b.BudgetAmount, b.CurrentSpend, b.ForecastedSpend, b.BudgetHistory);
-            budgets.push(data);
-        }
+        LoadAccountBudgets = async function () {
+            AppState.SetLoadingAccountBudgets(true);
+            var accountBudgets = await RestApp.GetAccountBudgets(),
+                budgets = [];
 
-        AppState.SetAccountBudgets(budgets);
-        AppState.SetLoadingAccountBudgets(false);
-    },
+            for (var i = 0; i < accountBudgets.length; i++) {
+                var b = accountBudgets[i];
+                var data = Formatters.formatAccountBudgetsData(i, b.AccountID, b.BudgetName, b.BudgetAmount, b.CurrentSpend, b.ForecastedSpend, b.BudgetHistory);
+                budgets.push(data);
+            }
+
+            AppState.SetAccountBudgets(budgets);
+            AppState.SetLoadingAccountBudgets(false);
+        },
 
         LoadBudget = function (accountId, budgetName) {
             var accountBudgets = AppState.AccountBudgets(),
@@ -55,6 +57,7 @@ var Controller = (function () {
             budgetHistory.push(Formatters.formatBudgetHistoryData(0, 'Oct 2019 (MTD)', budget.currentSpend, budget.budgetAmount, variance, descr)); // TODO: intelligently determine current month string
             budgetHistory.reverse();
 
+            AppState.SetAccountID(accountId);
             AppState.SetBudgetName(budgetName);
             AppState.SetBudgetAmount(budget.budgetAmount);
             AppState.SetBudgetHistory(budgetHistory);
@@ -62,15 +65,27 @@ var Controller = (function () {
             AppState.SetForecastedSpend(budget.forecastedSpend);
         },
 
+        UpdateAccountBudgets = async function (accountBudgets) {
+            var budgets = [];
+            for (var i = 0; i < accountBudgets.length; i++) {
+                var b = accountBudgets[i];
+                var data = Formatters.formatAccountBudgetsUploadData(b.accountId, b.name, b.budgetAmount, b.currentSpend, b.forecastedSpend);
+                budgets.push(data);
+            }
+
+            await RestApp.UpdateAccountBudgets(budgets);
+            await LoadAccountBudgets();
+        },
+
         init = function () {
-            AppState.init();
+            AppState.init(dummy);
             LoadAccountBudgets();
         };
 
     return {
         init: init,
-        LoadAccountBudgets: LoadAccountBudgets,
-        LoadBudget: LoadBudget
+        LoadBudget: LoadBudget,
+        UpdateAccountBudgets: UpdateAccountBudgets
     };
 }());
 

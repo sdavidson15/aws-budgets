@@ -5,7 +5,11 @@ var RestApp = (function () {
         return makeRequest('GET', '/accountbudgets');
     },
 
-    makeRequest = function(method, path) {
+    UpdateAccountBudgets = function (budgets) {
+        return makeRequest('PUT', '/updateaccountbudgets', budgets);
+    },
+
+    makeRequest = function(method, path, data=null) {
         return new Promise(function(resolve, reject) {
             var req = new XMLHttpRequest();
             req.open(method, restApiUrl.concat(path), true);
@@ -17,12 +21,14 @@ var RestApp = (function () {
                 else
                     reject(req.status);
             };
-            req.send();
+            if (data === null) req.send();
+            else req.send(JSON.stringify(data));
         });
     };
 
     return {
-        GetAccountBudgets: GetAccountBudgets
+        GetAccountBudgets: GetAccountBudgets,
+        UpdateAccountBudgets: UpdateAccountBudgets,
     };
 }());
 

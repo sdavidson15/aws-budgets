@@ -1,6 +1,7 @@
 var AppState = (function () {
     // TODO: don't capitalize private vars
     var AccountBudgets,
+        AccountID,
         AlertEmails,
         AlertThreshold,
         BudgetAmount,
@@ -14,6 +15,9 @@ var AppState = (function () {
         GetAccountBudgets = function () {
             if (typeof AccountBudgets === 'undefined') return [];
             return AccountBudgets.slice(0);
+        },
+        GetAccountID = function () {
+            return AccountID;
         },
         GetAlertEmails = function () {
             return AlertEmails.slice(0);
@@ -45,6 +49,9 @@ var AppState = (function () {
         SetAccountBudgets = function (accountBudgets) {
             AccountBudgets = accountBudgets.slice(0);
         },
+        SetAccountID = function (accountId) {
+            AccountID = accountId;
+        },
         SetBudgetAmount = function (budgetAmount) {
             BudgetAmount = budgetAmount;
         },
@@ -64,10 +71,10 @@ var AppState = (function () {
             LoadingAccountBudgets = status;
         },
 
-        init = function () {
-            // TODO: just get rid of init
-            AlertEmails = ['dummy.mock@email.com', 'mock.dummy@email.com'];
-            AlertThreshold = 90;
+        init = function (dummy) {
+            AlertEmails = (dummy) ? ['dummy.mock@email.com', 'mock.dummy@email.com'] : [];
+            AlertThreshold = (dummy) ? 90 : -1;
+            AccountID = '';
             BudgetAmount = -1;
             BudgetHistory = [];
             BudgetName = '';
@@ -80,6 +87,7 @@ var AppState = (function () {
 
         // Getters
         AccountBudgets: GetAccountBudgets,
+        AccountID: GetAccountID,
         AlertEmails: GetAlertEmails,
         AlertThreshold: GetAlertThreshold,
         BudgetAmount: GetBudgetAmount,
@@ -91,6 +99,7 @@ var AppState = (function () {
 
         // Setters TODO: idea, setters take a package name. Only files within this package can change state.
         SetAccountBudgets: SetAccountBudgets,
+        SetAccountID: SetAccountID,
         SetBudgetAmount: SetBudgetAmount,
         SetBudgetHistory: SetBudgetHistory,
         SetBudgetName: SetBudgetName,

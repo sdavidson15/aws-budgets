@@ -71,7 +71,7 @@ export default function ConfigureAlerts() {
         Email contacts
       </Typography>
       {AppState.AlertEmails().map(email => (
-        <Box>
+        <Box key={email.concat('-key')}>
           <TextField
             className={classes.textInput}
             variant="outlined"

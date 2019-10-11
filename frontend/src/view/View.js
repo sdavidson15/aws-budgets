@@ -19,6 +19,7 @@ var View = (function () {
     var currentPage,
         drawerOpen = true,
         editAccountBudgets = false,
+        editFieldBudgetAmount,
 
         CurrentPageIsEditable = function () {
             return (currentPage === AccountBudgetsPage ||
@@ -32,6 +33,10 @@ var View = (function () {
 
         GetEditAccountBudgets = function () {
             return editAccountBudgets;
+        },
+
+        GetEditFieldBudgetAmount = function () {
+            return editFieldBudgetAmount;
         },
 
         HandleEditClick = function () {
@@ -60,6 +65,7 @@ var View = (function () {
 
         RenderEditBudgetPage = function () {
             if (currentPage === EditBudgetPage) return;
+            editFieldBudgetAmount = AppState.BudgetAmount();
             renderPage(<EditBudget />, EditBudgetPage);
         },
 
@@ -88,6 +94,10 @@ var View = (function () {
             editAccountBudgets = bool;
         },
 
+        SetEditFieldBudgetAmount = function (amount) {
+            editFieldBudgetAmount = amount;
+        },
+
         init = function () {
             RenderAccountBudgetsPage();
         };
@@ -97,12 +107,14 @@ var View = (function () {
         CurrentPageIsEditable: CurrentPageIsEditable,
         DrawerOpen: GetDrawerOpen,
         EditAccountBudgets: GetEditAccountBudgets,
+        EditFieldBudgetAmount: GetEditFieldBudgetAmount,
         HandleEditClick: HandleEditClick,
         RenderAccountBudgetsPage: RenderAccountBudgetsPage,
         RenderBudgetPage: RenderBudgetPage,
         RenderReportsPage: RenderReportsPage,
         SetDrawerOpen: SetDrawerOpen,
         SetEditAccountBudgets: SetEditAccountBudgets,
+        SetEditFieldBudgetAmount: SetEditFieldBudgetAmount,
     };
 }());
 
