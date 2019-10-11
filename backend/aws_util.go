@@ -1,161 +1,133 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"os"
-	"time"
+	"strconv"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/budgets"
-	"github.com/aws/aws-sdk-go/service/costexplorer"
+	awsbudgets "github.com/aws/aws-sdk-go/service/budgets"
+	awscostexplorer "github.com/aws/aws-sdk-go/service/costexplorer"
 )
 
-type awsUtil struct {
-	accountID        string
-	region           string
-	roleName         string
-	budgetsUtil      *budgets.Budgets
-	costExplorerUtil *costexplorer.CostExplorer
+type awsClient struct {
+	accountID string
+	region    string
+	roleName  string
+	// cache              *cache
+	budgetsClient      *awsbudgets.Budgets
+	costexplorerClient *awscostexplorer.CostExplorer
 }
 
-func (aws *awsUtil) getBudgets(accountID string) (Budgets, error) {
-	filePath, err := getBudgetsFilePath(accountID)
-	if err != nil {
-		return Budgets{}, err
-	}
-
-	bytes, err := ioutil.ReadFile(filePath)
-	if err != nil {
-		time.Sleep(time.Second) // Give it a second
-		bytes, err = ioutil.ReadFile(filePath)
-		if err != nil {
-			return Budgets{}, err
-		}
-	}
-
-	var budgets Budgets
-	json.Unmarshal(bytes, &budgets)
-	return budgets, nil
+func (aws *awsClient) getBudgetHistory(budgetName string) ([]BudgetHistoryItem, error) {
+	// return aws.cache.getBudgetHistory(aws.accountID, budgetName)
+	return []BudgetHistoryItem{}, nil
 }
 
-func (aws *awsUtil) getBudgetHistory(accountID, budgetName string) ([]BudgetHistoryItem, error) {
-	pwd, err := os.Getwd()
-	if err != nil {
-		return []BudgetHistoryItem{}, err
-	}
-
-	bytes, err := ioutil.ReadFile(fmt.Sprintf(
-		"%s%smockData%sbudgetHistory%s%s_%s.json",
-		pwd,
-		PATH_SEPARATOR,
-		PATH_SEPARATOR,
-		PATH_SEPARATOR,
-		accountID,
-		budgetName,
-	))
-	if err != nil {
-		return []BudgetHistoryItem{}, err
-	}
-
-	var budgetHistory []BudgetHistoryItem
-	json.Unmarshal(bytes, &budgetHistory)
-	return budgetHistory, nil
-}
-
-func (aws *awsUtil) updateBudget(accountID, budgetName string, budgetAmount float64) error {
-	budgets, err := aws.getBudgets(accountID)
-	if err != nil {
-		return err
-	}
-
-	madeChange := false
-	for i, b := range budgets {
-		if b.BudgetName != budgetName {
-			continue
-		} else if b.BudgetAmount == budgetAmount {
-			break
-		}
-
-		budgets[i].BudgetAmount = budgetAmount
-		madeChange = true
-	}
-
-	if madeChange {
-		filePath, err := getBudgetsFilePath(accountID)
-		if err != nil {
-			return err
-		}
-
-		if err := os.Remove(filePath); err != nil {
-			return err
-		}
-
-		if err := writeBudgetsFile(filePath, budgets); err != nil {
-			return err
-		}
-	}
+func (aws *awsClient) updateBudget(budgetName string, budgetAmount float64) error {
+	// return aws.cache.updateBudget(aws.accountID, budgetName, budgetAmount)
 	return nil
 }
 
-func writeBudgetsFile(filePath string, budgets Budgets) error {
-	data, err := json.Marshal(budgets)
-	if err != nil {
-		return err
+func (aws *awsClient) getBudgets() (Budgets, error) {
+	// budgets, err := aws.cache.getBudgets(aws.accountID)
+	// if err != nil {
+	// 	return Budgets{}, err
+	// }
+	// if len(budgets) > 0 {
+	// 	return budgets, nil
+	// }
+
+	var maxResults int64 = 100
+	input := &awsbudgets.DescribeBudgetsInput{
+		AccountId:  &aws.accountID,
+		MaxResults: &maxResults,
 	}
 
-	file, err := os.Create(filePath)
-	if err != nil {
-		return err
-	}
-	file.Close()
+	budgets := []*awsbudgets.Budget{}
+	for {
+		output, err := aws.budgetsClient.DescribeBudgets(input)
+		if err != nil {
+			return Budgets{}, err
+		}
 
-	return ioutil.WriteFile(filePath, data, 0644)
+		budgets = append(budgets, output.Budgets...)
+		input.NextToken = output.NextToken
+		if input.NextToken == nil {
+			break
+		}
+	}
+
+	return awsBudgetsToBudgets(aws.accountID, budgets)
 }
 
-func getBudgetsFilePath(accountID string) (string, error) {
-	pwd, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
-
-	return fmt.Sprintf(
-		"%s%smockData%saccountbudgets%s%s.json",
-		pwd,
-		PATH_SEPARATOR,
-		PATH_SEPARATOR,
-		PATH_SEPARATOR,
-		accountID,
-	), nil
-}
-
-func newMockAwsUtil(accountID string, region string, roleName string) *awsUtil {
-	return &awsUtil{
-		accountID: accountID,
-		region:    region,
-		roleName:  roleName,
-	}
-}
-
-func newAwsUtil(accountID string, region string, roleName string) *awsUtil {
+func newAwsClient(accountID string, region string, roleName string) *awsClient {
 	session := session.Must(session.NewSession())
 	roleArn := fmt.Sprintf("arn:aws:iam::%s:role/%s", accountID, roleName)
 	roleCreds := stscreds.NewCredentials(session, roleArn)
 
-	return &awsUtil{
+	return &awsClient{
 		accountID: accountID,
 		region:    region,
 		roleName:  roleName,
-		budgetsUtil: budgets.New(
+		// cache:     &cache{},
+		budgetsClient: awsbudgets.New(
 			session,
 			aws.NewConfig().WithCredentials(roleCreds).WithRegion(region),
 		),
-		costExplorerUtil: costexplorer.New(
+		costexplorerClient: awscostexplorer.New(
 			session,
 			aws.NewConfig().WithCredentials(roleCreds).WithRegion(region),
 		),
 	}
+}
+
+func newMockAwsClient(accountID string, region string, roleName string) *awsClient {
+	return &awsClient{
+		accountID: accountID,
+		region:    region,
+		roleName:  roleName,
+		// cache:     &cache{},
+	}
+}
+
+func awsBudgetsToBudgets(accountID string, awsBudgets []*awsbudgets.Budget) (Budgets, error) {
+	budgets := make(Budgets, len(awsBudgets))
+	for i, awsBudget := range awsBudgets {
+		budget, err := awsBudgetToBudget(accountID, awsBudget)
+		if err != nil {
+			return Budgets{}, err
+		}
+
+		budgets[i] = budget
+	}
+
+	return budgets, nil
+}
+
+func awsBudgetToBudget(accountID string, awsBudget *awsbudgets.Budget) (Budget, error) {
+	budgetAmount, err := strconv.ParseFloat(*awsBudget.BudgetLimit.Amount, 64)
+	if err != nil {
+		return Budget{}, err
+	}
+
+	currentSpend, err := strconv.ParseFloat(*awsBudget.CalculatedSpend.ActualSpend.Amount, 64)
+	if err != nil {
+		return Budget{}, err
+	}
+
+	forecastedSpend, err := strconv.ParseFloat(*awsBudget.CalculatedSpend.ForecastedSpend.Amount, 64)
+	if err != nil {
+		return Budget{}, err
+	}
+
+	return Budget{
+		AccountID:       accountID,
+		BudgetName:      *awsBudget.BudgetName,
+		BudgetAmount:    budgetAmount,
+		CurrentSpend:    currentSpend,
+		ForecastedSpend: forecastedSpend,
+		BudgetHistory:   []BudgetHistoryItem{},
+	}, nil
 }
