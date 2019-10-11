@@ -98,6 +98,7 @@ func (aws *awsUtil) updateBudget(accountID, budgetName string, budgetAmount floa
 			return err
 		}
 	}
+	return nil
 }
 
 func writeBudgetsFile(filePath string, budgets Budgets) error {
@@ -128,7 +129,7 @@ func getBudgetsFilePath(accountID string) (string, error) {
 		PATH_SEPARATOR,
 		PATH_SEPARATOR,
 		accountID,
-	)
+	), nil
 }
 
 func newMockAwsUtil(accountID string, region string, roleName string) *awsUtil {

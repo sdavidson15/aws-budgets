@@ -61,7 +61,7 @@ func updateAccountBudgetsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // TODO: move these to a controller layer ==========================================================
-func getAccountBudgets() (Budgets, err) {
+func getAccountBudgets() (Budgets, error) {
 	var wg sync.WaitGroup
 	wg.Add(len(accountList))
 	terr := newThreadSafeError()
@@ -148,7 +148,7 @@ func updateAccountBudgets(newBudgets Budgets) error {
 	return terr.get()
 }
 
-func (b Budget) equals(other Budget) {
+func (b Budget) equals(other Budget) bool {
 	return b.AccountID == other.AccountID &&
 		b.BudgetName == other.BudgetName &&
 		b.BudgetAmount == other.BudgetAmount

@@ -8,17 +8,17 @@ type threadSafeError struct {
 }
 
 func (terr *threadSafeError) set(err error) {
-	e.lock.Lock()
-	defer e.lock.Unlock()
+	terr.lock.Lock()
+	defer terr.lock.Unlock()
 
-	e.err = err
+	terr.err = err
 }
 
-func (e *threadSafeError) get() error {
-	e.lock.RLock()
-	defer e.lock.RUnlock()
+func (terr *threadSafeError) get() error {
+	terr.lock.RLock()
+	defer terr.lock.RUnlock()
 
-	return e.err
+	return terr.err
 }
 
 func newThreadSafeError() *threadSafeError {
