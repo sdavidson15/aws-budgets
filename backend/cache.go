@@ -15,7 +15,7 @@ type cache struct {
 }
 
 func (c *cache) getBudgets(accountID string) (Budgets, error) {
-	if c.useCache {
+	if !c.useCache {
 		return Budgets{}, nil
 	}
 
@@ -39,7 +39,7 @@ func (c *cache) getBudgets(accountID string) (Budgets, error) {
 }
 
 func (c *cache) getBudgetHistory(accountID, budgetName string) (BudgetHistory, error) {
-	if c.useCache {
+	if !c.useCache {
 		return BudgetHistory{}, nil
 	}
 
