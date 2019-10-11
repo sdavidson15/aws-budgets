@@ -6,9 +6,11 @@ type Budget struct {
 	BudgetAmount    float64
 	CurrentSpend    float64
 	ForecastedSpend float64
-	BudgetHistory   []BudgetHistoryItem
+	BudgetHistory   BudgetHistory
 }
 
 type Budgets []Budget
 
 type BudgetHistoryItem map[string]float64
+
+type BudgetHistory []BudgetHistoryItem

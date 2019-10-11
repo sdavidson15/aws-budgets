@@ -33,10 +33,10 @@ func (c *cache) getBudgets(accountID string) (Budgets, error) {
 	return budgets, nil
 }
 
-func (c *cache) getBudgetHistory(accountID, budgetName string) ([]BudgetHistoryItem, error) {
+func (c *cache) getBudgetHistory(accountID, budgetName string) (BudgetHistory, error) {
 	pwd, err := os.Getwd()
 	if err != nil {
-		return []BudgetHistoryItem{}, err
+		return BudgetHistory{}, err
 	}
 
 	bytes, err := ioutil.ReadFile(fmt.Sprintf(
@@ -49,10 +49,10 @@ func (c *cache) getBudgetHistory(accountID, budgetName string) ([]BudgetHistoryI
 		budgetName,
 	))
 	if err != nil {
-		return []BudgetHistoryItem{}, err
+		return BudgetHistory{}, err
 	}
 
-	var budgetHistory []BudgetHistoryItem
+	var budgetHistory BudgetHistory
 	json.Unmarshal(bytes, &budgetHistory)
 	return budgetHistory, nil
 }
