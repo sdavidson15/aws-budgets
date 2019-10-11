@@ -10,14 +10,13 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func start(port, allowedHeader, allowedOrigin, allowedMethod string) {
+func start(port, allowedHeader, allowedOrigin string) {
 	router := mux.NewRouter().StrictSlash(true)
 
 	for _, route := range restRoutes() {
 		var handler http.Handler
 
 		handler = route.handlerFunc
-		handler = aclSwapper(handler)
 		handler = logger(handler, route.name)
 
 		router.Methods(route.method).Path(route.pattern).Name(route.name).Handler(handler)
@@ -25,15 +24,8 @@ func start(port, allowedHeader, allowedOrigin, allowedMethod string) {
 
 	allowedHeaders := handlers.AllowedHeaders([]string{allowedHeader})
 	allowedOrigins := handlers.AllowedOrigins([]string{allowedOrigin})
-	allowedMethods := handlers.AllowedMethods([]string{allowedMethod})
+	allowedMethods := handlers.AllowedMethods(ALLOWED_METHODS)
 	log.Fatal(http.ListenAndServe(port, handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
-}
-
-func aclSwapper(inner http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// TODO: swap out request origin for allowed origin if it's in the ACL
-		inner.ServeHTTP(w, r)
-	})
 }
 
 func logger(inner http.Handler, name string) http.Handler {
