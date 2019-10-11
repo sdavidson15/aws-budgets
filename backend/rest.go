@@ -29,14 +29,6 @@ func start(port, allowedHeader, allowedOrigin, allowedMethod string) {
 	log.Fatal(http.ListenAndServe(port, handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
 }
 
-func sendResponse(w http.ResponseWriter, r *http.Request, resp interface{}, statusCode int) {
-	w.Header().Set(`Content`, `application/json; charset=UTF-8`)
-	w.WriteHeader(statusCode)
-	if err := json.NewEncoder(w).Encode(resp); err != nil {
-		panic(err)
-	}
-}
-
 func aclSwapper(inner http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// TODO: swap out request origin for allowed origin if it's in the ACL
@@ -50,4 +42,16 @@ func logger(inner http.Handler, name string) http.Handler {
 		inner.ServeHTTP(w, r)
 		log.Printf("%s\t%s\t%s\t%s", r.Method, r.RequestURI, name, time.Since(t0))
 	})
+}
+
+func sendResponse(w http.ResponseWriter, r *http.Request, resp interface{}, statusCode int) {
+	w.Header().Set(`Content`, `application/json; charset=UTF-8`)
+	w.WriteHeader(statusCode)
+	if err := json.NewEncoder(w).Encode(resp); err != nil {
+		panic(err)
+	}
+}
+
+func sendServerError(w http.ResponseWriter, r *http.Request, err error) {
+	sendResponse(w, r, err, http.StatusInternalServerError)
 }
