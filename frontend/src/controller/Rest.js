@@ -19,7 +19,7 @@ var RestApp = (function () {
                     resolve(resp);
                 } else if (req.status === 500) {
                     alert('Something went wrong. Continue to reload.');
-                    location.reload();
+                    window.location.reload();
                 } else {
                     reject(req.status);
                 }
