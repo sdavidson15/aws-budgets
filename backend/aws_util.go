@@ -15,18 +15,24 @@ import (
 var MONTH_STRINGS = [12]string{`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`}
 
 type awsClient struct {
-	accountID string
-	region    string
-	roleName  string
-	// cache              *cache
+	accountID          string
+	region             string
+	roleName           string
+	cache              *cache
 	budgetsClient      *awsbudgets.Budgets
 	costexplorerClient *awscostexplorer.CostExplorer
 }
 
 func (aws *awsClient) getBudgetHistory(budgetName string) (BudgetHistory, error) {
-	// return aws.cache.getBudgetHistory(aws.accountID, budgetName)
+	budgetHistory, err := aws.cache.getBudgetHistory(aws.accountID, budgetName)
+	if err != nil {
+		return BudgetHistory{}, err
+	}
+	if len(budgetHistory) > 0 {
+		return budgetHistory, nil
+	}
 
-	// date formatting in go is the worst
+	// date formatting in Go is the worst
 	t := time.Now()
 	year, _, _ := t.Date()
 	end := fmt.Sprintf("%s", t.Format(`2006-01-02`))
@@ -60,18 +66,17 @@ func (aws *awsClient) getBudgetHistory(budgetName string) (BudgetHistory, error)
 }
 
 func (aws *awsClient) updateBudget(budgetName string, budgetAmount float64) error {
-	// return aws.cache.updateBudget(aws.accountID, budgetName, budgetAmount)
-	return nil
+	return aws.cache.updateBudget(aws.accountID, budgetName, budgetAmount)
 }
 
 func (aws *awsClient) getBudgets() (Budgets, error) {
-	// budgets, err := aws.cache.getBudgets(aws.accountID)
-	// if err != nil {
-	// 	return Budgets{}, err
-	// }
-	// if len(budgets) > 0 {
-	// 	return budgets, nil
-	// }
+	budgets, err := aws.cache.getBudgets(aws.accountID)
+	if err != nil {
+		return Budgets{}, err
+	}
+	if len(budgets) > 0 {
+		return budgets, nil
+	}
 
 	input := &awsbudgets.DescribeBudgetsInput{
 		AccountId:  &aws.accountID,
@@ -113,15 +118,6 @@ func newAwsClient(accountID string, region string, roleName string) *awsClient {
 			session,
 			aws.NewConfig().WithCredentials(roleCreds).WithRegion(region),
 		),
-	}
-}
-
-func newMockAwsClient(accountID string, region string, roleName string) *awsClient {
-	return &awsClient{
-		accountID: accountID,
-		region:    region,
-		roleName:  roleName,
-		// cache:     &cache{},
 	}
 }
 

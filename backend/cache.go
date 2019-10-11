@@ -10,10 +10,15 @@ import (
 )
 
 type cache struct {
-	locks []sync.Mutex
+	locks    []sync.Mutex
+	useCache bool
 }
 
 func (c *cache) getBudgets(accountID string) (Budgets, error) {
+	if useCache {
+		return Budgets{}, nil
+	}
+
 	filePath, err := c.getBudgetsFilePath(accountID)
 	if err != nil {
 		return Budgets{}, err
@@ -34,6 +39,10 @@ func (c *cache) getBudgets(accountID string) (Budgets, error) {
 }
 
 func (c *cache) getBudgetHistory(accountID, budgetName string) (BudgetHistory, error) {
+	if useCache {
+		return BudgetHistory{}, nil
+	}
+
 	pwd, err := os.Getwd()
 	if err != nil {
 		return BudgetHistory{}, err

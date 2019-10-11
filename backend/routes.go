@@ -71,7 +71,7 @@ func getAccountBudgets() (Budgets, error) {
 		go func(index int, accountID string) {
 			defer wg.Done()
 
-			awsUtil := newMockAwsUtil(accountID, DEFAULT_REGION, DEFAULT_ROLE_NAME)
+			awsUtil := newAwsUtil(accountID, DEFAULT_REGION, DEFAULT_ROLE_NAME)
 			budgets, err := awsUtil.getBudgets(accountID)
 			if err != nil {
 				terr.set(err)
@@ -128,7 +128,7 @@ func updateAccountBudgets(newBudgets Budgets) error {
 				return
 			}
 
-			awsUtil := newMockAwsUtil(newBudget.AccountID, DEFAULT_REGION, DEFAULT_ROLE_NAME)
+			awsUtil := newAwsUtil(newBudget.AccountID, DEFAULT_REGION, DEFAULT_ROLE_NAME)
 			if newBudget.BudgetName != oldBudget.BudgetName {
 				// TODO: rename the budget, then finish the update. Just returning for now
 				// TODO: handle renaming a budget to an existing budget name. That could get nasty
