@@ -83,21 +83,21 @@ func (aws *awsClient) getBudgets() (Budgets, error) {
 		MaxResults: makeInt64Pointer(100),
 	}
 
-	budgets := []*awsbudgets.Budget{}
+	awsBudgets := []*awsbudgets.Budget{}
 	for {
 		output, err := aws.budgetsClient.DescribeBudgets(input)
 		if err != nil {
 			return Budgets{}, err
 		}
 
-		budgets = append(budgets, output.Budgets...)
+		awsBudgets = append(awsBudgets, output.Budgets...)
 		input.NextToken = output.NextToken
 		if input.NextToken == nil {
 			break
 		}
 	}
 
-	return awsBudgetsToBudgets(aws.accountID, budgets)
+	return awsBudgetsToBudgets(aws.accountID, awsBudgets)
 }
 
 func newAwsClient(accountID string, region string, roleName string) *awsClient {

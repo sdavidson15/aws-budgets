@@ -15,7 +15,7 @@ type cache struct {
 }
 
 func (c *cache) getBudgets(accountID string) (Budgets, error) {
-	if useCache {
+	if c.useCache {
 		return Budgets{}, nil
 	}
 
@@ -39,7 +39,7 @@ func (c *cache) getBudgets(accountID string) (Budgets, error) {
 }
 
 func (c *cache) getBudgetHistory(accountID, budgetName string) (BudgetHistory, error) {
-	if useCache {
+	if c.useCache {
 		return BudgetHistory{}, nil
 	}
 
@@ -67,7 +67,7 @@ func (c *cache) getBudgetHistory(accountID, budgetName string) (BudgetHistory, e
 }
 
 func (c *cache) updateBudget(accountID, budgetName string, budgetAmount float64) error {
-	budgets, err := aws.getBudgets(accountID)
+	budgets, err := c.getBudgets(accountID)
 	if err != nil {
 		return err
 	}
@@ -98,6 +98,8 @@ func (c *cache) updateBudget(accountID, budgetName string, budgetAmount float64)
 			return err
 		}
 	}
+
+	return nil
 }
 
 func (c *cache) writeBudgetsFile(filePath string, budgets Budgets) error {
@@ -128,5 +130,5 @@ func (c *cache) getBudgetsFilePath(accountID string) (string, error) {
 		PATH_SEPARATOR,
 		PATH_SEPARATOR,
 		accountID,
-	)
+	), nil
 }

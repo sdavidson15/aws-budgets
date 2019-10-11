@@ -71,14 +71,14 @@ func getAccountBudgets() (Budgets, error) {
 		go func(index int, accountID string) {
 			defer wg.Done()
 
-			awsUtil := newAwsUtil(accountID, DEFAULT_REGION, DEFAULT_ROLE_NAME)
-			budgets, err := awsUtil.getBudgets(accountID)
+			awsClient := newAwsClient(accountID, DEFAULT_REGION, DEFAULT_ROLE_NAME)
+			budgets, err := awsClient.getBudgets()
 			if err != nil {
 				terr.set(err)
 			}
 
 			for j, budget := range budgets {
-				budgetHistory, err := awsUtil.getBudgetHistory(budget.AccountID, budget.BudgetName)
+				budgetHistory, err := awsClient.getBudgetHistory(budget.BudgetName)
 				if err != nil {
 					terr.set(err)
 				}
@@ -128,7 +128,7 @@ func updateAccountBudgets(newBudgets Budgets) error {
 				return
 			}
 
-			awsUtil := newAwsUtil(newBudget.AccountID, DEFAULT_REGION, DEFAULT_ROLE_NAME)
+			awsClient := newAwsClient(newBudget.AccountID, DEFAULT_REGION, DEFAULT_ROLE_NAME)
 			if newBudget.BudgetName != oldBudget.BudgetName {
 				// TODO: rename the budget, then finish the update. Just returning for now
 				// TODO: handle renaming a budget to an existing budget name. That could get nasty
@@ -137,7 +137,7 @@ func updateAccountBudgets(newBudgets Budgets) error {
 				return
 			}
 
-			err := awsUtil.updateBudget(newBudget.AccountID, newBudget.BudgetName, newBudget.BudgetAmount)
+			err := awsClient.updateBudget(newBudget.BudgetName, newBudget.BudgetAmount)
 			if err != nil {
 				terr.set(err)
 			}
