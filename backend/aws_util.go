@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 	"time"
 
@@ -50,6 +51,7 @@ func (aws *awsClient) getBudgetHistory(budgetName string) (BudgetHistory, error)
 
 	results := []*awscostexplorer.ResultByTime{}
 	for {
+		log.Printf("[INFO] AWS Costexplorer GetCostAndUsage for account: %s\n", aws.accountID)
 		output, err := aws.costexplorerClient.GetCostAndUsage(input)
 		if err != nil {
 			return BudgetHistory{}, err
@@ -85,6 +87,7 @@ func (aws *awsClient) getBudgets() (Budgets, error) {
 
 	awsBudgets := []*awsbudgets.Budget{}
 	for {
+		log.Printf("[INFO] AWS Budgets DescribeBudgets for account: %s\n", aws.accountID)
 		output, err := aws.budgetsClient.DescribeBudgets(input)
 		if err != nil {
 			return Budgets{}, err
