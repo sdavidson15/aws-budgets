@@ -17,9 +17,12 @@ var RestApp = (function () {
                 if (req.status === 200) {
                     var resp = JSON.parse(req.responseText);
                     resolve(resp);
-                }
-                else
+                } else if (req.status === 500) {
+                    alert('Something went wrong. Continue to reload.');
+                    location.reload();
+                } else {
                     reject(req.status);
+                }
             };
             if (data === null) req.send();
             else req.send(JSON.stringify(data));
