@@ -10,7 +10,11 @@ import (
 	"aws-budgets/backend/util"
 )
 
-func getAccountBudgets() (model.Budgets, error) {
+type Controller struct {
+	acache *aws.AwsClientCache
+}
+
+func (c *Controller) getAccountBudgets() (model.Budgets, error) {
 	var wg sync.WaitGroup
 	wg.Add(len(accountList))
 	terr := util.NewThreadSafeError()
@@ -23,7 +27,7 @@ func getAccountBudgets() (model.Budgets, error) {
 		go func(index int, accountID string) {
 			defer wg.Done()
 
-			awsClient := aws.NewAwsClient(accountID, DEFAULT_REGION, DEFAULT_ROLE_NAME, nil)
+			awsClient := aws.NewAwsClient(accountID, DEFAULT_REGION, DEFAULT_ROLE_NAME, c.acache)
 			budgets, err := awsClient.GetBudgets()
 			if err != nil {
 				terr.Set(err)
@@ -60,8 +64,8 @@ func getAccountBudgets() (model.Budgets, error) {
 	return accountBudgets, nil
 }
 
-func updateAccountBudgets(newBudgets model.Budgets) error {
-	oldBudgets, err := getAccountBudgets()
+func (c *Controller) updateAccountBudgets(newBudgets model.Budgets) error {
+	oldBudgets, err := c.getAccountBudgets()
 	if err != nil {
 		return err
 	}
@@ -84,7 +88,7 @@ func updateAccountBudgets(newBudgets model.Budgets) error {
 				return
 			}
 
-			awsClient := aws.NewAwsClient(newBudget.AccountID, DEFAULT_REGION, DEFAULT_ROLE_NAME, nil)
+			awsClient := aws.NewAwsClient(newBudget.AccountID, DEFAULT_REGION, DEFAULT_ROLE_NAME, c.acache)
 			if newBudget.BudgetName != oldBudget.BudgetName {
 				// TODO: rename the budget, then finish the update. Just returning for now
 				// TODO: handle renaming a budget to an existing budget name. That could get nasty
@@ -102,6 +106,18 @@ func updateAccountBudgets(newBudgets model.Budgets) error {
 
 	wg.Wait()
 	return terr.Get()
+}
+
+func (c *Controller) Init() error {
+	// To init, run a get to populate the AwsClientCache
+	_, err := c.getAccountBudgets()
+	return err
+}
+
+func NewController(acache *aws.AwsClientCache) *Controller {
+	return &Controller{
+		acache: acache,
+	}
 }
 
 func budgetsEqual(b, other model.Budget) bool {

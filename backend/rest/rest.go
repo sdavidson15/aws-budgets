@@ -10,10 +10,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Start() {
+func Start(controller *Controller) {
 	router := mux.NewRouter().StrictSlash(true)
 
-	for _, route := range restRoutes() {
+	for _, route := range restRoutes(controller) {
 		var handler http.Handler
 
 		handler = route.handlerFunc

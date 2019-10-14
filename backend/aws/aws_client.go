@@ -18,7 +18,7 @@ type awsClient struct {
 	accountID          string
 	region             string
 	roleName           string
-	cache              *awsClientCache
+	cache              *AwsClientCache
 	budgetsClient      *awsbudgets.Budgets
 	costexplorerClient *awscostexplorer.CostExplorer
 }
@@ -99,16 +99,25 @@ func (aws *awsClient) GetBudgets() (model.Budgets, error) {
 		}
 	}
 
-	return model.AwsBudgetsToBudgets(aws.accountID, awsBudgets)
+	budgets, err = model.AwsBudgetsToBudgets(aws.accountID, awsBudgets)
+	if err != nil {
+		return model.Budgets{}, err
+	}
+	
+	if err = aws.cache.cacheBudgets(aws.accountID, budgets); err != nil {
+		return model.Budgets{}, err
+	}
+	
+	return budgets, nil
 }
 
-func NewAwsClient(accountID string, region string, roleName string, cache *awsClientCache) *awsClient {
+func NewAwsClient(accountID string, region string, roleName string, cache *AwsClientCache) *awsClient {
 	session := session.Must(session.NewSession())
 	roleArn := fmt.Sprintf("arn:aws:iam::%s:role/%s", accountID, roleName)
 	roleCreds := stscreds.NewCredentials(session, roleArn)
 
 	if cache == nil {
-		cache = &awsClientCache{}
+		cache = NewAwsClientCache(false)
 	}
 
 	return &awsClient{
