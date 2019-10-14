@@ -1,4 +1,4 @@
-package main
+package rest
 
 import (
 	"encoding/json"
@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func start(port, allowedHeader, allowedOrigin string) {
+func Start(port, allowedHeader, allowedOrigin string) {
 	router := mux.NewRouter().StrictSlash(true)
 
 	for _, route := range restRoutes() {
