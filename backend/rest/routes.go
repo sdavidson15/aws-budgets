@@ -5,6 +5,8 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	
+	"aws-budgets/backend/model"
 )
 
 const byteLimit int64 = 1048576
@@ -45,7 +47,7 @@ func updateAccountBudgetsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var newBudgets Budgets
+	var newBudgets model.Budgets
 	if err := json.Unmarshal(body, &newBudgets); err != nil {
 		sendResponse(w, r, err, http.StatusUnprocessableEntity)
 		return

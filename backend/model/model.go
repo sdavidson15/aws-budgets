@@ -1,4 +1,4 @@
-package main
+package model
 
 type Budget struct {
 	AccountID       string

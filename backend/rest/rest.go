@@ -10,7 +10,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Start(port, allowedHeader, allowedOrigin string) {
+func Start() {
 	router := mux.NewRouter().StrictSlash(true)
 
 	for _, route := range restRoutes() {
@@ -22,10 +22,10 @@ func Start(port, allowedHeader, allowedOrigin string) {
 		router.Methods(route.method).Path(route.pattern).Name(route.name).Handler(handler)
 	}
 
-	allowedHeaders := handlers.AllowedHeaders([]string{allowedHeader})
-	allowedOrigins := handlers.AllowedOrigins([]string{allowedOrigin})
+	allowedHeaders := handlers.AllowedHeaders([]string{ALLOWED_HEADER})
+	allowedOrigins := handlers.AllowedOrigins([]string{ALLOWED_ORIGIN})
 	allowedMethods := handlers.AllowedMethods(ALLOWED_METHODS)
-	log.Fatal(http.ListenAndServe(port, handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
+	log.Fatal(http.ListenAndServe(DEFAULT_PORT, handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
 }
 
 func logger(inner http.Handler, name string) http.Handler {

@@ -1,4 +1,4 @@
-package main
+package model
 
 import (
 	"fmt"
@@ -11,10 +11,10 @@ import (
 
 var MONTH_STRINGS = [12]string{`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`}
 
-func awsBudgetsToBudgets(accountID string, awsBudgets []*awsbudgets.Budget) (Budgets, error) {
+func AwsBudgetsToBudgets(accountID string, awsBudgets []*awsbudgets.Budget) (Budgets, error) {
 	budgets := make(Budgets, 0, len(awsBudgets))
 	for _, awsBudget := range awsBudgets {
-		budget, err := awsBudgetToBudget(accountID, awsBudget)
+		budget, err := AwsBudgetToBudget(accountID, awsBudget)
 		if err != nil {
 			return Budgets{}, err
 		}
@@ -28,7 +28,7 @@ func awsBudgetsToBudgets(accountID string, awsBudgets []*awsbudgets.Budget) (Bud
 	return budgets, nil
 }
 
-func awsBudgetToBudget(accountID string, awsBudget *awsbudgets.Budget) (Budget, error) {
+func AwsBudgetToBudget(accountID string, awsBudget *awsbudgets.Budget) (Budget, error) {
 	if awsBudget == nil || awsBudget.BudgetLimit == nil || awsBudget.BudgetLimit.Amount == nil ||
 		awsBudget.CalculatedSpend == nil || awsBudget.CalculatedSpend.ActualSpend == nil ||
 		awsBudget.CalculatedSpend.ActualSpend.Amount == nil ||
@@ -63,10 +63,10 @@ func awsBudgetToBudget(accountID string, awsBudget *awsbudgets.Budget) (Budget, 
 	}, nil
 }
 
-func awsResultsByTimeToBudgetHistory(results []*awscostexplorer.ResultByTime) (BudgetHistory, error) {
+func AwsResultsByTimeToBudgetHistory(results []*awscostexplorer.ResultByTime) (BudgetHistory, error) {
 	budgetHistory := make(BudgetHistory, len(results))
 	for i, res := range results {
-		budgetHistoryItem, err := awsResultByTimeToBudgetHistoryItem(res)
+		budgetHistoryItem, err := AwsResultByTimeToBudgetHistoryItem(res)
 		if err != nil {
 			return BudgetHistory{}, err
 		}
@@ -77,7 +77,7 @@ func awsResultsByTimeToBudgetHistory(results []*awscostexplorer.ResultByTime) (B
 	return budgetHistory, nil
 }
 
-func awsResultByTimeToBudgetHistoryItem(res *awscostexplorer.ResultByTime) (BudgetHistoryItem, error) {
+func AwsResultByTimeToBudgetHistoryItem(res *awscostexplorer.ResultByTime) (BudgetHistoryItem, error) {
 	amount, err := strconv.ParseFloat(*res.Total[`UnblendedCost`].Amount, 64)
 	if err != nil {
 		return BudgetHistoryItem{}, err
@@ -93,10 +93,10 @@ func awsResultByTimeToBudgetHistoryItem(res *awscostexplorer.ResultByTime) (Budg
 	return BudgetHistoryItem(map[string]float64{dateStr: amount}), nil
 }
 
-func makeStringPointer(str string) *string {
+func MakeStringPointer(str string) *string {
 	return &str
 }
 
-func makeInt64Pointer(n int64) *int64 {
+func MakeInt64Pointer(n int64) *int64 {
 	return &n
 }

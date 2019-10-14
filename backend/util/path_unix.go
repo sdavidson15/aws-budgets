@@ -1,5 +1,5 @@
 // +build !windows
 
-package main
+package util
 
 const PATH_SEPARATOR = "/"

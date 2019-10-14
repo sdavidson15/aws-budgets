@@ -7,21 +7,24 @@ import (
 	"os"
 	"sync"
 	"time"
+	
+	"aws-budgets/backend/model"
+	"aws-budgets/backend/util"
 )
 
-type cache struct {
+type awsClientCache struct {
 	locks    []sync.Mutex
 	useCache bool
 }
 
-func (c *cache) getBudgets(accountID string) (Budgets, error) {
+func (c *awsClientCache) getBudgets(accountID string) (model.Budgets, error) {
 	if !c.useCache {
-		return Budgets{}, nil
+		return model.Budgets{}, nil
 	}
 
 	filePath, err := c.getBudgetsFilePath(accountID)
 	if err != nil {
-		return Budgets{}, err
+		return model.Budgets{}, err
 	}
 
 	bytes, err := ioutil.ReadFile(filePath)
@@ -29,45 +32,46 @@ func (c *cache) getBudgets(accountID string) (Budgets, error) {
 		time.Sleep(time.Second) // Give it a second
 		bytes, err = ioutil.ReadFile(filePath)
 		if err != nil {
-			return Budgets{}, err
+			return model.Budgets{}, err
 		}
 	}
 
-	var budgets Budgets
+	var budgets model.Budgets
 	json.Unmarshal(bytes, &budgets)
 	return budgets, nil
 }
 
 // FIXME: budget history cache files should be for account, not account+budgetName combo
-func (c *cache) getBudgetHistory(accountID string) (BudgetHistory, error) {
+func (c *awsClientCache) getBudgetHistory(accountID string) (model.BudgetHistory, error) {
 	if !c.useCache {
-		return BudgetHistory{}, nil
+		return model.BudgetHistory{}, nil
 	}
 
 	pwd, err := os.Getwd()
 	if err != nil {
-		return BudgetHistory{}, err
+		return model.BudgetHistory{}, err
 	}
 
+	budgetName := ``
 	bytes, err := ioutil.ReadFile(fmt.Sprintf(
 		"%s%smockData%sbudgetHistory%s%s_%s.json",
 		pwd,
-		PATH_SEPARATOR,
-		PATH_SEPARATOR,
-		PATH_SEPARATOR,
+		util.PATH_SEPARATOR,
+		util.PATH_SEPARATOR,
+		util.PATH_SEPARATOR,
 		accountID,
 		budgetName,
 	))
 	if err != nil {
-		return BudgetHistory{}, err
+		return model.BudgetHistory{}, err
 	}
 
-	var budgetHistory BudgetHistory
+	var budgetHistory model.BudgetHistory
 	json.Unmarshal(bytes, &budgetHistory)
 	return budgetHistory, nil
 }
 
-func (c *cache) updateBudget(accountID, budgetName string, budgetAmount float64) error {
+func (c *awsClientCache) updateBudget(accountID, budgetName string, budgetAmount float64) error {
 	budgets, err := c.getBudgets(accountID)
 	if err != nil {
 		return err
@@ -103,7 +107,7 @@ func (c *cache) updateBudget(accountID, budgetName string, budgetAmount float64)
 	return nil
 }
 
-func (c *cache) writeBudgetsFile(filePath string, budgets Budgets) error {
+func (c *awsClientCache) writeBudgetsFile(filePath string, budgets model.Budgets) error {
 	data, err := json.Marshal(budgets)
 	if err != nil {
 		return err
@@ -118,7 +122,7 @@ func (c *cache) writeBudgetsFile(filePath string, budgets Budgets) error {
 	return ioutil.WriteFile(filePath, data, 0644)
 }
 
-func (c *cache) getBudgetsFilePath(accountID string) (string, error) {
+func (c *awsClientCache) getBudgetsFilePath(accountID string) (string, error) {
 	pwd, err := os.Getwd()
 	if err != nil {
 		return "", err
@@ -127,9 +131,9 @@ func (c *cache) getBudgetsFilePath(accountID string) (string, error) {
 	return fmt.Sprintf(
 		"%s%smockData%saccountbudgets%s%s.json",
 		pwd,
-		PATH_SEPARATOR,
-		PATH_SEPARATOR,
-		PATH_SEPARATOR,
+		util.PATH_SEPARATOR,
+		util.PATH_SEPARATOR,
+		util.PATH_SEPARATOR,
 		accountID,
 	), nil
 }

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"time"
+	
+	"aws-budgets/backend/model"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
@@ -16,15 +18,15 @@ type awsClient struct {
 	accountID          string
 	region             string
 	roleName           string
-	cache              *cache
+	cache              *awsClientCache
 	budgetsClient      *awsbudgets.Budgets
 	costexplorerClient *awscostexplorer.CostExplorer
 }
 
-func (aws *awsClient) getBudgetHistory() (BudgetHistory, error) {
+func (aws *awsClient) GetBudgetHistory() (model.BudgetHistory, error) {
 	budgetHistory, err := aws.cache.getBudgetHistory(aws.accountID)
 	if err != nil {
-		return BudgetHistory{}, err
+		return model.BudgetHistory{}, err
 	}
 	if len(budgetHistory) > 0 {
 		return budgetHistory, nil
@@ -38,8 +40,8 @@ func (aws *awsClient) getBudgetHistory() (BudgetHistory, error) {
 	start := fmt.Sprintf("%d%s", year-1, end[4:])
 
 	input := &awscostexplorer.GetCostAndUsageInput{
-		Granularity: makeStringPointer(`MONTHLY`),
-		Metrics:     []*string{makeStringPointer(`UnblendedCost`)},
+		Granularity: model.MakeStringPointer(`MONTHLY`),
+		Metrics:     []*string{model.MakeStringPointer(`UnblendedCost`)},
 		TimePeriod: &awscostexplorer.DateInterval{
 			End:   &end,
 			Start: &start,
@@ -51,7 +53,7 @@ func (aws *awsClient) getBudgetHistory() (BudgetHistory, error) {
 		log.Printf("[INFO] AWS Costexplorer GetCostAndUsage for account: %s\n", aws.accountID)
 		output, err := aws.costexplorerClient.GetCostAndUsage(input)
 		if err != nil {
-			return BudgetHistory{}, err
+			return model.BudgetHistory{}, err
 		}
 
 		results = append(results, output.ResultsByTime...)
@@ -61,17 +63,17 @@ func (aws *awsClient) getBudgetHistory() (BudgetHistory, error) {
 		}
 	}
 
-	return awsResultsByTimeToBudgetHistory(results)
+	return model.AwsResultsByTimeToBudgetHistory(results)
 }
 
-func (aws *awsClient) updateBudget(budgetName string, budgetAmount float64) error {
+func (aws *awsClient) UpdateBudget(budgetName string, budgetAmount float64) error {
 	return aws.cache.updateBudget(aws.accountID, budgetName, budgetAmount)
 }
 
-func (aws *awsClient) getBudgets() (Budgets, error) {
+func (aws *awsClient) GetBudgets() (model.Budgets, error) {
 	budgets, err := aws.cache.getBudgets(aws.accountID)
 	if err != nil {
-		return Budgets{}, err
+		return model.Budgets{}, err
 	}
 	if len(budgets) > 0 {
 		return budgets, nil
@@ -79,7 +81,7 @@ func (aws *awsClient) getBudgets() (Budgets, error) {
 
 	input := &awsbudgets.DescribeBudgetsInput{
 		AccountId:  &aws.accountID,
-		MaxResults: makeInt64Pointer(100),
+		MaxResults: model.MakeInt64Pointer(100),
 	}
 
 	awsBudgets := []*awsbudgets.Budget{}
@@ -87,7 +89,7 @@ func (aws *awsClient) getBudgets() (Budgets, error) {
 		log.Printf("[INFO] AWS Budgets DescribeBudgets for account: %s\n", aws.accountID)
 		output, err := aws.budgetsClient.DescribeBudgets(input)
 		if err != nil {
-			return Budgets{}, err
+			return model.Budgets{}, err
 		}
 
 		awsBudgets = append(awsBudgets, output.Budgets...)
@@ -97,16 +99,16 @@ func (aws *awsClient) getBudgets() (Budgets, error) {
 		}
 	}
 
-	return awsBudgetsToBudgets(aws.accountID, awsBudgets)
+	return model.AwsBudgetsToBudgets(aws.accountID, awsBudgets)
 }
 
-func newAwsClient(accountID string, region string, roleName string, cache *cache) *awsClient {
+func NewAwsClient(accountID string, region string, roleName string, cache *awsClientCache) *awsClient {
 	session := session.Must(session.NewSession())
 	roleArn := fmt.Sprintf("arn:aws:iam::%s:role/%s", accountID, roleName)
 	roleCreds := stscreds.NewCredentials(session, roleArn)
 
 	if cache == nil {
-		cache = &cache{}
+		cache = &awsClientCache{}
 	}
 
 	return &awsClient{

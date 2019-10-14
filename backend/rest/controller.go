@@ -1,17 +1,21 @@
-package main
+package rest
 
 import (
 	"fmt"
 	"sync"
 	"time"
+
+	"aws-budgets/backend/aws"
+	"aws-budgets/backend/model"
+	"aws-budgets/backend/util"
 )
 
-func getAccountBudgets() (Budgets, error) {
+func getAccountBudgets() (model.Budgets, error) {
 	var wg sync.WaitGroup
 	wg.Add(len(accountList))
-	terr := newThreadSafeError()
+	terr := util.NewThreadSafeError()
 
-	budgetsToFlatten := make([]Budgets, len(accountList))
+	budgetsToFlatten := make([]model.Budgets, len(accountList))
 	batchSize := 50          // batch by 50 to avoid getting rate limited
 	batchWait := time.Second // wait 1 second after each batch
 
@@ -19,15 +23,15 @@ func getAccountBudgets() (Budgets, error) {
 		go func(index int, accountID string) {
 			defer wg.Done()
 
-			awsClient := newAwsClient(accountID, DEFAULT_REGION, DEFAULT_ROLE_NAME)
-			budgets, err := awsClient.getBudgets()
+			awsClient := aws.NewAwsClient(accountID, DEFAULT_REGION, DEFAULT_ROLE_NAME, nil)
+			budgets, err := awsClient.GetBudgets()
 			if err != nil {
-				terr.set(err)
+				terr.Set(err)
 			}
 
-			budgetHistory, err := awsClient.getBudgetHistory()
+			budgetHistory, err := awsClient.GetBudgetHistory()
 			if err != nil {
-				terr.set(err)
+				terr.Set(err)
 			}
 
 			for j, _ := range budgets {
@@ -37,18 +41,18 @@ func getAccountBudgets() (Budgets, error) {
 			budgetsToFlatten[index] = budgets
 		}(i, acctID)
 
-		if (i+1)%50 == 0 {
+		if (i+1)%batchSize == 0 {
 			time.Sleep(batchWait)
 		}
 	}
 
 	wg.Wait()
 
-	if err := terr.get(); err != nil {
-		return Budgets{}, err
+	if err := terr.Get(); err != nil {
+		return model.Budgets{}, err
 	}
 
-	accountBudgets := Budgets{}
+	accountBudgets := model.Budgets{}
 	for _, budgets := range budgetsToFlatten {
 		accountBudgets = append(accountBudgets, budgets...)
 	}
@@ -56,51 +60,51 @@ func getAccountBudgets() (Budgets, error) {
 	return accountBudgets, nil
 }
 
-func updateAccountBudgets(newBudgets Budgets) error {
+func updateAccountBudgets(newBudgets model.Budgets) error {
 	oldBudgets, err := getAccountBudgets()
 	if err != nil {
 		return err
 	}
 
-	oldBudgetsMap := make(map[string]Budget, len(oldBudgets))
+	oldBudgetsMap := make(map[string]model.Budget, len(oldBudgets))
 	for _, b := range oldBudgets {
 		oldBudgetsMap[b.AccountID+b.BudgetName] = b
 	}
 
 	var wg sync.WaitGroup
 	wg.Add(len(newBudgets))
-	terr := newThreadSafeError()
+	terr := util.NewThreadSafeError()
 
 	for _, nb := range newBudgets {
-		go func(newBudget Budget) {
+		go func(newBudget model.Budget) {
 			defer wg.Done()
 
 			oldBudget, ok := oldBudgetsMap[newBudget.AccountID+newBudget.BudgetName]
-			if !ok || newBudget.equals(oldBudget) {
+			if !ok || budgetsEqual(newBudget, oldBudget) {
 				return
 			}
 
-			awsClient := newAwsClient(newBudget.AccountID, DEFAULT_REGION, DEFAULT_ROLE_NAME)
+			awsClient := aws.NewAwsClient(newBudget.AccountID, DEFAULT_REGION, DEFAULT_ROLE_NAME, nil)
 			if newBudget.BudgetName != oldBudget.BudgetName {
 				// TODO: rename the budget, then finish the update. Just returning for now
 				// TODO: handle renaming a budget to an existing budget name. That could get nasty
 				// since this is multithreaded.
-				terr.set(fmt.Errorf(`Renaming a budget is not yet implemented.`))
+				terr.Set(fmt.Errorf(`Renaming a budget is not yet implemented.`))
 				return
 			}
 
-			err := awsClient.updateBudget(newBudget.BudgetName, newBudget.BudgetAmount)
+			err := awsClient.UpdateBudget(newBudget.BudgetName, newBudget.BudgetAmount)
 			if err != nil {
-				terr.set(err)
+				terr.Set(err)
 			}
 		}(nb)
 	}
 
 	wg.Wait()
-	return terr.get()
+	return terr.Get()
 }
 
-func (b Budget) equals(other Budget) bool {
+func budgetsEqual(b, other model.Budget) bool {
 	return b.AccountID == other.AccountID &&
 		b.BudgetName == other.BudgetName &&
 		b.BudgetAmount == other.BudgetAmount
