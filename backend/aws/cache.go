@@ -141,8 +141,9 @@ func (c *AwsClientCache) getFilePath(accountID, subdirectory string) (string, er
 	}
 
 	return fmt.Sprintf(
-		"%s%scache%s%s%s%s.json",
+		"%s%saws%scache%s%s%s%s.json",
 		pwd,
+		util.PATH_SEPARATOR,
 		util.PATH_SEPARATOR,
 		util.PATH_SEPARATOR,
 		subdirectory,
