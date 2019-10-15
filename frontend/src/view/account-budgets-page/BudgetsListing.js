@@ -15,6 +15,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
 import { StyledSwitch } from './../DefaultStyles';
@@ -48,8 +49,9 @@ function getSpendProgressColor(spend, budgetAmount) {
   };
 }
 
-function getBudgetAmount(row) {
-  if (View.EditAccountBudgets()) {
+// TODO: pull this (and the outlined text fields from EditFields) into their own DefaultElements file.
+function getBudgetAmountElement(row) {
+  if (View.EditAccountBudgets() && row.budgetAmount === row.suggestedBudget) {
     return (
       <TextField
         fullWidth
@@ -62,6 +64,24 @@ function getBudgetAmount(row) {
         }}
         onChange={(e) => handleBudgetAmountChange(e, row)}
       />)
+  } else if (View.EditAccountBudgets()) {
+    var suggestion = ("Suggested: ").concat(Formatters.numToCurrencyString(row.suggestedBudget));
+    return (
+      <Tooltip title={suggestion}>
+        <TextField
+          error
+          fullWidth
+          defaultValue={row.budgetAmount}
+          InputProps={{
+            startAdornment:
+              <InputAdornment position="start">
+                $
+              </InputAdornment>
+          }}
+          onChange={(e) => handleBudgetAmountChange(e, row)}
+        />
+      </Tooltip>
+    )
   }
   return Formatters.numToCurrencyString(row.budgetAmount);
 }
@@ -116,7 +136,7 @@ export default function BudgetHistory() {
                   {row.name}
                 </Button>
               </TableCell>
-              <TableCell>{getBudgetAmount(row)}</TableCell>
+              <TableCell>{getBudgetAmountElement(row)}</TableCell>
               <TableCell>
                 {Formatters.numToCurrencyString((state.checked) ? row.forecastedSpend : row.currentSpend)}
               </TableCell>

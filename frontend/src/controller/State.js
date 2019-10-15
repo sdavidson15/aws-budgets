@@ -1,5 +1,6 @@
 var AppState = (function () {
     // TODO: don't capitalize private vars
+    // TODO: instead of holding individual fields like BudgetAmount, just hold a copy of the current budget.
     var AccountBudgets,
         AccountID,
         AlertEmails,
@@ -10,6 +11,7 @@ var AppState = (function () {
         CurrentSpend,
         ForecastedSpend,
         LoadingAccountBudgets=false,
+        SuggestedBudget,
 
         // Getters
         GetAccountBudgets = function () {
@@ -44,6 +46,9 @@ var AppState = (function () {
         GetLoadingAccountBudgets = function () {
             return LoadingAccountBudgets;
         },
+        GetSuggestedBudget = function () {
+            return SuggestedBudget;
+        },
 
         // Setters
         SetAccountBudgets = function (accountBudgets) {
@@ -70,6 +75,9 @@ var AppState = (function () {
         SetLoadingAccountBudgets = function (status) {
             LoadingAccountBudgets = status;
         },
+        SetSuggestedBudget = function (suggested) {
+            SuggestedBudget = suggested;
+        },
 
         init = function (dummy) {
             AlertEmails = (dummy) ? ['dummy.mock@email.com', 'mock.dummy@email.com'] : [];
@@ -80,6 +88,7 @@ var AppState = (function () {
             BudgetName = '';
             CurrentSpend = -1;
             ForecastedSpend = -1;
+            SuggestedBudget = -1;
         };
 
     return {
@@ -96,6 +105,7 @@ var AppState = (function () {
         CurrentSpend: GetCurrentSpend,
         ForecastedSpend: GetForecastedSpend,
         LoadingAccountBudgets: GetLoadingAccountBudgets,
+        SuggestedBudget: GetSuggestedBudget,
 
         // Setters TODO: idea, setters take a package name. Only files within this package can change state.
         SetAccountBudgets: SetAccountBudgets,
@@ -105,7 +115,8 @@ var AppState = (function () {
         SetBudgetName: SetBudgetName,
         SetCurrentSpend: SetCurrentSpend,
         SetForecastedSpend: SetForecastedSpend,
-        SetLoadingAccountBudgets: SetLoadingAccountBudgets
+        SetLoadingAccountBudgets: SetLoadingAccountBudgets,
+        SetSuggestedBudget: SetSuggestedBudget
     };
 }());
 

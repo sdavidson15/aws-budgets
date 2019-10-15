@@ -1,53 +1,52 @@
 package aws
 
 import (
+	"aws-budgets/backend/model"
+	"aws-budgets/backend/util"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"sync"
 	"time"
-	
-	"aws-budgets/backend/model"
-	"aws-budgets/backend/util"
 )
 
 const BUDGETS_DIRECTORY string = `accountbudgets`
 const HISTORY_DIRECTORY string = `budgetHistory`
 
 type AwsClientCache struct {
-	budgetLocks    map[string]*sync.Mutex // filepath to mutex for account budgets files
+	budgetLocks  map[string]*sync.Mutex // filepath to mutex for account budgets files
 	historyLocks map[string]*sync.Mutex // filepath to mutex for budget history files
-	useCache bool
+	useCache     bool
 }
 
 func (c *AwsClientCache) cacheBudgets(accountID string, budgets model.Budgets) error {
 	lock := sync.Mutex{}
 	c.budgetLocks[accountID] = &lock
-	
+
 	lock.Lock()
 	defer lock.Unlock()
-	
+
 	filepath, err := c.getFilePath(accountID, BUDGETS_DIRECTORY)
 	if err != nil {
 		return err
 	}
-	
+
 	return c.writeFile(filepath, budgets)
 }
 
 func (c *AwsClientCache) cacheBudgetHistory(accountID string, budgetHistory model.BudgetHistory) error {
 	lock := sync.Mutex{}
 	c.historyLocks[accountID] = &lock
-	
+
 	lock.Lock()
 	defer lock.Unlock()
-	
+
 	filepath, err := c.getFilePath(accountID, HISTORY_DIRECTORY)
 	if err != nil {
 		return err
 	}
-	
+
 	return c.writeFile(filepath, budgetHistory)
 }
 
@@ -82,7 +81,7 @@ func (c *AwsClientCache) getBudgetHistory(accountID string) (model.BudgetHistory
 	if !ok || !c.useCache {
 		return model.BudgetHistory{}, nil
 	}
-	
+
 	filepath, err := c.getFilePath(accountID, HISTORY_DIRECTORY)
 	if err != nil {
 		return model.BudgetHistory{}, err
@@ -103,10 +102,10 @@ func (c *AwsClientCache) updateBudget(accountID, budgetName string, budgetAmount
 	if !ok {
 		return fmt.Errorf("Cache lock for account %s does not exist.", accountID)
 	}
-	
+
 	lock.Lock()
 	defer lock.Unlock()
-	
+
 	budgets, err := c.getBudgets(accountID)
 	if err != nil {
 		return err
@@ -177,8 +176,8 @@ func (c *AwsClientCache) getFilePath(accountID, subdirectory string) (string, er
 
 func NewAwsClientCache(useCache bool) *AwsClientCache {
 	return &AwsClientCache{
-		budgetLocks: map[string]*sync.Mutex{},
+		budgetLocks:  map[string]*sync.Mutex{},
 		historyLocks: map[string]*sync.Mutex{},
-		useCache: useCache,
+		useCache:     useCache,
 	}
 }

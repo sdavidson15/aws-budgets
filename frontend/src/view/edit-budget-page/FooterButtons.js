@@ -19,6 +19,7 @@ function onSubmit() {
     AppState.AccountID(),
     AppState.BudgetName(),
     View.EditFieldBudgetAmount(),
+    AppState.SuggestedBudget(),
     AppState.CurrentSpend(),
     AppState.ForecastedSpend(),
     AppState.BudgetHistory()

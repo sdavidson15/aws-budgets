@@ -1,8 +1,8 @@
 var Formatters = (function () {
     var defaultCurrency = '$',
 
-        formatAccountBudgetsData = function (id, accountId, name, budgetAmount, currentSpend, forecastedSpend, budgetHistory) {
-            return { id, accountId, name, budgetAmount, currentSpend, forecastedSpend, budgetHistory };
+        formatAccountBudgetsData = function (id, accountId, name, budgetAmount, suggestedBudget, currentSpend, forecastedSpend, budgetHistory) {
+            return { id, accountId, name, budgetAmount, suggestedBudget, currentSpend, forecastedSpend, budgetHistory };
         },
 
         formatAccountBudgetsUploadData = function (AccountID, BudgetName, BudgetAmount, CurrentSpend, ForecastedSpend, BudgetHistory = []) {
