@@ -36,6 +36,21 @@ func (c *AwsClientCache) cacheBudgets(accountID string, budgets model.Budgets) e
 	return c.writeFile(filepath, budgets)
 }
 
+func (c *AwsClientCache) cacheBudgetHistory(accountID string, budgetHistory model.BudgetHistory) error {
+	lock := sync.Mutex{}
+	c.historyLocks[accountID] = &lock
+	
+	lock.Lock()
+	defer lock.Unlock()
+	
+	filepath, err := c.getFilePath(accountID, HISTORY_DIRECTORY)
+	if err != nil {
+		return err
+	}
+	
+	return c.writeFile(filepath, budgetHistory)
+}
+
 func (c *AwsClientCache) getBudgets(accountID string) (model.Budgets, error) {
 	_, ok := c.budgetLocks[accountID]
 	if !ok || !c.useCache {

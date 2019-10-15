@@ -10,7 +10,6 @@ import (
 func main() {
     acache := aws.NewAwsClientCache(true)
     controller := rest.NewController(acache)
-    
     if err := controller.Init(); err != nil {
         panic(err)
     }
