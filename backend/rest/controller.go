@@ -20,7 +20,7 @@ func (c *Controller) getAccountBudgets() (model.Budgets, error) {
 	terr := util.NewThreadSafeError()
 
 	budgetsToFlatten := make([]model.Budgets, len(accountList))
-	batchSize := 50          // batch by 50 to avoid getting rate limited
+	batchSize := 25          // batch by 50 to avoid getting rate limited
 	batchWait := time.Second // wait 1 second after each batch
 
 	for i, acctID := range accountList {

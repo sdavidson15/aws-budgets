@@ -4,6 +4,7 @@ type Budget struct {
 	AccountID       string
 	BudgetName      string
 	BudgetAmount    float64
+	SuggestedAmount float64
 	CurrentSpend    float64
 	ForecastedSpend float64
 	BudgetHistory   BudgetHistory
