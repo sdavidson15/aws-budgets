@@ -1,12 +1,11 @@
 package rest
 
 import (
+	"aws-budgets/backend/model"
 	"encoding/json"
 	"io"
 	"io/ioutil"
 	"net/http"
-	
-	"aws-budgets/backend/model"
 )
 
 const byteLimit int64 = 1048576
@@ -49,17 +48,17 @@ func updateAccountBudgetsHandler(controller *Controller) http.HandlerFunc {
 			sendServerError(w, r, err)
 			return
 		}
-	
+
 		var newBudgets model.Budgets
 		if err := json.Unmarshal(body, &newBudgets); err != nil {
 			sendResponse(w, r, err, http.StatusUnprocessableEntity)
 			return
 		}
-	
+
 		if err := controller.updateAccountBudgets(newBudgets); err != nil {
 			sendServerError(w, r, err)
 		}
-		
+
 		sendResponse(w, r, "Account budgets updated.", http.StatusOK)
 	}
 }

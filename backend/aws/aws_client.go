@@ -1,11 +1,10 @@
 package aws
 
 import (
+	"aws-budgets/backend/model"
 	"fmt"
 	"log"
 	"time"
-	
-	"aws-budgets/backend/model"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
@@ -56,11 +55,11 @@ func (aws *awsClient) GetBudgets() (model.Budgets, error) {
 	if err != nil {
 		return model.Budgets{}, err
 	}
-	
+
 	if err = aws.cache.cacheBudgets(aws.accountID, budgets); err != nil {
 		return model.Budgets{}, err
 	}
-	
+
 	return budgets, nil
 }
 
@@ -108,23 +107,23 @@ func (aws *awsClient) GetBudgetHistory() (model.BudgetHistory, error) {
 	if err != nil {
 		return model.BudgetHistory{}, err
 	}
-	
+
 	if err := aws.cache.cacheBudgetHistory(aws.accountID, budgetHistory); err != nil {
 		return model.BudgetHistory{}, err
 	}
-	
+
 	return budgetHistory, nil
 }
 
 func (aws *awsClient) UpdateBudget(budgetName string, budgetAmount float64) error {
 	budget := awsbudgets.Budget{
-	    BudgetLimit: &awsbudgets.Spend{
-		    Amount: model.MakeStringPointer(fmt.Sprintf("%.2f", budgetAmount)),
-		    Unit: model.MakeStringPointer(`USD`),
-	    },
-	    BudgetName: &budgetName,
-	    BudgetType: model.MakeStringPointer(`COST`),
-	    TimeUnit: model.MakeStringPointer(`MONTHLY`),
+		BudgetLimit: &awsbudgets.Spend{
+			Amount: model.MakeStringPointer(fmt.Sprintf("%.2f", budgetAmount)),
+			Unit:   model.MakeStringPointer(`USD`),
+		},
+		BudgetName: &budgetName,
+		BudgetType: model.MakeStringPointer(`COST`),
+		TimeUnit:   model.MakeStringPointer(`MONTHLY`),
 	}
 	_, err := aws.budgetsClient.UpdateBudget(&awsbudgets.UpdateBudgetInput{
 		AccountId: &aws.accountID,
@@ -133,7 +132,7 @@ func (aws *awsClient) UpdateBudget(budgetName string, budgetAmount float64) erro
 	if err != nil {
 		return err
 	}
-	
+
 	return aws.cache.updateBudget(aws.accountID, budgetName, budgetAmount)
 }
 

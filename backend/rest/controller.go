@@ -1,13 +1,12 @@
 package rest
 
 import (
-	"fmt"
-	"sync"
-	"time"
-
 	"aws-budgets/backend/aws"
 	"aws-budgets/backend/model"
 	"aws-budgets/backend/util"
+	"fmt"
+	"sync"
+	"time"
 )
 
 type Controller struct {
