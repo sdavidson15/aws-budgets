@@ -8,11 +8,13 @@ import AccountBudgets from "./account-budgets-page/AccountBudgets";
 import AppState from './../controller/State';
 import Budget from './budget-page/Budget';
 import EditBudget from './edit-budget-page/EditBudget';
+import Report from './report-page/Report';
 import Reports from './reports-page/Reports';
 
 const AccountBudgetsPage = 'AccountBudgets';
 const BudgetPage = 'Budget';
 const EditBudgetPage = 'EditBudget';
+const ReportPage = 'Report';
 const ReportsPage = 'Reports';
 
 var View = (function () {
@@ -80,6 +82,11 @@ var View = (function () {
             renderPage(<EditBudget />, EditBudgetPage);
         },
 
+        RenderReportPage = function () {
+            if (currentPage === ReportPage) return;
+            renderPage(<Report />, ReportPage);
+        },
+
         RenderReportsPage = function () {
             if (currentPage === ReportsPage) return;
             renderPage(<Reports />, ReportsPage);
@@ -128,6 +135,7 @@ var View = (function () {
         HandleEditClick: HandleEditClick,
         RenderAccountBudgetsPage: RenderAccountBudgetsPage,
         RenderBudgetPage: RenderBudgetPage,
+        RenderReportPage: RenderReportPage,
         RenderReportsPage: RenderReportsPage,
         SetDrawerOpen: SetDrawerOpen,
         SetEditAccountBudgets: SetEditAccountBudgets,

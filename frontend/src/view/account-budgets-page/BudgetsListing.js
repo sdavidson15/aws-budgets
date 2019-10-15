@@ -95,7 +95,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function BudgetHistory() {
+export default function BudgetsListing() {
   const [state, setState] = React.useState({
     checked: false,
   });

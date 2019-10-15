@@ -22,6 +22,7 @@ var Controller = (function () {
         },
 
         LoadBudget = function (accountId, budgetName) {
+            // TODO: just use the budget id
             var accountBudgets = AppState.AccountBudgets(),
                 index = 0,
                 budgetHistory = [],
@@ -67,6 +68,23 @@ var Controller = (function () {
             AppState.SetForecastedSpend(budget.forecastedSpend);
         },
 
+        LoadReport = function (id) {
+            var reports = AppState.Reports(),
+                index = 0,
+                report;
+
+            while (index < reports.length) {
+                report = reports[index];
+                if (report.id === id) break;
+                index++;
+            }
+            if (index >= reports.length) {
+                alert('Error: could not find report.'); // TODO: throw an exception
+                return;
+            }
+            AppState.SetCurrentReport(report);
+        },
+
         UpdateAccountBudgets = async function (accountBudgets) {
             var budgets = [];
             for (var i = 0; i < accountBudgets.length; i++) {
@@ -87,6 +105,7 @@ var Controller = (function () {
     return {
         init: init,
         LoadBudget: LoadBudget,
+        LoadReport: LoadReport,
         UpdateAccountBudgets: UpdateAccountBudgets
     };
 }());
