@@ -84,6 +84,14 @@ func (c *AwsClientCache) getBudgetHistory(accountID string) (model.BudgetHistory
 }
 
 func (c *AwsClientCache) updateBudget(accountID, budgetName string, budgetAmount float64) error {
+	lock, ok := c.budgetLocks[accountID]
+	if !ok {
+		return fmt.Errorf("Cache lock for account %s does not exist.", accountID)
+	}
+	
+	lock.Lock()
+	defer lock.Unlock()
+	
 	budgets, err := c.getBudgets(accountID)
 	if err != nil {
 		return err

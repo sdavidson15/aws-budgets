@@ -67,6 +67,23 @@ func (aws *awsClient) GetBudgetHistory() (model.BudgetHistory, error) {
 }
 
 func (aws *awsClient) UpdateBudget(budgetName string, budgetAmount float64) error {
+	budget := awsbudgets.Budget{
+	    BudgetLimit: &awsbudgets.Spend{
+		    Amount: model.MakeStringPointer(fmt.Sprint("%.2f", budgetAmount)),
+		    Unit: model.MakeStringPointer(`USD`),
+	    },
+	    BudgetName: &budgetName,
+	    BudgetType: model.MakeStringPointer(`COST`),
+	    TimeUnit: model.MakeStringPointer(`MONTHLY`),
+	}
+	_, err := aws.budgetsClient.UpdateBudget(&awsbudgets.UpdateBudgetInput{
+		AccountId: &aws.accountID,
+		NewBudget: &budget,
+	})
+	if err != nil {
+		return err
+	}
+	
 	return aws.cache.updateBudget(aws.accountID, budgetName, budgetAmount)
 }
 
