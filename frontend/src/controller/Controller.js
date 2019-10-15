@@ -11,8 +11,9 @@ var Controller = (function () {
                 budgets = [];
 
             for (var i = 0; i < accountBudgets.length; i++) {
-                var b = accountBudgets[i];
-                var data = Formatters.formatAccountBudgetsData(i, b.AccountID, b.BudgetName, b.BudgetAmount, b.CurrentSpend, b.ForecastedSpend, b.BudgetHistory);
+                let b = accountBudgets[i];
+                let data = Formatters.formatAccountBudgetsData(i, b.AccountID, b.BudgetName, b.BudgetAmount,
+                    b.SuggestedBudget, b.CurrentSpend, b.ForecastedSpend, b.BudgetHistory);
                 budgets.push(data);
             }
 
@@ -60,6 +61,7 @@ var Controller = (function () {
             AppState.SetAccountID(accountId);
             AppState.SetBudgetName(budgetName);
             AppState.SetBudgetAmount(budget.budgetAmount);
+            AppState.SetSuggestedBudget(budget.suggestedBudget);
             AppState.SetBudgetHistory(budgetHistory);
             AppState.SetCurrentSpend(budget.currentSpend);
             AppState.SetForecastedSpend(budget.forecastedSpend);
