@@ -13,45 +13,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import Controller from '../../controller/Controller';
+import Controller from './../../controller/Controller';
 import View from './../View';
-
-function onEditClick() {
-    View.HandleEditClick();
-}
-
-function onSubmitClick() {
-    var edittedBudgets = View.EdittedBudgets(),
-        budgets = [];
-
-    for (var id in edittedBudgets) {
-        if (edittedBudgets.hasOwnProperty(id))
-            budgets.push(edittedBudgets[id]);
-    }
-
-    Controller.UpdateAccountBudgets(budgets);
-    View.SetEditAccountBudgets(false);
-    View.RenderAccountBudgetsPage();
-}
-
-function onCancelClick() {
-    View.SetEditAccountBudgets(false);
-    View.RenderAccountBudgetsPage();
-}
-
-function showEditIcon() {
-    if (View.CurrentPageIsEditable() && !View.EditAccountBudgets()) return {};
-    return {
-        display: "none",
-    }
-}
-
-function showSubmitCancelIcon() {
-    if (View.EditAccountBudgets()) return {};
-    return {
-        display: "none",
-    }
-}
 
 const useStyles = makeStyles(theme => ({
     toolbar: {
@@ -83,44 +46,90 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function MenuBar(args) {
-    const classes = useStyles();
-    var open = args.open;
-    const handleDrawerOpen = () => {
-        args.setOpen(true);
+export default class MenuBar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.classes = useStyles();
+        this.open = props.open;
+        this.setOpen = props.setOpen;
+        this.title = props.title;
+    }
+
+    handleDrawerOpen() {
+        this.setOpen(true);
         View.SetDrawerOpen(true);
     };
 
-    return (
-        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-            <Toolbar className={classes.toolbar}>
-                <IconButton
-                    edge="start"
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={handleDrawerOpen}
-                    className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-                >
-                    <MenuIcon />
-                </IconButton>
-                <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                    {args.title}
-                </Typography>
-                <IconButton color="inherit" style={showEditIcon()} onClick={onEditClick}>
-                    <EditIcon />
-                </IconButton>
-                <IconButton color="inherit" style={showSubmitCancelIcon()} onClick={onCancelClick}>
-                    <CloseIcon />
-                </IconButton>
-                <IconButton color="inherit" style={showSubmitCancelIcon()} onClick={onSubmitClick}>
-                    <CheckIcon />
-                </IconButton>
-                <IconButton color="inherit">
-                    <Badge badgeContent={4} color="secondary">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-            </Toolbar>
-        </AppBar>
-    );
+    handleEditClick() {
+        // Edit button appears on many pages. Let View handle this,
+        // since only View is aware of which page is rendered.
+        View.HandleEditClick();
+    }
+
+    handleCancelClick() {
+        // Cancel button only appears in the AccountBudgets page when editing.
+        View.SetEditAccountBudgets(false);
+        View.RenderAccountBudgetsPage();
+    }
+
+    handleSubmitClick() {
+        // Submit button only appears in the AccountBudgets page when editing.
+        // Collect all edited budgets to submit to the controller to update.
+        var editedBudgets = View.EditedBudgets(),
+            budgets = [];
+
+        for (var id in editedBudgets) {
+            if (editedBudgets.hasOwnProperty(id))
+                budgets.push(editedBudgets[id]);
+        }
+
+        Controller.UpdateAccountBudgets(budgets);
+        View.SetEditAccountBudgets(false);
+        View.RenderAccountBudgetsPage();
+    }
+
+    render() {
+        let appBarClass = clsx(this.classes.appBar, this.open && this.classes.appBarShift);
+        let menuButtonClass = clsx(this.classes.menuButton, this.open && this.classes.menuButtonHidden)
+
+        let editButton = null,
+            submitButton = null,
+            cancelButton = null;
+
+        // Conditional rendering
+        if (View.CurrentPageIsEditable() && !View.EditAccountBudgets()) {
+            editButton = <IconButton color="inherit" onClick={handleEditClick}><EditIcon /></IconButton>
+        }
+        if (View.EditAccountBudgets()) {
+            cancelButton = <IconButton color="inherit" onClick={handleCancelClick}><CloseIcon /></IconButton>
+            submitButton = <IconButton color="inherit" onClick={handleSubmitClick}><CheckIcon /></IconButton>
+        }
+
+        return (
+            <AppBar position="absolute" className={appBarClass}>
+                <Toolbar className={this.classes.toolbar}>
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        className={menuButtonClass}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography component="h1" variant="h6" color="inherit" noWrap className={this.classes.title}>
+                        {this.title}
+                    </Typography>
+                    {editButton}
+                    {cancelButton}
+                    {submitButton}
+                    <IconButton color="inherit">
+                        <Badge badgeContent={4} color="secondary">
+                            <NotificationsIcon />
+                        </Badge>
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
+        );
+    }
 }

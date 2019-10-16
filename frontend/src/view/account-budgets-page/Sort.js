@@ -2,15 +2,41 @@
 
 import React from 'react';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography';
 
-import Title from './../budget-page/Title'; // FIXME: pull this into somewhere more reusable
+const useStyles = makeStyles(theme => ({
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
+  sortFixedHeight: {
+    height: 100,
+  },
+}));
 
-export default function Sort() {
-  return (
-    <React.Fragment>
-      <Title>Sort by</Title>
-      <TextField></TextField>
-    </React.Fragment>
-  );
+export default class Sort extends React.Component {
+  constructor() {
+    super(props);
+    this.classes = useStyles();
+  }
+
+  render() {
+    let paperClass = clsx(this.classes.paper, this.classes.sortFixedHeight);
+
+    return (
+      <Paper className={paperClass}>
+        <React.Fragment>
+          <Typography component="h2" variant="h6" color="primary" gutterBottom>
+            Sort
+          </Typography>
+          <TextField></TextField>
+        </React.Fragment>
+      </Paper>
+    );
+  }
 }

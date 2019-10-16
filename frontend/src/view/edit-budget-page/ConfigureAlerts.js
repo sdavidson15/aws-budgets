@@ -13,7 +13,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography';
 
-import AppState from '../../controller/State';
+import AppState from './../../controller/State';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -39,63 +39,68 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ConfigureAlerts() {
-  const classes = useStyles();
+export default class ConfigureAlerts extends React.Component {
+  constructor() {
+    super(props);
+    this.classes = useStyles();
+  }
 
-  return (
-    <div>
-      <Typography className={classes.textBoxCentered}>
-        Configure alerts
-      </Typography>
-      <Divider />
-      <Box display="flex" justifyContent="flex-end">
-        <Button className={classes.button} color="primary" variant="contained">
-          Remove Alert
-        </Button>
-      </Box>
-      <Typography className={classes.textBox}>
-        Alert threshold
-      </Typography>
-      <TextField
-        className={classes.textInput}
-        variant="outlined"
-        defaultValue={AppState.AlertThreshold()}
-        InputProps={{
-          endAdornment:
-            <InputAdornment position="end">
-              % of budgeted amount
-            </InputAdornment>
-        }}
-      />
-      <Typography className={classes.textBox}>
-        Email contacts
-      </Typography>
-      {AppState.AlertEmails().map(email => (
-        <Box key={email.concat('-key')}>
-          <TextField
-            className={classes.textInput}
-            variant="outlined"
-            defaultValue={email}
-            InputProps={{
-              endAdornment:
-                <InputAdornment position="end">
-                  <IconButton>
-                    <DeleteIcon />
-                  </IconButton>
-                </InputAdornment>,
-            }}
-          />
+  render() {
+    return (
+      <div>
+        <Typography className={this.classes.textBoxCentered}>
+          Configure alerts
+        </Typography>
+        <Divider />
+        <Box display="flex" justifyContent="flex-end">
+          <Button className={this.classes.button} color="primary" variant="contained">
+            Remove Alert
+          </Button>
         </Box>
-      ))}
-      <Button className={classes.button} variant="contained">
-        Add email contact
-      </Button>
-      <Divider />
-      <Box display="flex" justifyContent="flex-end">
-        <Button className={classes.button} variant="contained" startIcon={<AddIcon />}>
-          Add new alert
+        <Typography className={this.classes.textBox}>
+          Alert threshold
+        </Typography>
+        <TextField
+          className={this.classes.textInput}
+          variant="outlined"
+          defaultValue={AppState.AlertThreshold()}
+          InputProps={{
+            endAdornment:
+              <InputAdornment position="end">
+                % of budgeted amount
+              </InputAdornment>
+          }}
+        />
+        <Typography className={this.classes.textBox}>
+          Email contacts
+        </Typography>
+        {AppState.AlertEmails().map(email => (
+          <Box key={email.concat('-key')}>
+            <TextField
+              className={this.classes.textInput}
+              variant="outlined"
+              defaultValue={email}
+              InputProps={{
+                endAdornment:
+                  <InputAdornment position="end">
+                    <IconButton>
+                      <DeleteIcon />
+                    </IconButton>
+                  </InputAdornment>,
+              }}
+            />
+          </Box>
+        ))}
+        <Button className={this.classes.button} variant="contained">
+          Add email contact
         </Button>
-      </Box>
-    </div>
-  );
+        <Divider />
+        <Box display="flex" justifyContent="flex-end">
+          <Button className={this.classes.button} variant="contained" startIcon={<AddIcon />}>
+            Add new alert
+          </Button>
+        </Box>
+      </div>
+    );
+  }
 }

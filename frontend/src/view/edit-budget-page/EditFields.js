@@ -4,19 +4,22 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography';
 
-import AppState from '../../controller/State';
+import AppState from './../../controller/State';
 import ConfigureAlerts from './ConfigureAlerts';
-import Title from '../budget-page/Title';
-import View from '../View';
-
-function handleEditBudgetAmount(e) {
-  View.SetEditFieldBudgetAmount(parseFloat(e.target.value));
-}
+import Title from './../budget-page/Title';
+import View from './../View';
 
 const useStyles = makeStyles(theme => ({
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
   textBox: {
     fontWeight: 'bold',
     marginTop: theme.spacing(2),
@@ -24,44 +27,42 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function EditFields() {
-  const classes = useStyles();
-  const OutlinedTextField = function (args) {
-    return (
-      <TextField
-        fullWidth
-        variant="outlined"
-        defaultValue={args.defaultValue}
-        InputProps={args.InputProps}
-        onChange={args.onChange}
-      />
-    );
+export default class EditFields extends React.Component {
+  constructor() {
+    super(props);
+    this.classes = useStyles();
   }
 
-  return (
-    <div>
-      <Title>Budget details</Title>
-      <Typography className={classes.textBox}>
-        Name
-      </Typography>
-      <OutlinedTextField
-        defaultValue={AppState.BudgetName()}
-      />
-      <Typography className={classes.textBox}>
-        Budget Amount
-      </Typography>
-      <OutlinedTextField
-        defaultValue={AppState.BudgetAmount()}
-        InputProps={{
-          startAdornment:
-            <InputAdornment position="start">
-              $
+  handleEditBudgetAmount(e) {
+    View.SetEditFieldBudgetAmount(parseFloat(e.target.value));
+  }
+
+  render() {
+    return (
+      <Paper className={this.classes.paper}>
+        <Title>Budget details</Title>
+        <Typography className={this.classes.textBox}>Name</Typography>
+        <TextField
+          fullWidth
+          variant="outlined"
+          defaultValue={AppState.BudgetName()}
+        />
+        <Typography className={this.classes.textBox}>Budget Amount</Typography>
+        <TextField
+          fullWidth
+          variant="outlined"
+          defaultValue={AppState.BudgetAmount()}
+          InputProps={{
+            startAdornment:
+              <InputAdornment position="start">
+                $
             </InputAdornment>,
-        }}
-        onChange={handleEditBudgetAmount}
-      />
-      {/* Configure Alerts */}
-      <ConfigureAlerts />
-    </div>
-  );
+          }}
+          onChange={handleEditBudgetAmount}
+        />
+        {/* Configure Alerts */}
+        <ConfigureAlerts />
+      </Paper>
+    );
+  }
 }

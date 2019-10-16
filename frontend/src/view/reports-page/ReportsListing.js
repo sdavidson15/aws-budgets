@@ -3,21 +3,17 @@
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import AppState from './../../controller/State';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+import AppState from './../../controller/State';
 import Controller from './../../controller/Controller';
 import View from './../View';
-
-function onReportNameClick(id) {
-    Controller.LoadReport(id);
-    View.RenderReportPage();
-}
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -26,35 +22,53 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'left',
     margin: theme.spacing(1),
   },
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
+  },
 }));
 
-export default function ReportsListing() {
-  const classes = useStyles();
+export default class ReportsListing extends React.Component {
+  constructor() {
+    super(props);
+    this.classes = useStyles();
+  }
 
-  return (
-    <React.Fragment>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Type</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {AppState.Reports().map(report => (
-            <TableRow key={report.id}>
-              <TableCell>{report.date}</TableCell>
-              <TableCell>
-                <Button className={classes.button} onClick={() => onReportNameClick(report.id)}>
-                  {report.name}
-                </Button>
-              </TableCell>
-              <TableCell>{report.reportType}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </React.Fragment>
-  );
+  handleReportNameClick(reportId) {
+    Controller.LoadReport(reportId);
+    View.RenderReportPage();
+  }
+
+  render() {
+    return (
+      <Paper className={this.classes.paper}>
+        <React.Fragment>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Date</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell>Type</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {AppState.Reports().map(report => (
+                <TableRow key={report.id}>
+                  <TableCell>{report.date}</TableCell>
+                  <TableCell>
+                    <Button className={classes.button} onClick={() => handleReportNameClick(report.id)}>
+                      {report.name}
+                    </Button>
+                  </TableCell>
+                  <TableCell>{report.reportType}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </React.Fragment>
+      </Paper>
+    );
+  }
 }

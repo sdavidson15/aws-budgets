@@ -22,10 +22,10 @@ var View = (function () {
         drawerOpen = true,
         editAccountBudgets = false,
         editFieldBudgetAmount,
-        edittedBudgets = {},
+        editedBudgets = {},
 
         AddBudgetEdit = function (budget) {
-            edittedBudgets[budget.id] = budget;
+            editedBudgets[budget.id] = budget;
         },
 
         CurrentPageIsEditable = function () {
@@ -36,7 +36,7 @@ var View = (function () {
 
         GetDrawerOpen = function () {
             return drawerOpen;
-        },
+        }
 
         GetEditAccountBudgets = function () {
             return editAccountBudgets;
@@ -46,9 +46,9 @@ var View = (function () {
             return editFieldBudgetAmount;
         },
 
-        GetEdittedBudgets = function () {
-            if (typeof edittedBudgets === 'undefined') return {};
-            return edittedBudgets;
+        GetEditedBudgets = function () {
+            if (typeof editedBudgets === 'undefined') return {};
+            return editedBudgets;
         },
 
         HandleEditClick = function () {
@@ -60,7 +60,7 @@ var View = (function () {
         },
 
         RenderAccountBudgetsPage = async function () {
-            renderPage(<AccountBudgets />, AccountBudgetsPage);
+            renderPage(<AccountBudgets isDrawerOpen={isDrawerOpen} />, AccountBudgetsPage);
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
@@ -73,27 +73,27 @@ var View = (function () {
 
         RenderBudgetPage = function () {
             if (currentPage === BudgetPage) return;
-            renderPage(<Budget />, BudgetPage);
+            renderPage(<Budget isDrawerOpen={isDrawerOpen} />, BudgetPage);
         },
 
         RenderEditBudgetPage = function () {
             if (currentPage === EditBudgetPage) return;
             editFieldBudgetAmount = AppState.BudgetAmount();
-            renderPage(<EditBudget />, EditBudgetPage);
+            renderPage(<EditBudget isDrawerOpen={isDrawerOpen} />, EditBudgetPage);
         },
 
         RenderReportPage = function () {
             if (currentPage === ReportPage) return;
-            renderPage(<Report />, ReportPage);
+            renderPage(<Report isDrawerOpen={isDrawerOpen} />, ReportPage);
         },
 
         RenderReportsPage = function () {
             if (currentPage === ReportsPage) return;
-            renderPage(<Reports />, ReportsPage);
+            renderPage(<Reports isDrawerOpen={isDrawerOpen} />, ReportsPage);
         },
 
-        renderPage = function (_page, _page_const) {
-            if (_page_const !== AccountBudgetsPage) {
+        renderPage = function (page, pageConst) {
+            if (pageConst !== AccountBudgetsPage) {
                 editAccountBudgets = false;
             }
             edittedBudgets = {};
@@ -101,11 +101,11 @@ var View = (function () {
             ReactDOM.render(
                 <ThemeProvider>
                     <CssBaseline />
-                    {_page}
+                    {page}
                 </ThemeProvider>,
                 document.querySelector('#root')
             );
-            currentPage = _page_const;
+            currentPage = pageConst;
         },
 
         SetDrawerOpen = function (open) {
@@ -131,7 +131,7 @@ var View = (function () {
         DrawerOpen: GetDrawerOpen,
         EditAccountBudgets: GetEditAccountBudgets,
         EditFieldBudgetAmount: GetEditFieldBudgetAmount,
-        EdittedBudgets: GetEdittedBudgets,
+        EditedBudgets: GetEditedBudgets,
         HandleEditClick: HandleEditClick,
         RenderAccountBudgetsPage: RenderAccountBudgetsPage,
         RenderBudgetPage: RenderBudgetPage,

@@ -6,9 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
-  loading: {
-    textAlign: 'center',
-    flex: 1,
+  paper: {
+    padding: theme.spacing(2),
+    display: 'flex',
+    overflow: 'auto',
+    flexDirection: 'column',
   },
   progress: {
     margin: 'auto',
@@ -17,11 +19,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Loading() {
-  const classes = useStyles();
-  return (
-    <React.Fragment>
-      <CircularProgress className={classes.progress} />
-    </React.Fragment>
-  );
+export default class Loading extends React.Component {
+  constructor() {
+    super(props);
+    this.classes = useStyles();
+  }
+
+  render() {
+    return (
+      <Paper className={this.classes.paper}>
+        <React.Fragment>
+          <CircularProgress className={this.classes.progress} />
+        </React.Fragment>
+      </Paper>
+    );
+  }
 }

@@ -11,8 +11,6 @@ import List from '@material-ui/core/List';
 import { mainListItems, secondaryListItems } from './MenuItems';
 import View from './../View';
 
-const drawerWidth = 240;
-
 const useStyles = makeStyles(theme => ({
     toolbarIcon: {
         display: 'flex',
@@ -24,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     drawerPaper: {
         position: 'relative',
         whiteSpace: 'nowrap',
-        width: drawerWidth,
+        width: 240,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -43,31 +41,37 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function MenuDrawer(args) {
-    const classes = useStyles();
-    var open = args.open;
-    const handleDrawerClose = () => {
-        args.setOpen(false);
+export default class MenuDrawer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.classes = useStyles();
+        this.open = props.open;
+        this.setOpen = props.setOpen;
+    }
+
+    handleDrawerClose() {
+        this.setOpen(false);
         View.SetDrawerOpen(false);
     };
 
-    return (
-        <Drawer
-            variant="permanent"
-            classes={{
-                paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-            }}
-            open={open}
-        >
-            <div className={classes.toolbarIcon}>
-                <IconButton onClick={handleDrawerClose}>
-                    <ChevronLeftIcon />
-                </IconButton>
-            </div>
-            <Divider />
-            <List>{mainListItems}</List>
-            <Divider />
-            <List>{secondaryListItems}</List>
-        </Drawer>
-    );
+    render() {
+        let drawerClass = { paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose) };
+        return (
+            <Drawer
+                variant="permanent"
+                classes={drawerClass}
+                open={this.open}
+            >
+                <div className={classes.toolbarIcon}>
+                    <IconButton onClick={handleDrawerClose}>
+                        <ChevronLeftIcon />
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>{mainListItems}</List>
+                <Divider />
+                <List>{secondaryListItems}</List>
+            </Drawer>
+        );
+    }
 }
