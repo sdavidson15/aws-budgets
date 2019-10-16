@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default class Loading extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
     this.classes = useStyles();
   }

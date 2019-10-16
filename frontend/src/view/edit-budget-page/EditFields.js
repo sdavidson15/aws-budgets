@@ -28,13 +28,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default class EditFields extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
     this.classes = useStyles();
+    this.setEditedBudgetAmount = props.setEditedBudgetAmount;
   }
 
   handleEditBudgetAmount(e) {
-    View.SetEditFieldBudgetAmount(parseFloat(e.target.value));
+    this.setEditedBudgetAmount(parseFloat(e.target.value));
   }
 
   render() {

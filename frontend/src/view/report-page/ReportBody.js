@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 });
 
 export default class ReportBody extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
     this.classes = useStyles();
   }
@@ -45,7 +45,7 @@ export default class ReportBody extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {AppState.ReportBody().map(row => (
+              {AppState.CurrentReport().reportBody.map(row => (
                 <TableRow key={row.accountID}>
                   <TableCell>{row.accountID}</TableCell>
                   <TableCell>{row.accountLabel}</TableCell>

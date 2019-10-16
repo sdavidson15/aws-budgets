@@ -8,7 +8,7 @@ import ReportBody from './ReportBody';
 import Summary from './Summary';
 
 export default class ReportPage extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
   }
 

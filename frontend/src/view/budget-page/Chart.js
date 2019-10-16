@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 });
 
 export default class Chart extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
     this.classes = useStyles();
   }

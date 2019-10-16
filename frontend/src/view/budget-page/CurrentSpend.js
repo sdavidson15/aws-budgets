@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 });
 
 export default class CurrentSpend extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
     this.classes = useStyles();
   }

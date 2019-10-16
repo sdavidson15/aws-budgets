@@ -8,8 +8,17 @@ import FooterButtons from './FooterButtons';
 import MenuWrapper from './../menu/MenuWrapper';
 
 export default class EditBudgetPage extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
+    this.editedBudgetAmount = AppState.Budget().budgetAmount;
+  }
+
+  getEditedBudgetAmount() {
+    return this.editedBudgetAmount;
+  }
+
+  setEditedBudgetAmount(amount) {
+    this.editedBudgetAmount = amount;
   }
 
   render() {
@@ -22,11 +31,11 @@ export default class EditBudgetPage extends React.Component {
           </Grid>
           {/* Edit Fields */}
           <Grid item xs={12}>
-            <EditFields />
+            <EditFields setEditedBudgetAmount={this.setEditedBudgetAmount} />
           </Grid>
           {/* Footer Buttons */}
           <Grid item xs={12}>
-            <FooterButtons />
+            <FooterButtons getEditedBudgetAmount={this.getEditedBudgetAmount} />
           </Grid>
         </Grid>
       } />

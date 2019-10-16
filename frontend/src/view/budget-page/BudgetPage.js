@@ -11,7 +11,7 @@ import MenuWrapper from './../menu/MenuWrapper';
 import AppState from './../../controller/State';
 
 export default class BudgetPage extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
   }
 

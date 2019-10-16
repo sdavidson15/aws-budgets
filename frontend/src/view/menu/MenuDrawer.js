@@ -51,7 +51,7 @@ export default class MenuDrawer extends React.Component {
 
     handleDrawerClose() {
         this.setOpen(false);
-        View.SetDrawerOpen(false);
+        View.SetMenuDrawerOpen(false);
     };
 
     render() {

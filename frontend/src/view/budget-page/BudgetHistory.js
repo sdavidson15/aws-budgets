@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 });
 
 export default class BudgetHistory extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
     this.classes = useStyles();
   }

@@ -9,7 +9,7 @@ import { StyledSwitch } from './../DefaultStyles';
 import View from './../View';
 
 export default class SpendSwitch extends React.Component {
-    constructor() {
+    constructor(props) {
         super(props);
 
         const [state, setState] = React.useState({

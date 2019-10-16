@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 });
 
 export default class Summary extends React.Compnent {
-  constructor() {
+  constructor(props) {
     super(props);
     this.classes = useStyles();
   }

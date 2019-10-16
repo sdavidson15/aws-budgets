@@ -26,7 +26,7 @@ const useStyles = makeStyles({
 });
 
 export default class ForecastedSpend extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
     this.classes = useStyles();
   }

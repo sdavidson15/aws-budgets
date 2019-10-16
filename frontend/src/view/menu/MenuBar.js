@@ -53,29 +53,29 @@ export default class MenuBar extends React.Component {
         this.open = props.open;
         this.setOpen = props.setOpen;
         this.title = props.title;
+        this.budgetsEditable = props.budgetsEditable;
+        this.getEditedBudgets = props.getEditedBudgets;
     }
 
     handleDrawerOpen() {
         this.setOpen(true);
-        View.SetDrawerOpen(true);
+        View.SetMenuDrawerOpen(true);
     };
 
     handleEditClick() {
-        // Edit button appears on many pages. Let View handle this,
-        // since only View is aware of which page is rendered.
-        View.HandleEditClick();
+        // Edit button appears on many pages when not editing.
+        View.RenderEditablePage();
     }
 
     handleCancelClick() {
         // Cancel button only appears in the AccountBudgets page when editing.
-        View.SetEditAccountBudgets(false);
         View.RenderAccountBudgetsPage();
     }
 
     handleSubmitClick() {
         // Submit button only appears in the AccountBudgets page when editing.
         // Collect all edited budgets to submit to the controller to update.
-        var editedBudgets = View.EditedBudgets(),
+        var editedBudgets = this.getEditedBudgets(),
             budgets = [];
 
         for (var id in editedBudgets) {
@@ -84,7 +84,6 @@ export default class MenuBar extends React.Component {
         }
 
         Controller.UpdateAccountBudgets(budgets);
-        View.SetEditAccountBudgets(false);
         View.RenderAccountBudgetsPage();
     }
 
@@ -97,10 +96,10 @@ export default class MenuBar extends React.Component {
             cancelButton = null;
 
         // Conditional rendering
-        if (View.CurrentPageIsEditable() && !View.EditAccountBudgets()) {
+        if (View.CurrentPageIsEditable() && !this.budgetsEditable) {
             editButton = <IconButton color="inherit" onClick={handleEditClick}><EditIcon /></IconButton>
         }
-        if (View.EditAccountBudgets()) {
+        if (this.budgetsEditable) {
             cancelButton = <IconButton color="inherit" onClick={handleCancelClick}><CloseIcon /></IconButton>
             submitButton = <IconButton color="inherit" onClick={handleSubmitClick}><CheckIcon /></IconButton>
         }

@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDOM from "react-dom"
 
-import { ThemeProvider } from "@material-ui/styles"; // TODO: actually provide a theme
+import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-import AccountBudgets from "./account-budgets-page/AccountBudgets";
+import AccountBudgetsPage from "./account-budgets-page/AccountBudgetsPage";
 import AppState from './../controller/State';
-import Budget from './budget-page/Budget';
-import EditBudget from './edit-budget-page/EditBudget';
-import Report from './report-page/Report';
-import Reports from './reports-page/Reports';
+import BudgetPage from './budget-page/BudgetPage';
+import EditBudgetPage from './edit-budget-page/EditBudgetPage';
+import ReportPage from './report-page/ReportPage';
+import ReportsPage from './reports-page/ReportsPage';
 
 const AccountBudgetsPage = 'AccountBudgets';
 const BudgetPage = 'Budget';
@@ -19,14 +19,7 @@ const ReportsPage = 'Reports';
 
 var View = (function () {
     var currentPage,
-        drawerOpen = true,
-        editAccountBudgets = false,
-        editFieldBudgetAmount,
-        editedBudgets = {},
-
-        AddBudgetEdit = function (budget) {
-            editedBudgets[budget.id] = budget;
-        },
+        menuDrawerOpen = true,
 
         CurrentPageIsEditable = function () {
             return (currentPage === AccountBudgetsPage ||
@@ -34,33 +27,12 @@ var View = (function () {
                     currentPage === ReportsPage);
         },
 
-        GetDrawerOpen = function () {
-            return drawerOpen;
+        GetMenuDrawerOpen = function () {
+            return menuDrawerOpen;
         }
 
-        GetEditAccountBudgets = function () {
-            return editAccountBudgets;
-        },
-
-        GetEditFieldBudgetAmount = function () {
-            return editFieldBudgetAmount;
-        },
-
-        GetEditedBudgets = function () {
-            if (typeof editedBudgets === 'undefined') return {};
-            return editedBudgets;
-        },
-
-        HandleEditClick = function () {
-            if (currentPage === BudgetPage) RenderEditBudgetPage();
-            if (currentPage === AccountBudgetsPage) {
-                editAccountBudgets = true;
-                RenderAccountBudgetsPage();
-            }
-        },
-
-        RenderAccountBudgetsPage = async function () {
-            renderPage(<AccountBudgets isDrawerOpen={isDrawerOpen} />, AccountBudgetsPage);
+        RenderAccountBudgetsPage = async function (editable=false) {
+            renderPage(<AccountBudgetsPage editable={editable} />, AccountBudgetsPage);
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
@@ -68,36 +40,40 @@ var View = (function () {
             while (AppState.LoadingAccountBudgets())
                 await sleep(500);
 
-            renderPage(<AccountBudgets />, AccountBudgetsPage);
+            renderPage(<AccountBudgetsPage editable={editable} />, AccountBudgetsPage);
         },
 
         RenderBudgetPage = function () {
             if (currentPage === BudgetPage) return;
-            renderPage(<Budget isDrawerOpen={isDrawerOpen} />, BudgetPage);
+            renderPage(<BudgetPage />, BudgetPage);
+        },
+
+        RenderEditablePage = function () {
+            if (currentPage === BudgetPage) RenderEditBudgetPage();
+            if (currentPage === AccountBudgetsPage) RenderAccountBudgetsPage(true);
         },
 
         RenderEditBudgetPage = function () {
             if (currentPage === EditBudgetPage) return;
-            editFieldBudgetAmount = AppState.BudgetAmount();
-            renderPage(<EditBudget isDrawerOpen={isDrawerOpen} />, EditBudgetPage);
+            renderPage(<EditBudgetPage />, EditBudgetPage);
         },
 
         RenderReportPage = function () {
             if (currentPage === ReportPage) return;
-            renderPage(<Report isDrawerOpen={isDrawerOpen} />, ReportPage);
+            renderPage(<ReportPage />, ReportPage);
         },
 
         RenderReportsPage = function () {
             if (currentPage === ReportsPage) return;
-            renderPage(<Reports isDrawerOpen={isDrawerOpen} />, ReportsPage);
+            renderPage(<ReportsPage />, ReportsPage);
+        },
+
+        SetMenuDrawerOpen = function (open) {
+            menuDrawerOpen = open;
         },
 
         renderPage = function (page, pageConst) {
-            if (pageConst !== AccountBudgetsPage) {
-                editAccountBudgets = false;
-            }
-            edittedBudgets = {};
-
+            currentPage = pageConst;
             ReactDOM.render(
                 <ThemeProvider>
                     <CssBaseline />
@@ -105,19 +81,6 @@ var View = (function () {
                 </ThemeProvider>,
                 document.querySelector('#root')
             );
-            currentPage = pageConst;
-        },
-
-        SetDrawerOpen = function (open) {
-            drawerOpen = open;
-        },
-
-        SetEditAccountBudgets = function (bool) {
-            editAccountBudgets = bool;
-        },
-
-        SetEditFieldBudgetAmount = function (amount) {
-            editFieldBudgetAmount = amount;
         },
 
         init = function () {
@@ -126,20 +89,14 @@ var View = (function () {
 
     return {
         init: init,
-        AddBudgetEdit: AddBudgetEdit,
         CurrentPageIsEditable: CurrentPageIsEditable,
-        DrawerOpen: GetDrawerOpen,
-        EditAccountBudgets: GetEditAccountBudgets,
-        EditFieldBudgetAmount: GetEditFieldBudgetAmount,
-        EditedBudgets: GetEditedBudgets,
-        HandleEditClick: HandleEditClick,
+        MenuDrawerOpen: GetMenuDrawerOpen,
         RenderAccountBudgetsPage: RenderAccountBudgetsPage,
+        RenderEditablePage: RenderEditablePage,
         RenderBudgetPage: RenderBudgetPage,
         RenderReportPage: RenderReportPage,
         RenderReportsPage: RenderReportsPage,
-        SetDrawerOpen: SetDrawerOpen,
-        SetEditAccountBudgets: SetEditAccountBudgets,
-        SetEditFieldBudgetAmount: SetEditFieldBudgetAmount,
+        SetMenuDrawerOpen: SetMenuDrawerOpen,
     };
 }());
 

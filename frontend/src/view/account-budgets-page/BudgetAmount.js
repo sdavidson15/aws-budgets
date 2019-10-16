@@ -10,14 +10,16 @@ import { NumToCurrencyString } from './../../model/Formatters';
 import View from './../View';
 
 export default class BudgetAmount extends React.Component {
-    constructor() {
+    constructor(props) {
         super(props);
         this.budget = props.budget;
+        this.budgetsEditable = props.budgetsEditable;
+        this.addEditedBudget = props.addEditedBudget;
     }
 
     handleBudgetAmountChange(e) {
-        this.budget.budgetAmount = parseFloat(e.target.value); // FIXME: don't edit props!
-        View.AddBudgetEdit(this.budget);
+        this.budget.budgetAmount = parseFloat(e.target.value);
+        this.addEditedBudget(this.budget);
     }
 
     render() {
@@ -25,7 +27,7 @@ export default class BudgetAmount extends React.Component {
         let budgetAmountElement = NumToCurrencyString(this.budget.budgetAmount);
 
         // Conditional rendering
-        if (View.EditAccountBudgets() && this.budget.budgetAmount === this.budget.suggestedBudget) {
+        if (this.budgetsEditable && this.budget.budgetAmount === this.budget.suggestedBudget) {
             budgetAmountElement = (
                 <TextField
                     fullWidth
@@ -34,7 +36,7 @@ export default class BudgetAmount extends React.Component {
                     onChange={handleBudgetAmountChange}
                 />
             );
-        } else if (View.EditAccountBudgets()) {
+        } else if (this.budgetsEditable) {
             budgetAmountElement = (
                 <Tooltip title={suggestion}>
                     <TextField

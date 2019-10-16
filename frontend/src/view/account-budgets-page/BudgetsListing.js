@@ -18,7 +18,6 @@ import BudgetName from './BudgetName';
 import SpendSwitch from './SpendSwitch';
 import View from './../View';
 
-// TODO: move this to the style file
 function getSpendProgressColor(budget) {
   // Color picker for the budget spend indicator paper.
   // Calculates the spend percent and picks a color from red to
@@ -53,9 +52,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default class BudgetsListing extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
     this.classes = useStyles();
+    this.budgetsEditable = props.budgetsEditable;
+    this.addEditedBudget = props.addEditedBudget;
   }
 
   handleBudgetNameClick(accountId, name) {
@@ -91,10 +92,20 @@ export default class BudgetsListing extends React.Component {
               {AppState.AccountBudgets().map(budget => (
                 <TableRow key={budget.id}>
                   <TableCell>{budget.accountId}</TableCell>
-                  <TableCell><BudgetName budget={budget} /></TableCell>
-                  <TableCell><BudgetAmount budget={budget} /></TableCell>
+                  <TableCell>
+                    <BudgetName budget={budget} />
+                  </TableCell>
+                  <TableCell>
+                    <BudgetAmount
+                      budget={budget}
+                      budgetsEditable={this.budgetsEditable}
+                      addEditedBudget={this.addEditedBudget}
+                    />
+                  </TableCell>
                   <TableCell>{NumToCurrencyString(getSpend(budget))}</TableCell>
-                  <TableCell><Paper style={getSpendProgressColor(budget)}>@</Paper></TableCell>
+                  <TableCell>
+                    <Paper style={getSpendProgressColor(budget)}>@</Paper>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

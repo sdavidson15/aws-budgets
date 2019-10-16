@@ -1,127 +1,84 @@
 var AppState = (function () {
-    // TODO: don't capitalize private vars
-    // TODO: instead of holding individual fields like BudgetAmount, just hold a copy of the current budget.
-    var AccountBudgets,
-        AccountID,
-        AlertEmails,
-        AlertThreshold,
-        BudgetAmount,
-        BudgetHistory,
-        BudgetName,
-        CurrentSpend,
-        CurrentReport,
-        ForecastedSpend,
-        LoadingAccountBudgets=false,
-        ReportBody,
-        Reports,
-        SuggestedBudget,
+    var accountBudgets = [],
+        currentBudget,
+        currentReport,
+        loadingAccountBudgets = false,
+        optimisticBudgets = {}, // Mapping of budget ID to budget
+        reports,
 
         // Getters
-        GetAccountBudgets = function () {
-            if (typeof AccountBudgets === 'undefined') return [];
-            return AccountBudgets.slice(0);
+        GetAccountBudgets = function (useOptimistic = true) {
+            if (!useOptimistic)
+                return JSON.parse(JSON.stringify(accountBudgets))
+
+            let budgets = [];
+            for (var i = 0; i < accountBudgets.length; i++) {
+                let budget = accountBudgets[i];
+                if (optimisticBudgets.hasOwnProperty(budget.id))
+                    budgets.push(optimisticBudgets[budget.id]);
+                else
+                    budget.push(budget);
+            }
+            budgets.reverse();
+
+            return JSON.parse(JSON.stringify(budgets));
         },
-        GetAccountID = function () {
-            return AccountID;
-        },
-        GetAlertEmails = function () {
-            return AlertEmails.slice(0);
-        },
-        GetAlertThreshold = function () {
-            return AlertThreshold;
-        },
-        GetBudgetAmount = function () {
-            return BudgetAmount;
-        },
-        GetBudgetHistory = function () {
-            if (typeof BudgetHistory === 'undefined') return [];
-            return BudgetHistory.slice(0);
-        },
-        GetBudgetName = function () {
-            return BudgetName;
+        GetCurrentBudget = function () {
+            return JSON.parse(JSON.stringify(currentBudget));
         },
         GetCurrentReport = function () {
-            return CurrentReport;
-        },
-        GetCurrentSpend = function () {
-            return CurrentSpend;
-        },
-        GetForecastedSpend = function () {
-            return ForecastedSpend;
+            return JSON.parse(JSON.stringify(currentReport));
         },
         GetLoadingAccountBudgets = function () {
-            return LoadingAccountBudgets;
-        },
-        GetReportBody = function () {
-            return ReportBody.slice(0);
+            return loadingAccountBudgets;
         },
         GetReports = function () {
-            if (typeof Reports === 'undefined') return [];
-            return Reports.slice(0);
-        },
-        GetSuggestedBudget = function () {
-            return SuggestedBudget;
+            if (typeof reports === 'undefined') return [];
+            return JSON.parse(JSON.stringify(reports));
         },
 
         // Setters
-        SetAccountBudgets = function (accountBudgets) {
-            AccountBudgets = accountBudgets.slice(0);
+        SetAccountBudgets = function (budgets) {
+            accountBudgets = JSON.parse(JSON.stringify(budgets));
         },
-        SetAccountID = function (accountId) {
-            AccountID = accountId;
-        },
-        SetBudgetAmount = function (budgetAmount) {
-            BudgetAmount = budgetAmount;
-        },
-        SetBudgetHistory = function (budgetHistory) {
-            BudgetHistory = budgetHistory.slice(0);
-        },
-        SetBudgetName = function (budgetName) {
-            BudgetName = budgetName;
+        SetCurrentBudget = function (budget) {
+            currentBudget = JSON.parse(JSON.stringify(budget));
         },
         SetCurrentReport = function (report) {
-            CurrentReport = report;
+            currentReport = JSON.parse(JSON.stringify(report));
         },
-        SetCurrentSpend = function (spend) {
-            CurrentSpend = spend;
+        SetLoadingAccountBudgets = function (loading) {
+            loadingAccountBudgets = loading;
         },
-        SetForecastedSpend = function (spend) {
-            ForecastedSpend = spend;
-        },
-        SetLoadingAccountBudgets = function (status) {
-            LoadingAccountBudgets = status;
-        },
-        SetReportBody = function (body) {
-            ReportBody = body.slice(0);
+        SetOptimisticBudgets = function (budgets) {
+            optimisticBudgets = {};
+            if (budgets.length === 0)
+                return;
+
+            var copy = JSON.parse(JSON.stringify(budgets));
+            for (var i = 0; i < copy.length; i++) {
+                optimisticBudgets[copy[i].id] = copy[i];
+            }
         },
         SetReports = function (reports) {
-            Reports = reports.slice(0);
-        },
-        SetSuggestedBudget = function (suggested) {
-            SuggestedBudget = suggested;
+            reports = JSON.parse(JSON.stringify(reports));
         },
 
         init = function (dummy) {
-            AlertEmails = (dummy) ? ['dummy.mock@email.com', 'mock.dummy@email.com'] : [];
-            AlertThreshold = (dummy) ? 90 : -1;
-            Reports = (dummy) ? [
-                {id: 0, date: '10-15-2019', name: 'Budget Alert - Full Year 2019', reportType: 'Annual'},
-                {id: 1, date: '10-15-2019', name: 'Budget Alert - October 2019', reportType: 'Monthly'},
-                {id: 2, date: '09-30-2019', name: 'Budget Alert - September 2019', reportType: 'Monthly'},
-                {id: 3, date: '12-31-2018', name: 'Budget Alert - Full Year 2018', reportType: 'Annual'},
+            // TODO: Get rid of this init when you're done mocking things
+            alertEmails = (dummy) ? ['dummy.mock@email.com', 'mock.dummy@email.com'] : [];
+            alertThreshold = (dummy) ? 90 : -1;
+            reports = (dummy) ? [
+                { id: 0, date: '10-15-2019', name: 'Budget Alert - Full Year 2019', reportType: 'Annual' },
+                { id: 1, date: '10-15-2019', name: 'Budget Alert - October 2019', reportType: 'Monthly' },
+                { id: 2, date: '09-30-2019', name: 'Budget Alert - September 2019', reportType: 'Monthly' },
+                { id: 3, date: '12-31-2018', name: 'Budget Alert - Full Year 2018', reportType: 'Annual' },
             ] : [];
-            ReportBody = (dummy) ? [
-                { accountID: '12846281936', accountLabel: 'io-example', budgeted: 1200, alertCount: 1, spend: 1231.37 }
-            ] : [];
-
-            // TODO: when you're no longer doing dummy stuff, remove this init.
-            AccountID = '';
-            BudgetAmount = -1;
-            BudgetHistory = [];
-            BudgetName = '';
-            CurrentSpend = -1;
-            ForecastedSpend = -1;
-            SuggestedBudget = -1;
+            currentReport = {
+                reportBody: (dummy) ? [
+                    { accountID: '12846281936', accountLabel: 'io-example', budgeted: 1200, alertCount: 1, spend: 1231.37 }
+                ] : []
+            }
         };
 
     return {
@@ -129,33 +86,18 @@ var AppState = (function () {
 
         // Getters
         AccountBudgets: GetAccountBudgets,
-        AccountID: GetAccountID,
-        AlertEmails: GetAlertEmails,
-        AlertThreshold: GetAlertThreshold,
-        BudgetAmount: GetBudgetAmount,
-        BudgetHistory: GetBudgetHistory,
-        BudgetName: GetBudgetName,
+        CurrentBudget: GetCurrentBudget,
         CurrentReport: GetCurrentReport,
-        CurrentSpend: GetCurrentSpend,
-        ForecastedSpend: GetForecastedSpend,
         LoadingAccountBudgets: GetLoadingAccountBudgets,
-        ReportBody: GetReportBody,
         Reports: GetReports,
-        SuggestedBudget: GetSuggestedBudget,
 
-        // Setters TODO: idea, setters take a package name. Only files within this package can change state.
+        // Setters
         SetAccountBudgets: SetAccountBudgets,
-        SetAccountID: SetAccountID,
-        SetBudgetAmount: SetBudgetAmount,
-        SetBudgetHistory: SetBudgetHistory,
-        SetBudgetName: SetBudgetName,
-        SetCurrentSpend: SetCurrentSpend,
+        SetCurrentBudget: SetCurrentBudget,
         SetCurrentReport: SetCurrentReport,
-        SetForecastedSpend: SetForecastedSpend,
         SetLoadingAccountBudgets: SetLoadingAccountBudgets,
-        SetReportBody: SetReportBody,
+        SetOptimisticBudgets: SetOptimisticBudgets,
         SetReports: SetReports,
-        SetSuggestedBudget: SetSuggestedBudget
     };
 }());
 

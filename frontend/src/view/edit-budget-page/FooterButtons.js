@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
-import { FormatAccountBudgetsData } from './../../model/Formatters';
 import AppState from './../../controller/State';
 import Controller from './../../controller/Controller';
 import View from './../View';
@@ -17,25 +16,18 @@ const useStyles = makeStyles({
 });
 
 export default class FooterButtons extends React.Component {
-  constructor() {
+  constructor(props) {
     super(props);
     this.classes = useStyles();
+    this.getEditedBudgetAmount = props.getEditedBudgetAmount;
   }
 
   handleSubmit() {
-    var budget = FormatAccountBudgetsData(
-      0,
-      AppState.AccountID(),
-      AppState.BudgetName(),
-      View.EditFieldBudgetAmount(),
-      AppState.SuggestedBudget(),
-      AppState.CurrentSpend(),
-      AppState.ForecastedSpend(),
-      AppState.BudgetHistory()
-    );
+    var budget = AppState.CurrentBudget();
+    budget.budgetAmount = this.getEditedBudgetAmount();
 
+    Controller.SetOptimisticBudget(budget);
     Controller.UpdateAccountBudgets([budget]);
-    AppState.SetBudgetAmount(View.EditFieldBudgetAmount());
     View.RenderBudgetPage();
   }
 
