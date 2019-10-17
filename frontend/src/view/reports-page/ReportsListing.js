@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -15,7 +15,7 @@ import AppState from './../../controller/State';
 import Controller from './../../controller/Controller';
 import View from './../View';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   button: {
     textTransform: 'none',
     fontWeight: 'normal',
@@ -28,22 +28,18 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
-}));
+});
 
-export default class ReportsListing extends React.Component {
-  constructor(props) {
-    super(props);
-    this.classes = useStyles();
-  }
-
+class ReportsListing extends React.Component {
   handleReportNameClick(reportId) {
     Controller.LoadReport(reportId);
     View.RenderReportPage();
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <Paper className={this.classes.paper}>
+      <Paper className={classes.paper}>
         <React.Fragment>
           <Table size="small">
             <TableHead>
@@ -58,7 +54,7 @@ export default class ReportsListing extends React.Component {
                 <TableRow key={report.id}>
                   <TableCell>{report.date}</TableCell>
                   <TableCell>
-                    <Button className={this.classes.button} onClick={() => this.handleReportNameClick(report.id)}>
+                    <Button className={classes.button} onClick={() => this.handleReportNameClick(report.id)}>
                       {report.name}
                     </Button>
                   </TableCell>
@@ -72,3 +68,5 @@ export default class ReportsListing extends React.Component {
     );
   }
 }
+
+export default withStyles(useStyles)(ReportsListing);

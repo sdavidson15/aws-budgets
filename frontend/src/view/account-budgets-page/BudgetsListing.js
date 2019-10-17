@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import AppState from './../../controller/State';
 import Controller from './../../controller/Controller';
 import Paper from '@material-ui/core/Paper';
@@ -42,19 +42,18 @@ function getSpendProgressColor(budget) {
   };
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
-}));
+});
 
-export default class BudgetsListing extends React.Component {
+class BudgetsListing extends React.Component {
   constructor(props) {
     super(props);
-    this.classes = useStyles();
     this.budgetsEditable = props.budgetsEditable;
     this.addEditedBudget = props.addEditedBudget;
   }
@@ -65,6 +64,7 @@ export default class BudgetsListing extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     let spendText = (View.SpendSwitchState()) ? "Forecasted Spend ($)" : "Current Spend ($)";
     let getSpend = function (budget) {
       if (this.switchState.checked) {
@@ -75,7 +75,7 @@ export default class BudgetsListing extends React.Component {
     }
 
     return (
-      <Paper className={this.classes.paper}>
+      <Paper className={classes.paper}>
         <React.Fragment>
           <Table size="small">
             <TableHead>
@@ -115,3 +115,5 @@ export default class BudgetsListing extends React.Component {
     );
   }
 }
+
+export default withStyles(useStyles)(BudgetsListing);

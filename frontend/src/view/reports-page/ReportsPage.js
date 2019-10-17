@@ -6,10 +6,6 @@ import MenuWrapper from './../menu/MenuWrapper';
 import ReportsListing from './ReportsListing';
 
 export default class ReportsPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <MenuWrapper title='Reports' inner={

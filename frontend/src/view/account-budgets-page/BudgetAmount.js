@@ -7,7 +7,6 @@ import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import { NumToCurrencyString } from './../../model/Formatters';
-import View from './../View';
 
 export default class BudgetAmount extends React.Component {
     constructor(props) {

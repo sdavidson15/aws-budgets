@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
 import CheckIcon from '@material-ui/icons/Check';
@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Controller from './../../controller/Controller';
 import View from './../View';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
     },
@@ -44,12 +44,11 @@ const useStyles = makeStyles(theme => ({
     title: {
         flexGrow: 1,
     },
-}));
+});
 
-export default class MenuBar extends React.Component {
+class MenuBar extends React.Component {
     constructor(props) {
         super(props);
-        this.classes = useStyles();
         this.open = props.open;
         this.setOpen = props.setOpen;
         this.title = props.title;
@@ -88,8 +87,9 @@ export default class MenuBar extends React.Component {
     }
 
     render() {
-        let appBarClass = clsx(this.classes.appBar, this.open && this.classes.appBarShift);
-        let menuButtonClass = clsx(this.classes.menuButton, this.open && this.classes.menuButtonHidden)
+        const { classes } = this.props;
+        let appBarClass = clsx(classes.appBar, this.open && classes.appBarShift);
+        let menuButtonClass = clsx(classes.menuButton, this.open && classes.menuButtonHidden)
 
         let editButton = null,
             submitButton = null,
@@ -106,7 +106,7 @@ export default class MenuBar extends React.Component {
 
         return (
             <AppBar position="absolute" className={appBarClass}>
-                <Toolbar className={this.classes.toolbar}>
+                <Toolbar className={classes.toolbar}>
                     <IconButton
                         edge="start"
                         color="inherit"
@@ -116,7 +116,7 @@ export default class MenuBar extends React.Component {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography component="h1" variant="h6" color="inherit" noWrap className={this.classes.title}>
+                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         {this.title}
                     </Typography>
                     {editButton}
@@ -132,3 +132,5 @@ export default class MenuBar extends React.Component {
         );
     }
 }
+
+export default withStyles(useStyles)(MenuBar);

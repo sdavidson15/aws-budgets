@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 
 import AppState from './../../controller/State';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   button: {
     width: 200,
     textTransform: 'none',
@@ -37,31 +37,27 @@ const useStyles = makeStyles(theme => ({
     width: 400,
     marginBottom: theme.spacing(2),
   },
-}));
+});
 
-export default class ConfigureAlerts extends React.Component {
-  constructor(props) {
-    super(props);
-    this.classes = useStyles();
-  }
-
+class ConfigureAlerts extends React.Component {
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <Typography className={this.classes.textBoxCentered}>
+        <Typography className={classes.textBoxCentered}>
           Configure alerts
         </Typography>
         <Divider />
         <Box display="flex" justifyContent="flex-end">
-          <Button className={this.classes.button} color="primary" variant="contained">
+          <Button className={classes.button} color="primary" variant="contained">
             Remove Alert
           </Button>
         </Box>
-        <Typography className={this.classes.textBox}>
+        <Typography className={classes.textBox}>
           Alert threshold
         </Typography>
         <TextField
-          className={this.classes.textInput}
+          className={classes.textInput}
           variant="outlined"
           defaultValue={AppState.AlertThreshold()}
           InputProps={{
@@ -71,13 +67,13 @@ export default class ConfigureAlerts extends React.Component {
               </InputAdornment>
           }}
         />
-        <Typography className={this.classes.textBox}>
+        <Typography className={classes.textBox}>
           Email contacts
         </Typography>
         {AppState.AlertEmails().map(email => (
           <Box key={email.concat('-key')}>
             <TextField
-              className={this.classes.textInput}
+              className={classes.textInput}
               variant="outlined"
               defaultValue={email}
               InputProps={{
@@ -91,12 +87,12 @@ export default class ConfigureAlerts extends React.Component {
             />
           </Box>
         ))}
-        <Button className={this.classes.button} variant="contained">
+        <Button className={classes.button} variant="contained">
           Add email contact
         </Button>
         <Divider />
         <Box display="flex" justifyContent="flex-end">
-          <Button className={this.classes.button} variant="contained" startIcon={<AddIcon />}>
+          <Button className={classes.button} variant="contained" startIcon={<AddIcon />}>
             Add new alert
           </Button>
         </Box>
@@ -104,3 +100,5 @@ export default class ConfigureAlerts extends React.Component {
     );
   }
 }
+
+export default withStyles(useStyles)(ConfigureAlerts);

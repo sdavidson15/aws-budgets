@@ -3,31 +3,27 @@
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import { FormatChartData } from './../../model/Formatters';
 import AppState from './../../controller/State';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
-}));
+});
 
-export default class Chart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.classes = useStyles();
-  }
-
+class Chart extends React.Component {
   render() {
+    const { classes } = this.props;
     return (
-      <Paper className={this.classes.paper}>
+      <Paper className={classes.paper}>
         <React.Fragment>
           <Typography component="h2" variant="h6" color="primary" gutterBottom>
             Budget History
@@ -57,3 +53,5 @@ export default class Chart extends React.Component {
     );
   }
 }
+
+export default withStyles(useStyles)(Chart);

@@ -8,10 +8,6 @@ import ReportBody from './ReportBody';
 import Summary from './Summary';
 
 export default class ReportPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <MenuWrapper title={AppState.CurrentReport().name} inner={

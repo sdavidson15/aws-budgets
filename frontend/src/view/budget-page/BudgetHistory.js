@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,24 +13,20 @@ import TableRow from '@material-ui/core/TableRow';
 import { NumToCurrencyString } from './../../model/Formatters';
 import AppState from './../../controller/State';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
-}));
+});
 
-export default class BudgetHistory extends React.Component {
-  constructor(props) {
-    super(props);
-    this.classes = useStyles();
-  }
-
+class BudgetHistory extends React.Component {
   render() {
+    const { classes } = this.props;
     return (
-      <Paper className={this.classes.paper}>
+      <Paper className={classes.paper}>
         <React.Fragment>
           <Table size="small">
             <TableHead>
@@ -59,3 +55,5 @@ export default class BudgetHistory extends React.Component {
     );
   }
 }
+
+export default withStyles(useStyles)(BudgetHistory);

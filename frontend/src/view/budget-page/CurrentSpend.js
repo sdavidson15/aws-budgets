@@ -3,14 +3,14 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import { FormatSpend, NumToCurrencyString } from './../../model/Formatters';
 import AppState from './../../controller/State';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   title: {
     flex: 1,
   },
@@ -23,16 +23,12 @@ const useStyles = makeStyles(theme => ({
   fixedHeight: {
     height: 200,
   },
-}));
+});
 
-export default class CurrentSpend extends React.Component {
-  constructor(props) {
-    super(props);
-    this.classes = useStyles();
-  }
-
+class CurrentSpend extends React.Component {
   render() {
-    let fixedHeightPaper = clsx(this.classes.paper, this.classes.fixedHeight);
+    const { classes } = this.props;
+    let fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
       <Paper className={fixedHeightPaper}>
@@ -43,13 +39,13 @@ export default class CurrentSpend extends React.Component {
           <Typography component="p" variant="h6">
             {FormatSpend(AppState.CurrentSpend(), AppState.BudgetAmount())}
           </Typography>
-          <Typography color="textSecondary" className={this.classes.title}>
+          <Typography color="textSecondary" className={classes.title}>
             Current
           </Typography>
           <Typography component="p" variant="h6">
             {NumToCurrencyString(AppState.BudgetAmount())}
           </Typography>
-          <Typography color="textSecondary" className={this.classes.title}>
+          <Typography color="textSecondary" className={classes.title}>
             Budgeted amount
           </Typography>
         </React.Fragment>
@@ -57,3 +53,5 @@ export default class CurrentSpend extends React.Component {
     );
   }
 }
+
+export default withStyles(useStyles)(CurrentSpend);

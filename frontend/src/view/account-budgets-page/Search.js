@@ -3,12 +3,12 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
@@ -18,16 +18,12 @@ const useStyles = makeStyles(theme => ({
   searchFixedHeight: {
     height: 100,
   },
-}));
+});
 
-export default class Search extends React.Component {
-  constructor(props) {
-    super(props);
-    this.classes = useStyles();
-  }
-
+class Search extends React.Component {
   render() {
-    let paperClass = clsx(this.classes.paper, this.classes.searchFixedHeight);
+    const { classes } = this.props;
+    let paperClass = clsx(classes.paper, classes.searchFixedHeight);
 
     return (
       <Paper className={paperClass}>
@@ -41,3 +37,5 @@ export default class Search extends React.Component {
     );
   }
 }
+
+export default withStyles(useStyles)(Search);

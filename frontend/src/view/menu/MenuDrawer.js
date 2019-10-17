@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -11,7 +11,7 @@ import List from '@material-ui/core/List';
 import { mainListItems, secondaryListItems } from './MenuItems';
 import View from './../View';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
     toolbarIcon: {
         display: 'flex',
         alignItems: 'center',
@@ -39,12 +39,11 @@ const useStyles = makeStyles(theme => ({
             width: theme.spacing(9),
         },
     },
-}));
+});
 
-export default class MenuDrawer extends React.Component {
+class MenuDrawer extends React.Component {
     constructor(props) {
         super(props);
-        this.classes = useStyles();
         this.open = props.open;
         this.setOpen = props.setOpen;
     }
@@ -55,14 +54,15 @@ export default class MenuDrawer extends React.Component {
     };
 
     render() {
-        let drawerClass = { paper: clsx(this.classes.drawerPaper, !this.open && this.classes.drawerPaperClose) };
+        const { classes } = this.props;
+        let drawerClass = { paper: clsx(classes.drawerPaper, !this.open && classes.drawerPaperClose) };
         return (
             <Drawer
                 variant="permanent"
                 classes={drawerClass}
                 open={this.open}
             >
-                <div className={this.classes.toolbarIcon}>
+                <div className={classes.toolbarIcon}>
                     <IconButton onClick={this.handleDrawerClose}>
                         <ChevronLeftIcon />
                     </IconButton>
@@ -75,3 +75,5 @@ export default class MenuDrawer extends React.Component {
         );
     }
 }
+
+export default withStyles(useStyles)(MenuDrawer);
