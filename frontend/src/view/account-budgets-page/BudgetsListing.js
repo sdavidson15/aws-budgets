@@ -22,7 +22,7 @@ function getSpendProgressColor(budget) {
   // Color picker for the budget spend indicator paper.
   // Calculates the spend percent and picks a color from red to
   // green based on that percent.
-  let spend = (View.SpendSwitchState()) ? budget.forecastedSpend : budget.currentSpend,
+  let spend = (false) ? budget.forecastedSpend : budget.currentSpend, // FIXME: get switch state
     budgetAmount = budget.budgetAmount,
     spendColor = 'red';
 
@@ -65,9 +65,9 @@ class BudgetsListing extends React.Component {
 
   render() {
     const { classes } = this.props;
-    let spendText = (View.SpendSwitchState()) ? "Forecasted Spend ($)" : "Current Spend ($)";
+    let spendText = (false) ? "Forecasted Spend ($)" : "Current Spend ($)"; // FIXME: get switch state
     let getSpend = function (budget) {
-      if (this.switchState.checked) {
+      if (false) { // FIXME: get switch state
         return budget.forecastedSpend;
       }
 
@@ -84,7 +84,9 @@ class BudgetsListing extends React.Component {
                 <TableCell>Budget Name</TableCell>
                 <TableCell>Budget Amount ($)</TableCell>
                 <TableCell>{spendText}</TableCell>
-                <TableCell><SpendSwitch /></TableCell>
+                <TableCell>
+                  {/* <SpendSwitch /> TODO: uncomment this */}
+                </TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>

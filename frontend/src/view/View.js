@@ -21,18 +21,18 @@ var View = (function () {
     var currentPageConst,
         menuDrawerOpen = true,
 
-        currentPageConstIsEditable = function () {
+        CurrentPageIsEditable = function () {
             return (currentPageConst === AccountBudgetsPageConst ||
-                    currentPageConst === BudgetPageConst ||
-                    currentPageConst === ReportsPageConst);
+                currentPageConst === BudgetPageConst ||
+                currentPageConst === ReportsPageConst);
         },
 
         GetMenuDrawerOpen = function () {
             return menuDrawerOpen;
         },
 
-        RenderAccountBudgetsPage = async function (editable=false) {
-            renderPage(<AccountBudgetsPage editable={editable} />, AccountBudgetsPageConst);
+        RenderAccountBudgetsPage = async function (budgetsEditable = false) {
+            renderPage(<AccountBudgetsPage budgetsEditable={budgetsEditable} />, AccountBudgetsPageConst);
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
@@ -40,7 +40,7 @@ var View = (function () {
             while (AppState.LoadingAccountBudgets())
                 await sleep(500);
 
-            renderPage(<AccountBudgetsPage editable={editable} />, AccountBudgetsPageConst);
+            renderPage(<AccountBudgetsPage budgetsEditable={budgetsEditable} />, AccountBudgetsPageConst);
         },
 
         RenderBudgetPage = function () {
@@ -84,13 +84,12 @@ var View = (function () {
         },
 
         init = function () {
-            // RenderAccountBudgetsPage(); TODO: uncomment this
-            RenderReportPage();
+            RenderAccountBudgetsPage();
         };
 
     return {
         init: init,
-        currentPageConstIsEditable: currentPageConstIsEditable,
+        CurrentPageIsEditable: CurrentPageIsEditable,
         MenuDrawerOpen: GetMenuDrawerOpen,
         RenderAccountBudgetsPage: RenderAccountBudgetsPage,
         RenderEditablePage: RenderEditablePage,

@@ -17,7 +17,7 @@ var AppState = (function () {
                 if (optimisticBudgets.hasOwnProperty(budget.id))
                     budgets.push(optimisticBudgets[budget.id]);
                 else
-                    budget.push(budget);
+                    budgets.push(budget);
             }
             budgets.reverse();
 
@@ -45,7 +45,7 @@ var AppState = (function () {
             currentBudget = JSON.parse(JSON.stringify(budget));
         },
         SetCurrentReport = function (report) {
-            currentReport = JSON.parse(JSON.stringify(report));
+            // currentReport = JSON.parse(JSON.stringify(report)); TODO: uncomment this
         },
         SetLoadingAccountBudgets = function (loading) {
             loadingAccountBudgets = loading;

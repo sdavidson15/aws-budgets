@@ -30,21 +30,25 @@ class MenuWrapper extends React.Component {
         this.title = props.title;
         this.inner = props.inner;
         this.budgetsEditable = (props.budgetsEditable) ? props.budgetsEditable : false;
+        this.open = View.MenuDrawerOpen();
+    }
+
+    setOpen = (open) => {
+        View.SetMenuDrawerOpen(open);
     }
 
     render() {
         const { classes } = this.props;
-        const [open, setOpen] = React.useState(View.MenuDrawerOpen());
         return (
             <div className={classes.root}>
                 <CssBaseline />
                 <MenuBar
-                    open={open}
-                    setOpen={setOpen}
+                    open={this.open}
+                    setOpen={this.setOpen}
                     title={this.title}
                     budgetsEditable={this.budgetsEditable}
                 />
-                <MenuDrawer open={open} setOpen={setOpen} />
+                <MenuDrawer open={this.open} setOpen={this.setOpen} />
                 <main className={classes.content}>
                     <div className={classes.appBarSpacer} />
                     <Container maxWidth="lg" className={classes.container}>

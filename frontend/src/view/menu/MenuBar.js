@@ -56,11 +56,6 @@ class MenuBar extends React.Component {
         this.getEditedBudgets = props.getEditedBudgets;
     }
 
-    handleDrawerOpen() {
-        this.setOpen(true);
-        View.SetMenuDrawerOpen(true);
-    };
-
     handleEditClick() {
         // Edit button appears on many pages when not editing.
         View.RenderEditablePage();
@@ -111,7 +106,7 @@ class MenuBar extends React.Component {
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        onClick={this.handleDrawerOpen}
+                        onClick={() => this.setOpen(true)}
                         className={menuButtonClass}
                     >
                         <MenuIcon />

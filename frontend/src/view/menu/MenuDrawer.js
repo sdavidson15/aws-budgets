@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 
 import { mainListItems, secondaryListItems } from './MenuItems';
-import View from './../View';
 
 const useStyles = theme => ({
     toolbarIcon: {
@@ -48,11 +47,6 @@ class MenuDrawer extends React.Component {
         this.setOpen = props.setOpen;
     }
 
-    handleDrawerClose() {
-        this.setOpen(false);
-        View.SetMenuDrawerOpen(false);
-    };
-
     render() {
         const { classes } = this.props;
         let drawerClass = { paper: clsx(classes.drawerPaper, !this.open && classes.drawerPaperClose) };
@@ -63,7 +57,7 @@ class MenuDrawer extends React.Component {
                 open={this.open}
             >
                 <div className={classes.toolbarIcon}>
-                    <IconButton onClick={this.handleDrawerClose}>
+                    <IconButton onClick={() => this.setOpen(false)}>
                         <ChevronLeftIcon />
                     </IconButton>
                 </div>
