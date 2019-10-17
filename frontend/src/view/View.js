@@ -11,28 +11,28 @@ import EditBudgetPage from './edit-budget-page/EditBudgetPage';
 import ReportPage from './report-page/ReportPage';
 import ReportsPage from './reports-page/ReportsPage';
 
-const AccountBudgetsPage = 'AccountBudgets';
-const BudgetPage = 'Budget';
-const EditBudgetPage = 'EditBudget';
-const ReportPage = 'Report';
-const ReportsPage = 'Reports';
+const AccountBudgetsPageConst = 'AccountBudgets';
+const BudgetPageConst = 'Budget';
+const EditBudgetPageConst = 'EditBudget';
+const ReportPageConst = 'Report';
+const ReportsPageConst = 'Reports';
 
 var View = (function () {
-    var currentPage,
+    var currentPageConst,
         menuDrawerOpen = true,
 
-        CurrentPageIsEditable = function () {
-            return (currentPage === AccountBudgetsPage ||
-                    currentPage === BudgetPage ||
-                    currentPage === ReportsPage);
+        currentPageConstIsEditable = function () {
+            return (currentPageConst === AccountBudgetsPageConst ||
+                    currentPageConst === BudgetPageConst ||
+                    currentPageConst === ReportsPageConst);
         },
 
         GetMenuDrawerOpen = function () {
             return menuDrawerOpen;
-        }
+        },
 
         RenderAccountBudgetsPage = async function (editable=false) {
-            renderPage(<AccountBudgetsPage editable={editable} />, AccountBudgetsPage);
+            renderPage(<AccountBudgetsPage editable={editable} />, AccountBudgetsPageConst);
             function sleep(ms) {
                 return new Promise(resolve => setTimeout(resolve, ms));
             }
@@ -40,32 +40,32 @@ var View = (function () {
             while (AppState.LoadingAccountBudgets())
                 await sleep(500);
 
-            renderPage(<AccountBudgetsPage editable={editable} />, AccountBudgetsPage);
+            renderPage(<AccountBudgetsPage editable={editable} />, AccountBudgetsPageConst);
         },
 
         RenderBudgetPage = function () {
-            if (currentPage === BudgetPage) return;
-            renderPage(<BudgetPage />, BudgetPage);
+            if (currentPageConst === BudgetPageConst) return;
+            renderPage(<BudgetPage />, BudgetPageConst);
         },
 
         RenderEditablePage = function () {
-            if (currentPage === BudgetPage) RenderEditBudgetPage();
-            if (currentPage === AccountBudgetsPage) RenderAccountBudgetsPage(true);
+            if (currentPageConst === BudgetPageConst) RenderEditBudgetPage();
+            if (currentPageConst === AccountBudgetsPageConst) RenderAccountBudgetsPage(true);
         },
 
         RenderEditBudgetPage = function () {
-            if (currentPage === EditBudgetPage) return;
-            renderPage(<EditBudgetPage />, EditBudgetPage);
+            if (currentPageConst === EditBudgetPageConst) return;
+            renderPage(<EditBudgetPage />, EditBudgetPageConst);
         },
 
         RenderReportPage = function () {
-            if (currentPage === ReportPage) return;
-            renderPage(<ReportPage />, ReportPage);
+            if (currentPageConst === ReportPageConst) return;
+            renderPage(<ReportPage />, ReportPageConst);
         },
 
         RenderReportsPage = function () {
-            if (currentPage === ReportsPage) return;
-            renderPage(<ReportsPage />, ReportsPage);
+            if (currentPageConst === ReportsPageConst) return;
+            renderPage(<ReportsPage />, ReportsPageConst);
         },
 
         SetMenuDrawerOpen = function (open) {
@@ -73,7 +73,7 @@ var View = (function () {
         },
 
         renderPage = function (page, pageConst) {
-            currentPage = pageConst;
+            currentPageConst = pageConst;
             ReactDOM.render(
                 <ThemeProvider>
                     <CssBaseline />
@@ -84,12 +84,13 @@ var View = (function () {
         },
 
         init = function () {
-            RenderAccountBudgetsPage();
+            // RenderAccountBudgetsPage(); TODO: uncomment this
+            RenderReportPage();
         };
 
     return {
         init: init,
-        CurrentPageIsEditable: CurrentPageIsEditable,
+        currentPageConstIsEditable: currentPageConstIsEditable,
         MenuDrawerOpen: GetMenuDrawerOpen,
         RenderAccountBudgetsPage: RenderAccountBudgetsPage,
         RenderEditablePage: RenderEditablePage,

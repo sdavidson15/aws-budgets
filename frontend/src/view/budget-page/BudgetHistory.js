@@ -13,14 +13,14 @@ import TableRow from '@material-ui/core/TableRow';
 import { NumToCurrencyString } from './../../model/Formatters';
 import AppState from './../../controller/State';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
-});
+}));
 
 export default class BudgetHistory extends React.Component {
   constructor(props) {
@@ -30,7 +30,7 @@ export default class BudgetHistory extends React.Component {
 
   render() {
     return (
-      <Paper className={classes.paper}>
+      <Paper className={this.classes.paper}>
         <React.Fragment>
           <Table size="small">
             <TableHead>

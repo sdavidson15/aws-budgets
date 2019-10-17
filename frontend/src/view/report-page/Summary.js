@@ -10,16 +10,16 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
-});
+}));
 
-export default class Summary extends React.Compnent {
+export default class Summary extends React.Component {
   constructor(props) {
     super(props);
     this.classes = useStyles();

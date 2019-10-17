@@ -10,14 +10,14 @@ import Typography from '@material-ui/core/Typography';
 import { FormatChartData } from './../../model/Formatters';
 import AppState from './../../controller/State';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
-});
+}));
 
 export default class Chart extends React.Component {
   constructor(props) {

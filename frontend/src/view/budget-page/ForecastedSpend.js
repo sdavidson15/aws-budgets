@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { FormatSpend, NumToCurrencyString } from './../../model/Formatters';
 import AppState from './../../controller/State';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   title: {
     flex: 1,
   },
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
   fixedHeight: {
     height: 200,
   },
-});
+}));
 
 export default class ForecastedSpend extends React.Component {
   constructor(props) {

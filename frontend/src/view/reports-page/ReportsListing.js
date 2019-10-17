@@ -58,7 +58,7 @@ export default class ReportsListing extends React.Component {
                 <TableRow key={report.id}>
                   <TableCell>{report.date}</TableCell>
                   <TableCell>
-                    <Button className={classes.button} onClick={() => handleReportNameClick(report.id)}>
+                    <Button className={this.classes.button} onClick={() => this.handleReportNameClick(report.id)}>
                       {report.name}
                     </Button>
                   </TableCell>

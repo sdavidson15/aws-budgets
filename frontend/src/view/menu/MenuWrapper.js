@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { defaultStyles } from './../DefaultStyles';
 import MenuBar from './../menu/MenuBar';
 import MenuDrawer from './../menu/MenuDrawer';
+import View from './../View';
 
 export default class MenuWrapper extends React.Component {
     constructor(props) {

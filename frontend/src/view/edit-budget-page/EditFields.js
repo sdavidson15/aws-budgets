@@ -10,8 +10,6 @@ import Typography from '@material-ui/core/Typography';
 
 import AppState from './../../controller/State';
 import ConfigureAlerts from './ConfigureAlerts';
-import Title from './../budget-page/Title';
-import View from './../View';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -41,7 +39,9 @@ export default class EditFields extends React.Component {
   render() {
     return (
       <Paper className={this.classes.paper}>
-        <Title>Budget details</Title>
+        <Typography component="h2" variant="h6" color="primary" gutterBottom>
+          Budget details
+        </Typography>
         <Typography className={this.classes.textBox}>Name</Typography>
         <TextField
           fullWidth
@@ -59,7 +59,7 @@ export default class EditFields extends React.Component {
                 $
             </InputAdornment>,
           }}
-          onChange={handleEditBudgetAmount}
+          onChange={this.handleEditBudgetAmount}
         />
         {/* Configure Alerts */}
         <ConfigureAlerts />

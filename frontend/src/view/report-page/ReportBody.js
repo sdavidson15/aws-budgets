@@ -13,14 +13,14 @@ import TableRow from '@material-ui/core/TableRow';
 import { FormatVarianceDescription, NumToCurrencyString } from './../../model/Formatters';
 import AppState from './../../controller/State';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
-});
+}));
 
 export default class ReportBody extends React.Component {
   constructor(props) {

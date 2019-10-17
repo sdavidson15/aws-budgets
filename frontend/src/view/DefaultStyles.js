@@ -1,4 +1,4 @@
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/styles';
 import Switch from '@material-ui/core/Switch';
 
 const drawerWidth = 240;

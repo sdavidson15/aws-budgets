@@ -97,11 +97,11 @@ export default class MenuBar extends React.Component {
 
         // Conditional rendering
         if (View.CurrentPageIsEditable() && !this.budgetsEditable) {
-            editButton = <IconButton color="inherit" onClick={handleEditClick}><EditIcon /></IconButton>
+            editButton = <IconButton color="inherit" onClick={this.handleEditClick}><EditIcon /></IconButton>
         }
         if (this.budgetsEditable) {
-            cancelButton = <IconButton color="inherit" onClick={handleCancelClick}><CloseIcon /></IconButton>
-            submitButton = <IconButton color="inherit" onClick={handleSubmitClick}><CheckIcon /></IconButton>
+            cancelButton = <IconButton color="inherit" onClick={this.handleCancelClick}><CloseIcon /></IconButton>
+            submitButton = <IconButton color="inherit" onClick={this.handleSubmitClick}><CheckIcon /></IconButton>
         }
 
         return (
@@ -111,7 +111,7 @@ export default class MenuBar extends React.Component {
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        onClick={handleDrawerOpen}
+                        onClick={this.handleDrawerOpen}
                         className={menuButtonClass}
                     >
                         <MenuIcon />

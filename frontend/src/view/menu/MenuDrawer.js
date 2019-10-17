@@ -55,15 +55,15 @@ export default class MenuDrawer extends React.Component {
     };
 
     render() {
-        let drawerClass = { paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose) };
+        let drawerClass = { paper: clsx(this.classes.drawerPaper, !this.open && this.classes.drawerPaperClose) };
         return (
             <Drawer
                 variant="permanent"
                 classes={drawerClass}
                 open={this.open}
             >
-                <div className={classes.toolbarIcon}>
-                    <IconButton onClick={handleDrawerClose}>
+                <div className={this.classes.toolbarIcon}>
+                    <IconButton onClick={this.handleDrawerClose}>
                         <ChevronLeftIcon />
                     </IconButton>
                 </div>

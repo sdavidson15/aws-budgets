@@ -2,6 +2,7 @@ import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 
+import AppState from './../../controller/State';
 import Chart from './../budget-page/Chart';
 import EditFields from './EditFields';
 import FooterButtons from './FooterButtons';

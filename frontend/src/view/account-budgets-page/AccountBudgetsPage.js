@@ -2,7 +2,6 @@ import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 
-import { defaultStyles } from './../DefaultStyles';
 import AppState from './../../controller/State';
 import BudgetsListing from './BudgetsListing';
 import Loading from './Loading';
@@ -13,7 +12,6 @@ import Sort from './Sort';
 export default class AccountBudgetsPage extends React.Component {
   constructor(props) {
     super(props);
-    this.classes = defaultStyles();
     this.budgetsEditable = props.budgetsEditable;
     this.editedBudgets = {};
   }

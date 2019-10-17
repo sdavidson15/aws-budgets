@@ -38,12 +38,12 @@ export default class FooterButtons extends React.Component {
   render() {
     return (
       <Box mt={2} display="flex" justifyContent="flex-end">
-        <Button className={this.classes.button} onClick={handleCancel}>Cancel</Button>
+        <Button className={this.classes.button} onClick={this.handleCancel}>Cancel</Button>
         <Button
           variant="contained"
           color="primary"
           className={this.classes.button}
-          onClick={handleSubmit}
+          onClick={this.handleSubmit}
         >
           Confirm
         </Button>

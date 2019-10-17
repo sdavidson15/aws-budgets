@@ -32,7 +32,7 @@ export default class SpendSwitch extends React.Component {
                     <Grid item>
                         <StyledSwitch
                             checked={this.checked}
-                            onChange={(event) => handleSwitchChange('checked', event)}
+                            onChange={(event) => this.handleSwitchChange('checked', event)}
                             value="checked" />
                     </Grid>
                 </Grid>

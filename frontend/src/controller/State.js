@@ -66,8 +66,8 @@ var AppState = (function () {
 
         init = function (dummy) {
             // TODO: Get rid of this init when you're done mocking things
-            alertEmails = (dummy) ? ['dummy.mock@email.com', 'mock.dummy@email.com'] : [];
-            alertThreshold = (dummy) ? 90 : -1;
+            // alertEmails = (dummy) ? ['dummy.mock@email.com', 'mock.dummy@email.com'] : [];
+            // alertThreshold = (dummy) ? 90 : -1;
             reports = (dummy) ? [
                 { id: 0, date: '10-15-2019', name: 'Budget Alert - Full Year 2019', reportType: 'Annual' },
                 { id: 1, date: '10-15-2019', name: 'Budget Alert - October 2019', reportType: 'Monthly' },

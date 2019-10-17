@@ -9,32 +9,32 @@ import Controller from './../../controller/Controller';
 import View from './../View';
 
 const useStyles = makeStyles(theme => ({
-    button: {
-      textTransform: 'none',
-      fontWeight: 'normal',
-      textAlign: 'left',
-      margin: theme.spacing(1),
-    },
-  }));
+  button: {
+    textTransform: 'none',
+    fontWeight: 'normal',
+    textAlign: 'left',
+    margin: theme.spacing(1),
+  },
+}));
 
 export default class BudgetName extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.classes = useStyles();
-        this.budget = props.budget;
-    }
+    this.classes = useStyles();
+    this.budget = props.budget;
+  }
 
-    handleBudgetNameClick() {
-        Controller.LoadBudget(this.budget.id);
-        View.RenderBudgetPage();
-      }
+  handleBudgetNameClick() {
+    Controller.LoadBudget(this.budget.id);
+    View.RenderBudgetPage();
+  }
 
-    render() {
-        return (
-            <Button className={this.classes.button} onClick={handleBudgetNameClick}>
-                {budget.name}
-            </Button>
-        );
-    }
+  render() {
+    return (
+      <Button className={this.classes.button} onClick={this.handleBudgetNameClick}>
+        {this.budget.name}
+      </Button>
+    );
+  }
 }

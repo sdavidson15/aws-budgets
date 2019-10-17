@@ -33,7 +33,7 @@ export default class BudgetAmount extends React.Component {
                     fullWidth
                     defaultValue={this.budget.budgetAmount}
                     InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
-                    onChange={handleBudgetAmountChange}
+                    onChange={this.handleBudgetAmountChange}
                 />
             );
         } else if (this.budgetsEditable) {
@@ -44,7 +44,7 @@ export default class BudgetAmount extends React.Component {
                         fullWidth
                         defaultValue={this.budget.budgetAmount}
                         InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
-                        onChange={handleBudgetAmountChange}
+                        onChange={this.handleBudgetAmountChange}
                     />
                 </Tooltip>
             );
