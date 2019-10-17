@@ -46,30 +46,21 @@ const useStyles = theme => ({
     },
 });
 
-class MenuBar extends React.Component {
-    constructor(props) {
-        super(props);
-        this.open = props.open;
-        this.setOpen = props.setOpen;
-        this.title = props.title;
-        this.budgetsEditable = props.budgetsEditable;
-        this.getEditedBudgets = props.getEditedBudgets;
-    }
-
-    handleEditClick() {
+function MenuBar(props) {
+    function handleEditClick() {
         // Edit button appears on many pages when not editing.
         View.RenderEditablePage();
     }
 
-    handleCancelClick() {
+    function handleCancelClick() {
         // Cancel button only appears in the AccountBudgets page when editing.
         View.RenderAccountBudgetsPage();
     }
 
-    handleSubmitClick() {
+    function handleSubmitClick() {
         // Submit button only appears in the AccountBudgets page when editing.
         // Collect all edited budgets to submit to the controller to update.
-        var editedBudgets = this.getEditedBudgets(),
+        var editedBudgets = props.getEditedBudgets(),
             budgets = [];
 
         for (var id in editedBudgets) {
@@ -81,51 +72,49 @@ class MenuBar extends React.Component {
         View.RenderAccountBudgetsPage();
     }
 
-    render() {
-        const { classes } = this.props;
-        let appBarClass = clsx(classes.appBar, this.open && classes.appBarShift);
-        let menuButtonClass = clsx(classes.menuButton, this.open && classes.menuButtonHidden)
+    const { classes } = props;
+    let appBarClass = clsx(classes.appBar, props.open && classes.appBarShift);
+    let menuButtonClass = clsx(classes.menuButton, props.open && classes.menuButtonHidden)
 
-        let editButton = null,
-            submitButton = null,
-            cancelButton = null;
+    let editButton = null,
+        submitButton = null,
+        cancelButton = null;
 
-        // Conditional rendering
-        if (View.CurrentPageIsEditable() && !this.budgetsEditable) {
-            editButton = <IconButton color="inherit" onClick={this.handleEditClick}><EditIcon /></IconButton>
-        }
-        if (this.budgetsEditable) {
-            cancelButton = <IconButton color="inherit" onClick={this.handleCancelClick}><CloseIcon /></IconButton>
-            submitButton = <IconButton color="inherit" onClick={this.handleSubmitClick}><CheckIcon /></IconButton>
-        }
-
-        return (
-            <AppBar position="absolute" className={appBarClass}>
-                <Toolbar className={classes.toolbar}>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={() => this.setOpen(true)}
-                        className={menuButtonClass}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        {this.title}
-                    </Typography>
-                    {editButton}
-                    {cancelButton}
-                    {submitButton}
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon />
-                        </Badge>
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-        );
+    // Conditional rendering
+    if (View.CurrentPageIsEditable() && !props.budgetsEditable) {
+        editButton = <IconButton color="inherit" onClick={handleEditClick}><EditIcon /></IconButton>
     }
+    if (props.budgetsEditable) {
+        cancelButton = <IconButton color="inherit" onClick={handleCancelClick}><CloseIcon /></IconButton>
+        submitButton = <IconButton color="inherit" onClick={handleSubmitClick}><CheckIcon /></IconButton>
+    }
+
+    return (
+        <AppBar position="absolute" className={appBarClass}>
+            <Toolbar className={classes.toolbar}>
+                <IconButton
+                    edge="start"
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={() => props.setOpen(true)}
+                    className={menuButtonClass}
+                >
+                    <MenuIcon />
+                </IconButton>
+                <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+                    {props.title}
+                </Typography>
+                {editButton}
+                {cancelButton}
+                {submitButton}
+                <IconButton color="inherit">
+                    <Badge badgeContent={4} color="secondary">
+                        <NotificationsIcon />
+                    </Badge>
+                </IconButton>
+            </Toolbar>
+        </AppBar>
+    );
 }
 
 export default withStyles(useStyles)(MenuBar);

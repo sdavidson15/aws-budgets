@@ -24,40 +24,32 @@ const useStyles = theme => ({
     },
 });
 
-class MenuWrapper extends React.Component {
-    constructor(props) {
-        super(props);
-        this.title = props.title;
-        this.inner = props.inner;
-        this.budgetsEditable = (props.budgetsEditable) ? props.budgetsEditable : false;
-        this.open = View.MenuDrawerOpen();
-    }
-
-    setOpen = (open) => {
+function MenuWrapper(props) {
+    const { classes } = props;
+    const [open, setStateOpen] = React.useState(View.MenuDrawerOpen());
+    function setOpen(open) {
         View.SetMenuDrawerOpen(open);
+        setStateOpen(open);
     }
 
-    render() {
-        const { classes } = this.props;
-        return (
-            <div className={classes.root}>
-                <CssBaseline />
-                <MenuBar
-                    open={this.open}
-                    setOpen={this.setOpen}
-                    title={this.title}
-                    budgetsEditable={this.budgetsEditable}
-                />
-                <MenuDrawer open={this.open} setOpen={this.setOpen} />
-                <main className={classes.content}>
-                    <div className={classes.appBarSpacer} />
-                    <Container maxWidth="lg" className={classes.container}>
-                        {this.inner}
-                    </Container>
-                </main>
-            </div>
-        );
-    }
+    return (
+        <div className={classes.root}>
+            <CssBaseline />
+            <MenuBar
+                open={open}
+                setOpen={setOpen}
+                title={props.title}
+                budgetsEditable={props.budgetsEditable}
+            />
+            <MenuDrawer open={open} setOpen={setOpen} />
+            <main className={classes.content}>
+                <div className={classes.appBarSpacer} />
+                <Container maxWidth="lg" className={classes.container}>
+                    {props.inner}
+                </Container>
+            </main>
+        </div>
+    );
 }
 
 export default withStyles(useStyles)(MenuWrapper);

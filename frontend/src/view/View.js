@@ -84,7 +84,8 @@ var View = (function () {
         },
 
         init = function () {
-            RenderAccountBudgetsPage();
+            // RenderAccountBudgetsPage();
+            RenderReportPage();
         };
 
     return {

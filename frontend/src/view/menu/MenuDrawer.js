@@ -40,34 +40,27 @@ const useStyles = theme => ({
     },
 });
 
-class MenuDrawer extends React.Component {
-    constructor(props) {
-        super(props);
-        this.open = props.open;
-        this.setOpen = props.setOpen;
-    }
+function MenuDrawer(props) {
+    const { classes } = props;
+    let drawerClass = { paper: clsx(classes.drawerPaper, !props.open && classes.drawerPaperClose) };
 
-    render() {
-        const { classes } = this.props;
-        let drawerClass = { paper: clsx(classes.drawerPaper, !this.open && classes.drawerPaperClose) };
-        return (
-            <Drawer
-                variant="permanent"
-                classes={drawerClass}
-                open={this.open}
-            >
-                <div className={classes.toolbarIcon}>
-                    <IconButton onClick={() => this.setOpen(false)}>
-                        <ChevronLeftIcon />
-                    </IconButton>
-                </div>
-                <Divider />
-                <List>{mainListItems}</List>
-                <Divider />
-                <List>{secondaryListItems}</List>
-            </Drawer>
-        );
-    }
+    return (
+        <Drawer
+            variant="permanent"
+            classes={drawerClass}
+            open={props.open}
+        >
+            <div className={classes.toolbarIcon}>
+                <IconButton onClick={() => props.setOpen(false)}>
+                    <ChevronLeftIcon />
+                </IconButton>
+            </div>
+            <Divider />
+            <List>{mainListItems}</List>
+            <Divider />
+            <List>{secondaryListItems}</List>
+        </Drawer>
+    );
 }
 
 export default withStyles(useStyles)(MenuDrawer);
