@@ -25,33 +25,31 @@ const useStyles = theme => ({
   },
 });
 
-class CurrentSpend extends React.Component {
-  render() {
-    const { classes } = this.props;
-    let fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+function CurrentSpend(props) {
+  const { classes } = props;
+  let fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-    return (
-      <Paper className={fixedHeightPaper}>
-        <React.Fragment>
-          <Typography component="h2" variant="h6" color="primary" gutterBottom>
-            Current vs. Budgeted
-          </Typography>
-          <Typography component="p" variant="h6">
-            {FormatSpend(AppState.CurrentSpend(), AppState.BudgetAmount())}
-          </Typography>
-          <Typography color="textSecondary" className={classes.title}>
-            Current
-          </Typography>
-          <Typography component="p" variant="h6">
-            {NumToCurrencyString(AppState.BudgetAmount())}
-          </Typography>
-          <Typography color="textSecondary" className={classes.title}>
-            Budgeted amount
-          </Typography>
-        </React.Fragment>
-      </Paper>
-    );
-  }
+  return (
+    <Paper className={fixedHeightPaper}>
+      <React.Fragment>
+        <Typography component="h2" variant="h6" color="primary" gutterBottom>
+          Current vs. Budgeted
+        </Typography>
+        <Typography component="p" variant="h6">
+          {FormatSpend(AppState.CurrentSpend(), AppState.BudgetAmount())}
+        </Typography>
+        <Typography color="textSecondary" className={classes.title}>
+          Current
+        </Typography>
+        <Typography component="p" variant="h6">
+          {NumToCurrencyString(AppState.BudgetAmount())}
+        </Typography>
+        <Typography color="textSecondary" className={classes.title}>
+          Budgeted amount
+        </Typography>
+      </React.Fragment>
+    </Paper>
+  );
 }
 
 export default withStyles(useStyles)(CurrentSpend);

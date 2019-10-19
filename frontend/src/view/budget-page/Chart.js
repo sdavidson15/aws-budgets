@@ -19,39 +19,37 @@ const useStyles = theme => ({
   },
 });
 
-class Chart extends React.Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <Paper className={classes.paper}>
-        <React.Fragment>
-          <Typography component="h2" variant="h6" color="primary" gutterBottom>
-            Budget History
+function Chart(props) {
+  const { classes } = props;
+  return (
+    <Paper className={classes.paper}>
+      <React.Fragment>
+        <Typography component="h2" variant="h6" color="primary" gutterBottom>
+          Budget History
           </Typography>
-          <ResponsiveContainer>
-            <LineChart
-              data={FormatChartData(AppState.BudgetHistory())}
-              margin={{
-                top: 16,
-                right: 16,
-                bottom: 0,
-                left: 24,
-              }}
-            >
-              <XAxis dataKey="date" />
-              <YAxis>
-                <Label angle={270} position="left" style={{ textAnchor: 'middle' }}>
-                  Spend ($)
+        <ResponsiveContainer>
+          <LineChart
+            data={FormatChartData(AppState.BudgetHistory())}
+            margin={{
+              top: 16,
+              right: 16,
+              bottom: 0,
+              left: 24,
+            }}
+          >
+            <XAxis dataKey="date" />
+            <YAxis>
+              <Label angle={270} position="left" style={{ textAnchor: 'middle' }}>
+                Spend ($)
                 </Label>
-              </YAxis>
-              <Line type="monotone" dataKey="actual" stroke="#556CD6" dot={true} />
-              <Line type="monotone" dataKey="budgeted" stroke="#CF2727" dot={false} />
-            </LineChart>
-          </ResponsiveContainer>
-        </React.Fragment>
-      </Paper>
-    );
-  }
+            </YAxis>
+            <Line type="monotone" dataKey="actual" stroke="#556CD6" dot={true} />
+            <Line type="monotone" dataKey="budgeted" stroke="#CF2727" dot={false} />
+          </LineChart>
+        </ResponsiveContainer>
+      </React.Fragment>
+    </Paper>
+  );
 }
 
 export default withStyles(useStyles)(Chart);

@@ -22,42 +22,40 @@ const useStyles = theme => ({
   },
 });
 
-class ReportBody extends React.Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <Paper className={classes.paper}>
-        <React.Fragment>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>Account ID</TableCell>
-                <TableCell>Account Label</TableCell>
-                <TableCell>Budget Amount ($)</TableCell>
-                <TableCell>Alert Count</TableCell>
-                <TableCell>Final Cost ($)</TableCell>
-                <TableCell>Over ($)</TableCell>
-                <TableCell>Over (%)</TableCell>
+function ReportBody(props) {
+  const { classes } = props;
+  return (
+    <Paper className={classes.paper}>
+      <React.Fragment>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Account ID</TableCell>
+              <TableCell>Account Label</TableCell>
+              <TableCell>Budget Amount ($)</TableCell>
+              <TableCell>Alert Count</TableCell>
+              <TableCell>Final Cost ($)</TableCell>
+              <TableCell>Over ($)</TableCell>
+              <TableCell>Over (%)</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {AppState.CurrentReport().reportBody.map(row => (
+              <TableRow key={row.accountID}>
+                <TableCell>{row.accountID}</TableCell>
+                <TableCell>{row.accountLabel}</TableCell>
+                <TableCell>{NumToCurrencyString(row.budgeted)}</TableCell>
+                <TableCell>{row.alertCount}</TableCell>
+                <TableCell>{NumToCurrencyString(row.spend)}</TableCell>
+                <TableCell>{NumToCurrencyString(row.spend - row.budgeted)}</TableCell>
+                <TableCell>{FormatVarianceDescription(row.budgeted, row.spend)}</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {AppState.CurrentReport().reportBody.map(row => (
-                <TableRow key={row.accountID}>
-                  <TableCell>{row.accountID}</TableCell>
-                  <TableCell>{row.accountLabel}</TableCell>
-                  <TableCell>{NumToCurrencyString(row.budgeted)}</TableCell>
-                  <TableCell>{row.alertCount}</TableCell>
-                  <TableCell>{NumToCurrencyString(row.spend)}</TableCell>
-                  <TableCell>{NumToCurrencyString(row.spend - row.budgeted)}</TableCell>
-                  <TableCell>{FormatVarianceDescription(row.budgeted, row.spend)}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </React.Fragment>
-      </Paper>
-    );
-  }
+            ))}
+          </TableBody>
+        </Table>
+      </React.Fragment>
+    </Paper>
+  );
 }
 
 export default withStyles(useStyles)(ReportBody);

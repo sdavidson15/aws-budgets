@@ -25,47 +25,40 @@ const useStyles = theme => ({
   },
 });
 
-class EditFields extends React.Component {
-  constructor(props) {
-    super(props);
-    this.setEditedBudgetAmount = props.setEditedBudgetAmount;
+function EditFields(props) {
+  function handleEditBudgetAmount(e) {
+    props.setEditedBudgetAmount(parseFloat(e.target.value));
   }
 
-  handleEditBudgetAmount(e) {
-    this.setEditedBudgetAmount(parseFloat(e.target.value));
-  }
-
-  render() {
-    const { classes } = this.props;
-    return (
-      <Paper className={classes.paper}>
-        <Typography component="h2" variant="h6" color="primary" gutterBottom>
-          Budget details
+  const { classes } = props;
+  return (
+    <Paper className={classes.paper}>
+      <Typography component="h2" variant="h6" color="primary" gutterBottom>
+        Budget details
         </Typography>
-        <Typography className={classes.textBox}>Name</Typography>
-        <TextField
-          fullWidth
-          variant="outlined"
-          defaultValue={AppState.BudgetName()}
-        />
-        <Typography className={classes.textBox}>Budget Amount</Typography>
-        <TextField
-          fullWidth
-          variant="outlined"
-          defaultValue={AppState.BudgetAmount()}
-          InputProps={{
-            startAdornment:
-              <InputAdornment position="start">
-                $
+      <Typography className={classes.textBox}>Name</Typography>
+      <TextField
+        fullWidth
+        variant="outlined"
+        defaultValue={AppState.BudgetName()}
+      />
+      <Typography className={classes.textBox}>Budget Amount</Typography>
+      <TextField
+        fullWidth
+        variant="outlined"
+        defaultValue={AppState.BudgetAmount()}
+        InputProps={{
+          startAdornment:
+            <InputAdornment position="start">
+              $
             </InputAdornment>,
-          }}
-          onChange={this.handleEditBudgetAmount}
-        />
-        {/* Configure Alerts */}
-        <ConfigureAlerts />
-      </Paper>
-    );
-  }
+        }}
+        onChange={handleEditBudgetAmount}
+      />
+      {/* Configure Alerts */}
+      <ConfigureAlerts />
+    </Paper>
+  );
 }
 
 export default withStyles(useStyles)(EditFields);

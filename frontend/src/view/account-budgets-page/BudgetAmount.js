@@ -8,47 +8,37 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import { NumToCurrencyString } from './../../model/Formatters';
 
-export default class BudgetAmount extends React.Component {
-    constructor(props) {
-        super(props);
-        this.budget = props.budget;
-        this.budgetsEditable = props.budgetsEditable;
-        this.addEditedBudget = props.addEditedBudget;
+export default function BudgetAmount(props) {
+    function handleBudgetAmountChange(e) {
+        props.budget.budgetAmount = parseFloat(e.target.value);
+        props.addEditedBudget(props.budget);
     }
 
-    handleBudgetAmountChange(e) {
-        this.budget.budgetAmount = parseFloat(e.target.value);
-        this.addEditedBudget(this.budget);
-    }
+    let suggestion = ("Suggested: ").concat(NumToCurrencyString(props.budget.suggestedBudget));
+    let budgetAmountElement = NumToCurrencyString(props.budget.budgetAmount);
 
-    render() {
-        let suggestion = ("Suggested: ").concat(NumToCurrencyString(this.budget.suggestedBudget));
-        let budgetAmountElement = NumToCurrencyString(this.budget.budgetAmount);
-
-        // Conditional rendering
-        if (this.budgetsEditable && this.budget.budgetAmount === this.budget.suggestedBudget) {
-            budgetAmountElement = (
+    if (props.budgetsEditable && props.budget.budgetAmount === props.budget.suggestedBudget) {
+        budgetAmountElement = (
+            <TextField
+                fullWidth
+                defaultValue={props.budget.budgetAmount}
+                InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
+                onChange={handleBudgetAmountChange}
+            />
+        );
+    } else if (props.budgetsEditable) {
+        budgetAmountElement = (
+            <Tooltip title={suggestion}>
                 <TextField
+                    error
                     fullWidth
-                    defaultValue={this.budget.budgetAmount}
+                    defaultValue={props.budget.budgetAmount}
                     InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
-                    onChange={this.handleBudgetAmountChange}
+                    onChange={handleBudgetAmountChange}
                 />
-            );
-        } else if (this.budgetsEditable) {
-            budgetAmountElement = (
-                <Tooltip title={suggestion}>
-                    <TextField
-                        error
-                        fullWidth
-                        defaultValue={this.budget.budgetAmount}
-                        InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
-                        onChange={this.handleBudgetAmountChange}
-                    />
-                </Tooltip>
-            );
-        }
-
-        return ({ budgetAmountElement });
+            </Tooltip>
+        );
     }
+
+    return ({ budgetAmountElement });
 }

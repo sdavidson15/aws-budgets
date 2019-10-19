@@ -20,22 +20,20 @@ const useStyles = theme => ({
   },
 });
 
-class Sort extends React.Component {
-  render() {
-    const { classes } = this.props;
-    let paperClass = clsx(classes.paper, classes.sortFixedHeight);
+function Sort(props) {
+  const { classes } = props;
+  let paperClass = clsx(classes.paper, classes.sortFixedHeight);
 
-    return (
-      <Paper className={paperClass}>
-        <React.Fragment>
-          <Typography component="h2" variant="h6" color="primary" gutterBottom>
-            Sort
+  return (
+    <Paper className={paperClass}>
+      <React.Fragment>
+        <Typography component="h2" variant="h6" color="primary" gutterBottom>
+          Sort
           </Typography>
-          <TextField></TextField>
-        </React.Fragment>
-      </Paper>
-    );
-  }
+        <TextField></TextField>
+      </React.Fragment>
+    </Paper>
+  );
 }
 
 export default withStyles(useStyles)(Sort);

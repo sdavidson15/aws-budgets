@@ -17,25 +17,18 @@ const useStyles = theme => ({
   },
 });
 
-class BudgetName extends React.Component {
-  constructor(props) {
-    super(props);
-    this.budget = props.budget;
-  }
-
-  handleBudgetNameClick() {
-    Controller.LoadBudget(this.budget.id);
+function BudgetName(props) {
+  function handleBudgetNameClick() {
+    Controller.LoadBudget(props.budget.id);
     View.RenderBudgetPage();
   }
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <Button className={classes.button} onClick={this.handleBudgetNameClick}>
-        {this.budget.name}
-      </Button>
-    );
-  }
+  const { classes } = props;
+  return (
+    <Button className={classes.button} onClick={handleBudgetNameClick}>
+      {props.budget.name}
+    </Button>
+  );
 }
 
 export default withStyles(useStyles)(BudgetName);

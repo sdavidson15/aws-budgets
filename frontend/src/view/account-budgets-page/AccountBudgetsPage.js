@@ -9,41 +9,34 @@ import MenuWrapper from './../menu/MenuWrapper';
 import Search from './Search';
 import Sort from './Sort';
 
-export default class AccountBudgetsPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.budgetsEditable = props.budgetsEditable;
-    this.editedBudgets = {};
+export default function AccountBudgetsPage(props) {
+  let editedBudgets = {};
+  function addEditedBudget(budget) {
+    if (props.budgetsEditable)
+      editedBudgets[budget.id] = budget;
   }
 
-  addEditedBudget(budget) {
-    if (this.budgetsEditable)
-      this.editedBudgets[budget.id] = budget;
+  let budgetsListing = <BudgetsListing budgetsEditable={props.budgetsEditable} addEditedBudget={addEditedBudget} />;
+  if (AppState.LoadingAccountBudgets()) {
+    budgetsListing = <Loading />;
   }
 
-  render() {
-    let budgetsListing = <BudgetsListing budgetsEditable={this.budgetsEditable} addEditedBudget={this.addEditedBudget} />;
-    if (AppState.LoadingAccountBudgets()) {
-      budgetsListing = <Loading />;
-    }
-
-    return (
-      <MenuWrapper title='Account Budgets' budgetsEditable={this.budgetsEditable} inner={
-        <Grid container spacing={3}>
-          {/* Search */}
-          <Grid item xs={8}>
-            <Search />
-          </Grid>
-          {/* Sort */}
-          <Grid item xs={4}>
-            <Sort />
-          </Grid>
-          {/* Budgets Listing */}
-          <Grid item xs={12}>
-            {budgetsListing}
-          </Grid>
+  return (
+    <MenuWrapper title='Account Budgets' budgetsEditable={props.budgetsEditable} inner={
+      <Grid container spacing={3}>
+        {/* Search */}
+        <Grid item xs={8}>
+          <Search />
         </Grid>
-      } />
-    );
-  }
+        {/* Sort */}
+        <Grid item xs={4}>
+          <Sort />
+        </Grid>
+        {/* Budgets Listing */}
+        <Grid item xs={12}>
+          {budgetsListing}
+        </Grid>
+      </Grid>
+    } />
+  );
 }

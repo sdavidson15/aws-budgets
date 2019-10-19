@@ -22,38 +22,36 @@ const useStyles = theme => ({
   },
 });
 
-class BudgetHistory extends React.Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <Paper className={classes.paper}>
-        <React.Fragment>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>Actual</TableCell>
-                <TableCell>Budgeted</TableCell>
-                <TableCell>Budget variance ($)</TableCell>
-                <TableCell>Budget variance (%)</TableCell>
+function BudgetHistory(props) {
+  const { classes } = props;
+  return (
+    <Paper className={classes.paper}>
+      <React.Fragment>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell>Actual</TableCell>
+              <TableCell>Budgeted</TableCell>
+              <TableCell>Budget variance ($)</TableCell>
+              <TableCell>Budget variance (%)</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {AppState.BudgetHistory().map(row => (
+              <TableRow key={row.id}>
+                <TableCell>{row.date}</TableCell>
+                <TableCell>{NumToCurrencyString(row.actual)}</TableCell>
+                <TableCell>{NumToCurrencyString(row.budgeted)}</TableCell>
+                <TableCell>{NumToCurrencyString(row.variance)}</TableCell>
+                <TableCell>{row.varianceDescr}</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {AppState.BudgetHistory().map(row => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.date}</TableCell>
-                  <TableCell>{NumToCurrencyString(row.actual)}</TableCell>
-                  <TableCell>{NumToCurrencyString(row.budgeted)}</TableCell>
-                  <TableCell>{NumToCurrencyString(row.variance)}</TableCell>
-                  <TableCell>{row.varianceDescr}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </React.Fragment>
-      </Paper>
-    );
-  }
+            ))}
+          </TableBody>
+        </Table>
+      </React.Fragment>
+    </Paper>
+  );
 }
 
 export default withStyles(useStyles)(BudgetHistory);

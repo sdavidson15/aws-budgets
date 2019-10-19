@@ -15,41 +15,34 @@ const useStyles = {
   },
 };
 
-class FooterButtons extends React.Component {
-  constructor(props) {
-    super(props);
-    this.getEditedBudgetAmount = props.getEditedBudgetAmount;
-  }
-
-  handleSubmit() {
+function FooterButtons(props) {
+  function handleSubmit() {
     var budget = AppState.CurrentBudget();
-    budget.budgetAmount = this.getEditedBudgetAmount();
+    budget.budgetAmount = props.getEditedBudgetAmount();
 
     Controller.SetOptimisticBudget(budget);
     Controller.UpdateAccountBudgets([budget]);
     View.RenderBudgetPage();
   }
 
-  handleCancel() {
+  function handleCancel() {
     View.RenderBudgetPage();
   }
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <Box mt={2} display="flex" justifyContent="flex-end">
-        <Button className={classes.button} onClick={this.handleCancel}>Cancel</Button>
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.button}
-          onClick={this.handleSubmit}
-        >
-          Confirm
+  const { classes } = props;
+  return (
+    <Box mt={2} display="flex" justifyContent="flex-end">
+      <Button className={classes.button} onClick={handleCancel}>Cancel</Button>
+      <Button
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        onClick={handleSubmit}
+      >
+        Confirm
         </Button>
-      </Box>
-    );
-  }
+    </Box>
+  );
 }
 
 export default withStyles(useStyles)(FooterButtons);

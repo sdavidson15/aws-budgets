@@ -39,66 +39,64 @@ const useStyles = theme => ({
   },
 });
 
-class ConfigureAlerts extends React.Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <div>
-        <Typography className={classes.textBoxCentered}>
-          Configure alerts
+function ConfigureAlerts(props) {
+  const { classes } = props;
+  return (
+    <div>
+      <Typography className={classes.textBoxCentered}>
+        Configure alerts
         </Typography>
-        <Divider />
-        <Box display="flex" justifyContent="flex-end">
-          <Button className={classes.button} color="primary" variant="contained">
-            Remove Alert
+      <Divider />
+      <Box display="flex" justifyContent="flex-end">
+        <Button className={classes.button} color="primary" variant="contained">
+          Remove Alert
           </Button>
-        </Box>
-        <Typography className={classes.textBox}>
-          Alert threshold
+      </Box>
+      <Typography className={classes.textBox}>
+        Alert threshold
         </Typography>
-        <TextField
-          className={classes.textInput}
-          variant="outlined"
-          defaultValue={AppState.AlertThreshold()}
-          InputProps={{
-            endAdornment:
-              <InputAdornment position="end">
-                % of budgeted amount
+      <TextField
+        className={classes.textInput}
+        variant="outlined"
+        defaultValue={AppState.AlertThreshold()}
+        InputProps={{
+          endAdornment:
+            <InputAdornment position="end">
+              % of budgeted amount
               </InputAdornment>
-          }}
-        />
-        <Typography className={classes.textBox}>
-          Email contacts
+        }}
+      />
+      <Typography className={classes.textBox}>
+        Email contacts
         </Typography>
-        {AppState.AlertEmails().map(email => (
-          <Box key={email.concat('-key')}>
-            <TextField
-              className={classes.textInput}
-              variant="outlined"
-              defaultValue={email}
-              InputProps={{
-                endAdornment:
-                  <InputAdornment position="end">
-                    <IconButton>
-                      <DeleteIcon />
-                    </IconButton>
-                  </InputAdornment>,
-              }}
-            />
-          </Box>
-        ))}
-        <Button className={classes.button} variant="contained">
-          Add email contact
-        </Button>
-        <Divider />
-        <Box display="flex" justifyContent="flex-end">
-          <Button className={classes.button} variant="contained" startIcon={<AddIcon />}>
-            Add new alert
-          </Button>
+      {AppState.AlertEmails().map(email => (
+        <Box key={email.concat('-key')}>
+          <TextField
+            className={classes.textInput}
+            variant="outlined"
+            defaultValue={email}
+            InputProps={{
+              endAdornment:
+                <InputAdornment position="end">
+                  <IconButton>
+                    <DeleteIcon />
+                  </IconButton>
+                </InputAdornment>,
+            }}
+          />
         </Box>
-      </div>
-    );
-  }
+      ))}
+      <Button className={classes.button} variant="contained">
+        Add email contact
+        </Button>
+      <Divider />
+      <Box display="flex" justifyContent="flex-end">
+        <Button className={classes.button} variant="contained" startIcon={<AddIcon />}>
+          Add new alert
+          </Button>
+      </Box>
+    </div>
+  );
 }
 
 export default withStyles(useStyles)(ConfigureAlerts);

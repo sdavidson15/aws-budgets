@@ -25,33 +25,31 @@ const useStyles = theme => ({
   },
 });
 
-class ForecastedSpend extends React.Component {
-  render() {
-    const { classes } = this.props;
-    let fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+function ForecastedSpend(props) {
+  const { classes } = props;
+  let fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-    return (
-      <Paper className={fixedHeightPaper}>
-        <React.Fragment>
-          <Typography component="h2" variant="h6" color="primary" gutterBottom>
-            Forecasted vs. Budgeted
+  return (
+    <Paper className={fixedHeightPaper}>
+      <React.Fragment>
+        <Typography component="h2" variant="h6" color="primary" gutterBottom>
+          Forecasted vs. Budgeted
           </Typography>
-          <Typography component="p" variant="h6">
-            {FormatSpend(AppState.ForecastedSpend(), AppState.BudgetAmount())}
+        <Typography component="p" variant="h6">
+          {FormatSpend(AppState.ForecastedSpend(), AppState.BudgetAmount())}
+        </Typography>
+        <Typography color="textSecondary" className={classes.title}>
+          Forecasted
           </Typography>
-          <Typography color="textSecondary" className={classes.title}>
-            Forecasted
+        <Typography component="p" variant="h6">
+          {NumToCurrencyString(AppState.BudgetAmount())}
+        </Typography>
+        <Typography color="textSecondary" className={classes.title}>
+          Budgeted amount
           </Typography>
-          <Typography component="p" variant="h6">
-            {NumToCurrencyString(AppState.BudgetAmount())}
-          </Typography>
-          <Typography color="textSecondary" className={classes.title}>
-            Budgeted amount
-          </Typography>
-        </React.Fragment>
-      </Paper>
-    );
-  }
+      </React.Fragment>
+    </Paper>
+  );
 }
 
 export default withStyles(useStyles)(ForecastedSpend);

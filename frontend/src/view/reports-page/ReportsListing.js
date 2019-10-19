@@ -30,43 +30,41 @@ const useStyles = theme => ({
   },
 });
 
-class ReportsListing extends React.Component {
-  handleReportNameClick(reportId) {
+function ReportsListing(props) {
+  function handleReportNameClick(reportId) {
     Controller.LoadReport(reportId);
     View.RenderReportPage();
   }
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <Paper className={classes.paper}>
-        <React.Fragment>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Type</TableCell>
+  const { classes } = props;
+  return (
+    <Paper className={classes.paper}>
+      <React.Fragment>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Type</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {AppState.Reports().map(report => (
+              <TableRow key={report.id}>
+                <TableCell>{report.date}</TableCell>
+                <TableCell>
+                  <Button className={classes.button} onClick={() => handleReportNameClick(report.id)}>
+                    {report.name}
+                  </Button>
+                </TableCell>
+                <TableCell>{report.reportType}</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {AppState.Reports().map(report => (
-                <TableRow key={report.id}>
-                  <TableCell>{report.date}</TableCell>
-                  <TableCell>
-                    <Button className={classes.button} onClick={() => this.handleReportNameClick(report.id)}>
-                      {report.name}
-                    </Button>
-                  </TableCell>
-                  <TableCell>{report.reportType}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </React.Fragment>
-      </Paper>
-    );
-  }
+            ))}
+          </TableBody>
+        </Table>
+      </React.Fragment>
+    </Paper>
+  );
 }
 
 export default withStyles(useStyles)(ReportsListing);

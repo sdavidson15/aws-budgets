@@ -19,33 +19,31 @@ const useStyles = theme => ({
   },
 });
 
-class Summary extends React.Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <Paper className={classes.paper}>
-        <React.Fragment>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell># of accounts over budget</TableCell>
-                <TableCell>% of accounts over budget</TableCell>
-                <TableCell>Total amount over budget</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                {/* TODO: get rid of dummy data */}
-                <TableCell>36</TableCell>
-                <TableCell>28.8%</TableCell>
-                <TableCell>$159288.37</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </React.Fragment>
-      </Paper>
-    );
-  }
+function Summary(props) {
+  const { classes } = props;
+  return (
+    <Paper className={classes.paper}>
+      <React.Fragment>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell># of accounts over budget</TableCell>
+              <TableCell>% of accounts over budget</TableCell>
+              <TableCell>Total amount over budget</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              {/* TODO: get rid of dummy data */}
+              <TableCell>36</TableCell>
+              <TableCell>28.8%</TableCell>
+              <TableCell>$159288.37</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </React.Fragment>
+    </Paper>
+  );
 }
 
 export default withStyles(useStyles)(Summary);

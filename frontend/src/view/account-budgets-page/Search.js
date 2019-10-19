@@ -20,22 +20,20 @@ const useStyles = theme => ({
   },
 });
 
-class Search extends React.Component {
-  render() {
-    const { classes } = this.props;
-    let paperClass = clsx(classes.paper, classes.searchFixedHeight);
+function Search(props) {
+  const { classes } = props;
+  let paperClass = clsx(classes.paper, classes.searchFixedHeight);
 
-    return (
-      <Paper className={paperClass}>
-        <React.Fragment>
-          <Typography component="h2" variant="h6" color="primary" gutterBottom>
-            Search
+  return (
+    <Paper className={paperClass}>
+      <React.Fragment>
+        <Typography component="h2" variant="h6" color="primary" gutterBottom>
+          Search
           </Typography>
-          <TextField></TextField>
-        </React.Fragment>
-      </Paper>
-    );
-  }
+        <TextField></TextField>
+      </React.Fragment>
+    </Paper>
+  );
 }
 
 export default withStyles(useStyles)(Search);

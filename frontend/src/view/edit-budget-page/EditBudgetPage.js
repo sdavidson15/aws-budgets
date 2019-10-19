@@ -8,38 +8,33 @@ import EditFields from './EditFields';
 import FooterButtons from './FooterButtons';
 import MenuWrapper from './../menu/MenuWrapper';
 
-export default class EditBudgetPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.editedBudgetAmount = AppState.Budget().budgetAmount;
+export default function EditBudgetPage() {
+  let editedBudgetAmount = AppState.Budget().budgetAmount;
+
+  function getEditedBudgetAmount() {
+    return editedBudgetAmount;
   }
 
-  getEditedBudgetAmount() {
-    return this.editedBudgetAmount;
+  function setEditedBudgetAmount(amount) {
+    editedBudgetAmount = amount;
   }
 
-  setEditedBudgetAmount(amount) {
-    this.editedBudgetAmount = amount;
-  }
-
-  render() {
-    return (
-      <MenuWrapper title='Edit Budget' inner={
-        <Grid container spacing={3}>
-          {/* Chart */}
-          <Grid item xs={12}>
-            <Chart />
-          </Grid>
-          {/* Edit Fields */}
-          <Grid item xs={12}>
-            <EditFields setEditedBudgetAmount={this.setEditedBudgetAmount} />
-          </Grid>
-          {/* Footer Buttons */}
-          <Grid item xs={12}>
-            <FooterButtons getEditedBudgetAmount={this.getEditedBudgetAmount} />
-          </Grid>
+  return (
+    <MenuWrapper title='Edit Budget' inner={
+      <Grid container spacing={3}>
+        {/* Chart */}
+        <Grid item xs={12}>
+          <Chart />
         </Grid>
-      } />
-    );
-  }
+        {/* Edit Fields */}
+        <Grid item xs={12}>
+          <EditFields setEditedBudgetAmount={setEditedBudgetAmount} />
+        </Grid>
+        {/* Footer Buttons */}
+        <Grid item xs={12}>
+          <FooterButtons getEditedBudgetAmount={getEditedBudgetAmount} />
+        </Grid>
+      </Grid>
+    } />
+  );
 }
