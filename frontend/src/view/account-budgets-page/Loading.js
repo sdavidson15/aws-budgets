@@ -2,11 +2,11 @@
 
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Paper from '@material-ui/core/Paper';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
@@ -18,10 +18,10 @@ const useStyles = theme => ({
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
   },
-});
+}));
 
-function Loading(props) {
-  const { classes } = props;
+export default function Loading() {
+  const classes = useStyles();
   return (
     <Paper className={classes.paper}>
       <React.Fragment>
@@ -30,5 +30,3 @@ function Loading(props) {
     </Paper>
   );
 }
-
-export default withStyles(useStyles)(Loading);

@@ -15,6 +15,9 @@ export default function AccountBudgetsPage(props) {
     if (props.budgetsEditable)
       editedBudgets[budget.id] = budget;
   }
+  function getEditedBudgets() {
+    return editedBudgets;
+  }
 
   let budgetsListing = <BudgetsListing budgetsEditable={props.budgetsEditable} addEditedBudget={addEditedBudget} />;
   if (AppState.LoadingAccountBudgets()) {
@@ -22,7 +25,7 @@ export default function AccountBudgetsPage(props) {
   }
 
   return (
-    <MenuWrapper title='Account Budgets' budgetsEditable={props.budgetsEditable} inner={
+    <MenuWrapper title='Account Budgets' budgetsEditable={props.budgetsEditable} getEditedBudgets={getEditedBudgets} inner={
       <Grid container spacing={3}>
         {/* Search */}
         <Grid item xs={8}>

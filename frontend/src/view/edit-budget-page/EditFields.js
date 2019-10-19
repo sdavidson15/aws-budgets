@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField'
@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import AppState from './../../controller/State';
 import ConfigureAlerts from './ConfigureAlerts';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
@@ -23,14 +23,14 @@ const useStyles = theme => ({
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
   },
-});
+}));
 
-function EditFields(props) {
+export default function EditFields(props) {
   function handleEditBudgetAmount(e) {
     props.setEditedBudgetAmount(parseFloat(e.target.value));
   }
 
-  const { classes } = props;
+  const classes = useStyles();
   return (
     <Paper className={classes.paper}>
       <Typography component="h2" variant="h6" color="primary" gutterBottom>
@@ -60,5 +60,3 @@ function EditFields(props) {
     </Paper>
   );
 }
-
-export default withStyles(useStyles)(EditFields);

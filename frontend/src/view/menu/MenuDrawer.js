@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -10,7 +10,7 @@ import List from '@material-ui/core/List';
 
 import { mainListItems, secondaryListItems } from './MenuItems';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
     toolbarIcon: {
         display: 'flex',
         alignItems: 'center',
@@ -38,10 +38,10 @@ const useStyles = theme => ({
             width: theme.spacing(9),
         },
     },
-});
+}));
 
-function MenuDrawer(props) {
-    const { classes } = props;
+export default function MenuDrawer(props) {
+    const classes = useStyles();
     let drawerClass = { paper: clsx(classes.drawerPaper, !props.open && classes.drawerPaperClose) };
 
     return (
@@ -62,5 +62,3 @@ function MenuDrawer(props) {
         </Drawer>
     );
 }
-
-export default withStyles(useStyles)(MenuDrawer);

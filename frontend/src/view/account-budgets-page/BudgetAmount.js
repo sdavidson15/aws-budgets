@@ -40,5 +40,5 @@ export default function BudgetAmount(props) {
         );
     }
 
-    return ({ budgetAmountElement });
+    return budgetAmountElement;
 }

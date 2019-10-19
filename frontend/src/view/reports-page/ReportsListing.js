@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -15,7 +15,7 @@ import AppState from './../../controller/State';
 import Controller from './../../controller/Controller';
 import View from './../View';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   button: {
     textTransform: 'none',
     fontWeight: 'normal',
@@ -28,15 +28,15 @@ const useStyles = theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
-});
+}));
 
-function ReportsListing(props) {
+export default function ReportsListing() {
   function handleReportNameClick(reportId) {
     Controller.LoadReport(reportId);
     View.RenderReportPage();
   }
 
-  const { classes } = props;
+  const classes = useStyles();
   return (
     <Paper className={classes.paper}>
       <React.Fragment>
@@ -66,5 +66,3 @@ function ReportsListing(props) {
     </Paper>
   );
 }
-
-export default withStyles(useStyles)(ReportsListing);

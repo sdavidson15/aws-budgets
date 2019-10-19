@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
@@ -8,14 +8,14 @@ import AppState from './../../controller/State';
 import Controller from './../../controller/Controller';
 import View from './../View';
 
-const useStyles = {
+const useStyles = makeStyles({
   button: {
     width: 200,
     textTransform: 'none',
   },
-};
+});
 
-function FooterButtons(props) {
+export default function FooterButtons(props) {
   function handleSubmit() {
     var budget = AppState.CurrentBudget();
     budget.budgetAmount = props.getEditedBudgetAmount();
@@ -29,7 +29,7 @@ function FooterButtons(props) {
     View.RenderBudgetPage();
   }
 
-  const { classes } = props;
+  const classes = useStyles();
   return (
     <Box mt={2} display="flex" justifyContent="flex-end">
       <Button className={classes.button} onClick={handleCancel}>Cancel</Button>
@@ -44,5 +44,3 @@ function FooterButtons(props) {
     </Box>
   );
 }
-
-export default withStyles(useStyles)(FooterButtons);

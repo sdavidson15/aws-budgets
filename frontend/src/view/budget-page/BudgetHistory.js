@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,17 +13,17 @@ import TableRow from '@material-ui/core/TableRow';
 import { NumToCurrencyString } from './../../model/Formatters';
 import AppState from './../../controller/State';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
-});
+}));
 
-function BudgetHistory(props) {
-  const { classes } = props;
+export default function BudgetHistory() {
+  const classes = useStyles();
   return (
     <Paper className={classes.paper}>
       <React.Fragment>
@@ -38,7 +38,7 @@ function BudgetHistory(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {AppState.BudgetHistory().map(row => (
+            {AppState.CurrentBudget().budgetHistory.map(row => (
               <TableRow key={row.id}>
                 <TableCell>{row.date}</TableCell>
                 <TableCell>{NumToCurrencyString(row.actual)}</TableCell>
@@ -53,5 +53,3 @@ function BudgetHistory(props) {
     </Paper>
   );
 }
-
-export default withStyles(useStyles)(BudgetHistory);

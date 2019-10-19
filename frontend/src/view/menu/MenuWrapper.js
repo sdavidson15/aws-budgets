@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -8,7 +8,7 @@ import MenuBar from './../menu/MenuBar';
 import MenuDrawer from './../menu/MenuDrawer';
 import View from './../View';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
     },
@@ -22,10 +22,10 @@ const useStyles = theme => ({
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
     },
-});
+}));
 
-function MenuWrapper(props) {
-    const { classes } = props;
+export default function MenuWrapper(props) {
+    const classes = useStyles();
     const [open, setStateOpen] = React.useState(View.MenuDrawerOpen());
     function setOpen(open) {
         View.SetMenuDrawerOpen(open);
@@ -40,6 +40,7 @@ function MenuWrapper(props) {
                 setOpen={setOpen}
                 title={props.title}
                 budgetsEditable={props.budgetsEditable}
+                getEditedBudgets={props.getEditedBudgets}
             />
             <MenuDrawer open={open} setOpen={setOpen} />
             <main className={classes.content}>
@@ -51,5 +52,3 @@ function MenuWrapper(props) {
         </div>
     );
 }
-
-export default withStyles(useStyles)(MenuWrapper);

@@ -3,12 +3,12 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
@@ -18,10 +18,10 @@ const useStyles = theme => ({
   sortFixedHeight: {
     height: 100,
   },
-});
+}));
 
-function Sort(props) {
-  const { classes } = props;
+export default function Sort() {
+  const classes = useStyles();
   let paperClass = clsx(classes.paper, classes.sortFixedHeight);
 
   return (
@@ -35,5 +35,3 @@ function Sort(props) {
     </Paper>
   );
 }
-
-export default withStyles(useStyles)(Sort);

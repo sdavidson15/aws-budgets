@@ -12,7 +12,7 @@ import AppState from './../../controller/State';
 
 export default function BudgetPage() {
   return (
-    <MenuWrapper title={AppState.BudgetName()} inner={
+    <MenuWrapper title={AppState.CurrentBudget().name} inner={
       <Grid container spacing={3}>
         {/* Current Spend */}
         <Grid item xs={6}>

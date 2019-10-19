@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 
 import AppState from './../../controller/State';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   button: {
     width: 200,
     textTransform: 'none',
@@ -37,10 +37,10 @@ const useStyles = theme => ({
     width: 400,
     marginBottom: theme.spacing(2),
   },
-});
+}));
 
-function ConfigureAlerts(props) {
-  const { classes } = props;
+export default function ConfigureAlerts() {
+  const classes = useStyles();
   return (
     <div>
       <Typography className={classes.textBoxCentered}>
@@ -98,5 +98,3 @@ function ConfigureAlerts(props) {
     </div>
   );
 }
-
-export default withStyles(useStyles)(ConfigureAlerts);

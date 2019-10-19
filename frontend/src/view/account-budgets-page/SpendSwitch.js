@@ -6,7 +6,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import { StyledSwitch } from './../DefaultStyles';
-import View from './../View';
 
 export default function SpendSwitch() {
     const [state, setState] = React.useState({
@@ -16,7 +15,6 @@ export default function SpendSwitch() {
 
     function handleSwitchChange(name, event) {
         setState({ ...state, [name]: event.target.checked });
-        View.ToggleSpendSwitchState();
     }
 
     return (

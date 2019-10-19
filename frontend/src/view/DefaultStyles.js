@@ -1,4 +1,4 @@
-import { withStyles } from '@material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Switch from '@material-ui/core/Switch';
 
 export const StyledSwitch = withStyles(theme => ({

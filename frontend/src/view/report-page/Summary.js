@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,17 +10,17 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
   },
-});
+}));
 
-function Summary(props) {
-  const { classes } = props;
+export default function Summary() {
+  const classes = useStyles();
   return (
     <Paper className={classes.paper}>
       <React.Fragment>
@@ -45,5 +45,3 @@ function Summary(props) {
     </Paper>
   );
 }
-
-export default withStyles(useStyles)(Summary);

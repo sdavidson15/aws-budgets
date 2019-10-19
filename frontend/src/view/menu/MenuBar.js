@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
 import CheckIcon from '@material-ui/icons/Check';
@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import Controller from './../../controller/Controller';
 import View from './../View';
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
     },
@@ -44,9 +44,9 @@ const useStyles = theme => ({
     title: {
         flexGrow: 1,
     },
-});
+}));
 
-function MenuBar(props) {
+export default function MenuBar(props) {
     function handleEditClick() {
         // Edit button appears on many pages when not editing.
         View.RenderEditablePage();
@@ -72,7 +72,7 @@ function MenuBar(props) {
         View.RenderAccountBudgetsPage();
     }
 
-    const { classes } = props;
+    const classes = useStyles();
     let appBarClass = clsx(classes.appBar, props.open && classes.appBarShift);
     let menuButtonClass = clsx(classes.menuButton, props.open && classes.menuButtonHidden)
 
@@ -116,5 +116,3 @@ function MenuBar(props) {
         </AppBar>
     );
 }
-
-export default withStyles(useStyles)(MenuBar);
