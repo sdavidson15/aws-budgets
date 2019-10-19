@@ -7,14 +7,9 @@ import Typography from '@material-ui/core/Typography';
 
 import { StyledSwitch } from './../DefaultStyles';
 
-export default function SpendSwitch() {
-    const [state, setState] = React.useState({
-        checked: false,
-    });
-
-
+export default function SpendSwitch(props) {
     function handleSwitchChange(name, event) {
-        setState({ ...state, [name]: event.target.checked });
+        props.setState({ ...props.state, [name]: event.target.checked });
     }
 
     return (
@@ -22,7 +17,7 @@ export default function SpendSwitch() {
             <Grid component="label" container alignItems="center" spacing={1}>
                 <Grid item>
                     <StyledSwitch
-                        checked={state.checked}
+                        checked={props.state.checked}
                         onChange={(event) => handleSwitchChange('checked', event)}
                         value="checked" />
                 </Grid>

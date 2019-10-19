@@ -45,7 +45,7 @@ var AppState = (function () {
             currentBudget = JSON.parse(JSON.stringify(budget));
         },
         SetCurrentReport = function (report) {
-            // currentReport = JSON.parse(JSON.stringify(report)); TODO: uncomment this
+            currentReport = JSON.parse(JSON.stringify(report));
         },
         SetLoadingAccountBudgets = function (loading) {
             loadingAccountBudgets = loading;

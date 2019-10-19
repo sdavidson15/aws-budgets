@@ -16,11 +16,11 @@ import BudgetAmount from './BudgetAmount';
 import BudgetName from './BudgetName';
 import SpendSwitch from './SpendSwitch';
 
-function getSpendProgressColor(budget) {
+function getSpendProgressColor(budget, showForecasted) {
   // Color picker for the budget spend indicator paper.
   // Calculates the spend percent and picks a color from red to
   // green based on that percent.
-  let spend = (false) ? budget.forecastedSpend : budget.currentSpend, // FIXME: get switch state
+  let spend = (showForecasted) ? budget.forecastedSpend : budget.currentSpend,
     budgetAmount = budget.budgetAmount,
     spendColor = 'red';
 
@@ -50,10 +50,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function BudgetsListing(props) {
+  const [state, setState] = React.useState({
+    checked: false,
+  })
+
   const classes = useStyles();
-  let spendText = (false) ? "Forecasted Spend ($)" : "Current Spend ($)"; // FIXME: get switch state
+  let spendText = (state.checked) ? "Forecasted Spend ($)" : "Current Spend ($)";
   let getSpend = function (budget) {
-    if (false) { // FIXME: get switch state
+    if (state.checked) {
       return budget.forecastedSpend;
     }
 
@@ -71,7 +75,7 @@ export default function BudgetsListing(props) {
               <TableCell>Budget Amount ($)</TableCell>
               <TableCell>{spendText}</TableCell>
               <TableCell>
-                <SpendSwitch />
+                <SpendSwitch state={state} setState={setState} />
               </TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -92,7 +96,7 @@ export default function BudgetsListing(props) {
                 </TableCell>
                 <TableCell>{NumToCurrencyString(getSpend(budget))}</TableCell>
                 <TableCell>
-                  <Paper style={getSpendProgressColor(budget)}>@</Paper>
+                  <Paper style={getSpendProgressColor(budget, state.checked)}>@</Paper>
                 </TableCell>
               </TableRow>
             ))}
