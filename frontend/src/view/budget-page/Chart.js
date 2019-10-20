@@ -1,6 +1,7 @@
 /* eslint-disable no-script-url */
 
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import clsx from 'clsx';
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,12 +18,16 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
+  chartFixedHeight: {
+    height: 400,
+  },
 }));
 
 export default function Chart() {
   const classes = useStyles();
+  const fixedHeightChart = clsx(classes.paper, classes.chartFixedHeight);
   return (
-    <Paper className={classes.paper}>
+    <Paper className={fixedHeightChart}>
       <React.Fragment>
         <Typography component="h2" variant="h6" color="primary" gutterBottom>
           Budget History
