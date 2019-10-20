@@ -1,6 +1,5 @@
 /* eslint-disable no-script-url */
 
-import clsx from 'clsx';
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,17 +14,12 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
-  sortFixedHeight: {
-    height: 100,
-  },
 }));
 
 export default function Sort() {
   const classes = useStyles();
-  let paperClass = clsx(classes.paper, classes.sortFixedHeight);
-
   return (
-    <Paper className={paperClass}>
+    <Paper className={classes.paper}>
       <React.Fragment>
         <Typography component="h2" variant="h6" color="primary" gutterBottom>
           Sort

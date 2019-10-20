@@ -1,6 +1,5 @@
 /* eslint-disable no-script-url */
 
-import clsx from 'clsx';
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,17 +14,12 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
-  searchFixedHeight: {
-    height: 100,
-  },
 }));
 
 export default function Search() {
   const classes = useStyles();
-  let paperClass = clsx(classes.paper, classes.searchFixedHeight);
-
   return (
-    <Paper className={paperClass}>
+    <Paper className={classes.paper}>
       <React.Fragment>
         <Typography component="h2" variant="h6" color="primary" gutterBottom>
           Search

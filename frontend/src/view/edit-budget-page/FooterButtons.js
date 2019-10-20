@@ -20,7 +20,6 @@ export default function FooterButtons(props) {
     var budget = AppState.CurrentBudget();
     budget.budgetAmount = props.getEditedBudgetAmount();
 
-    Controller.SetOptimisticBudget(budget);
     Controller.UpdateAccountBudgets([budget]);
     View.RenderBudgetPage();
   }

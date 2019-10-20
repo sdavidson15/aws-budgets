@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function CurrentSpend() {
-  const classes = useStyles;
+  const classes = useStyles();
   let fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (

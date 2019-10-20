@@ -6,6 +6,12 @@ var AppState = (function () {
         optimisticBudgets = {}, // Mapping of budget ID to budget
         reports,
 
+        // Dummy vars
+        alertEmails = [],
+        alertThreshold = 90,
+        GetAlertEmails = function () { return alertEmails; },
+        GetAlertThreshold = function () { return alertThreshold; },
+
         // Getters
         GetAccountBudgets = function (useOptimistic = true) {
             if (!useOptimistic)
@@ -23,8 +29,11 @@ var AppState = (function () {
 
             return JSON.parse(JSON.stringify(budgets));
         },
-        GetCurrentBudget = function () {
-            return JSON.parse(JSON.stringify(currentBudget));
+        GetCurrentBudget = function (useOptimistic = true) {
+            if (!useOptimistic || !optimisticBudgets.hasOwnProperty(currentBudget.id))
+                return JSON.parse(JSON.stringify(currentBudget));
+
+            return JSON.parse(JSON.stringify(optimisticBudgets[currentBudget.id]));
         },
         GetCurrentReport = function () {
             return JSON.parse(JSON.stringify(currentReport));
@@ -66,8 +75,8 @@ var AppState = (function () {
 
         init = function (dummy) {
             // TODO: Get rid of this init when you're done mocking things
-            // alertEmails = (dummy) ? ['dummy.mock@email.com', 'mock.dummy@email.com'] : [];
-            // alertThreshold = (dummy) ? 90 : -1;
+            alertEmails = (dummy) ? ['dummy.mock@email.com', 'mock.dummy@email.com'] : [];
+            alertThreshold = (dummy) ? 90 : -1;
             reports = (dummy) ? [
                 { id: 0, date: '10-15-2019', name: 'Budget Alert - Full Year 2019', reportType: 'Annual' },
                 { id: 1, date: '10-15-2019', name: 'Budget Alert - October 2019', reportType: 'Monthly' },
@@ -83,6 +92,10 @@ var AppState = (function () {
 
     return {
         init: init,
+
+        // Dummy
+        AlertEmails: GetAlertEmails,
+        AlertThreshold: GetAlertThreshold,
 
         // Getters
         AccountBudgets: GetAccountBudgets,
