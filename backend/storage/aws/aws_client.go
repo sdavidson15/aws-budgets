@@ -101,8 +101,15 @@ func (aws *awsClient) GetBudgets(accountID string, budgetMetas model.BudgetMetas
 }
 
 func (aws *awsClient) GetWatchedBudgets() (map[string]model.BudgetMetas, error) {
-	// TODO: stub
-	return map[string]model.BudgetMetas{}, nil
+	// TODO: read this from Dynamo DB rather than from config
+	watchedBudgets := map[string]model.BudgetMetas{}
+	for _, budget := range WATCHED_BUDGETS {
+		if _, ok := watchedBudgets[budget.AccountID]; !ok {
+			watchedBudgets[budget.AccountID] = model.BudgetMetas{}
+		}
+		watchedBudgets[budget.AccountID] = append(watchedBudgets[budget.AccountID], budget)
+	}
+	return watchedBudgets, nil
 }
 
 func (aws *awsClient) RenameBudget(accountID string, budget *model.Budget, oldBudgetName string) error {
@@ -123,7 +130,12 @@ func (aws *awsClient) RenameBudget(accountID string, budget *model.Budget, oldBu
 		return err
 	}
 
-	// TODO: update in Dynamo DB
+	// TODO: update in Dynamo DB, rather than in config
+	for i, watchedBudget := range WATCHED_BUDGETS {
+		if watchedBudget.UUID == budget.UUID {
+			WATCHED_BUDGETS[i].BudgetName = budget.BudgetName
+		}
+	}
 	return nil
 }
 
