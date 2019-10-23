@@ -10,18 +10,18 @@ import { NumToCurrencyString } from './../../model/Formatters';
 
 export default function BudgetAmount(props) {
     function handleBudgetAmountChange(e) {
-        props.budget.budgetAmount = parseFloat(e.target.value);
+        props.budget.BudgetAmount = parseFloat(e.target.value);
         props.addEditedBudget(props.budget);
     }
 
-    let suggestion = ("Suggested: ").concat(NumToCurrencyString(props.budget.suggestedBudget));
-    let budgetAmountElement = NumToCurrencyString(props.budget.budgetAmount);
+    let suggestion = ("Suggested: ").concat(NumToCurrencyString(props.budget.SuggestedBudget));
+    let budgetAmountElement = NumToCurrencyString(props.budget.BudgetAmount);
 
-    if (props.budgetsEditable && props.budget.budgetAmount === props.budget.suggestedBudget) {
+    if (props.budgetsEditable && props.budget.BudgetAmount === props.budget.SuggestedBudget) {
         budgetAmountElement = (
             <TextField
                 fullWidth
-                defaultValue={props.budget.budgetAmount}
+                defaultValue={props.budget.BudgetAmount}
                 InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
                 onChange={handleBudgetAmountChange}
             />
@@ -32,7 +32,7 @@ export default function BudgetAmount(props) {
                 <TextField
                     error
                     fullWidth
-                    defaultValue={props.budget.budgetAmount}
+                    defaultValue={props.budget.BudgetAmount}
                     InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
                     onChange={handleBudgetAmountChange}
                 />

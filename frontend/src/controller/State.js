@@ -20,8 +20,8 @@ var AppState = (function () {
             let budgets = [];
             for (var i = 0; i < accountBudgets.length; i++) {
                 let budget = accountBudgets[i];
-                if (optimisticBudgets.hasOwnProperty(budget.id))
-                    budgets.push(optimisticBudgets[budget.id]);
+                if (optimisticBudgets.hasOwnProperty(budget.UUID))
+                    budgets.push(optimisticBudgets[budget.UUID]);
                 else
                     budgets.push(budget);
             }
@@ -30,10 +30,10 @@ var AppState = (function () {
             return JSON.parse(JSON.stringify(budgets));
         },
         GetCurrentBudget = function (useOptimistic = true) {
-            if (!useOptimistic || !optimisticBudgets.hasOwnProperty(currentBudget.id))
+            if (!useOptimistic || !optimisticBudgets.hasOwnProperty(currentBudget.UUID))
                 return JSON.parse(JSON.stringify(currentBudget));
 
-            return JSON.parse(JSON.stringify(optimisticBudgets[currentBudget.id]));
+            return JSON.parse(JSON.stringify(optimisticBudgets[currentBudget.UUID]));
         },
         GetCurrentReport = function () {
             return JSON.parse(JSON.stringify(currentReport));
@@ -66,7 +66,7 @@ var AppState = (function () {
 
             var copy = JSON.parse(JSON.stringify(budgets));
             for (var i = 0; i < copy.length; i++) {
-                optimisticBudgets[copy[i].id] = copy[i];
+                optimisticBudgets[copy[i].UUID] = copy[i];
             }
         },
         SetReports = function (reports) {

@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 export default function FooterButtons(props) {
   function handleSubmit() {
     var budget = AppState.CurrentBudget();
-    budget.budgetAmount = props.getEditedBudgetAmount();
+    budget.BudgetAmount = props.getEditedBudgetAmount();
 
     Controller.UpdateAccountBudgets([budget]);
     View.RenderBudgetPage();

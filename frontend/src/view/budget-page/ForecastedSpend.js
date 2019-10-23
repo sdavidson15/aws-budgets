@@ -36,13 +36,13 @@ export default function ForecastedSpend() {
           Forecasted vs. Budgeted
           </Typography>
         <Typography component="p" variant="h6">
-          {FormatSpend(AppState.CurrentBudget().forecastedSpend, AppState.CurrentBudget().budgetAmount)}
+          {FormatSpend(AppState.CurrentBudget().ForecastedSpend, AppState.CurrentBudget().BudgetAmount)}
         </Typography>
         <Typography color="textSecondary" className={classes.title}>
           Forecasted
           </Typography>
         <Typography component="p" variant="h6">
-          {NumToCurrencyString(AppState.CurrentBudget().budgetAmount)}
+          {NumToCurrencyString(AppState.CurrentBudget().BudgetAmount)}
         </Typography>
         <Typography color="textSecondary" className={classes.title}>
           Budgeted amount

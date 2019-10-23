@@ -10,7 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import { NumToCurrencyString } from './../../model/Formatters';
+import { NumToCurrencyString, FormatVarianceDescription } from './../../model/Formatters';
 import AppState from './../../controller/State';
 
 const useStyles = makeStyles(theme => ({
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function BudgetHistory() {
+export default function SpendHistory() {
   const classes = useStyles();
   return (
     <Paper className={classes.paper}>
@@ -38,13 +38,13 @@ export default function BudgetHistory() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {AppState.CurrentBudget().budgetHistory.map(row => (
-              <TableRow key={row.id}>
-                <TableCell>{row.date}</TableCell>
-                <TableCell>{NumToCurrencyString(row.actual)}</TableCell>
-                <TableCell>{NumToCurrencyString(row.budgeted)}</TableCell>
-                <TableCell>{NumToCurrencyString(row.variance)}</TableCell>
-                <TableCell>{row.varianceDescr}</TableCell>
+            {AppState.CurrentBudget().SpendHistory.map(item => (
+              <TableRow key={item.Date}>
+                <TableCell>{item.Date}</TableCell>
+                <TableCell>{NumToCurrencyString(item.Spend)}</TableCell>
+                <TableCell>{NumToCurrencyString(item.BudgetAmount)}</TableCell>
+                <TableCell>{NumToCurrencyString(item.BudgetAmount - item.Spend)}</TableCell>
+                <TableCell>{FormatVarianceDescription(item.BudgetAmount, item.Spend)}</TableCell>
               </TableRow>
             ))}
           </TableBody>

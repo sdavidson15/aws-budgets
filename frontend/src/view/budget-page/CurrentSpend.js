@@ -36,13 +36,13 @@ export default function CurrentSpend() {
           Current vs. Budgeted
         </Typography>
         <Typography component="p" variant="h6">
-          {FormatSpend(AppState.CurrentBudget().currentSpend, AppState.CurrentBudget().budgetAmount)}
+          {FormatSpend(AppState.CurrentBudget().CurrentSpend, AppState.CurrentBudget().BudgetAmount)}
         </Typography>
         <Typography color="textSecondary" className={classes.title}>
           Current
         </Typography>
         <Typography component="p" variant="h6">
-          {NumToCurrencyString(AppState.CurrentBudget().budgetAmount)}
+          {NumToCurrencyString(AppState.CurrentBudget().BudgetAmount)}
         </Typography>
         <Typography color="textSecondary" className={classes.title}>
           Budgeted amount

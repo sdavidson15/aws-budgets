@@ -20,8 +20,8 @@ function getSpendProgressColor(budget, showForecasted) {
   // Color picker for the budget spend indicator paper.
   // Calculates the spend percent and picks a color from red to
   // green based on that percent.
-  let spend = (showForecasted) ? budget.forecastedSpend : budget.currentSpend,
-    budgetAmount = budget.budgetAmount,
+  let spend = (showForecasted) ? budget.ForecastedSpend : budget.CurrentSpend,
+    budgetAmount = budget.BudgetAmount,
     spendColor = 'red';
 
   if (spend < budgetAmount) {
@@ -58,10 +58,10 @@ export default function BudgetsListing(props) {
   let spendText = (state.checked) ? "Forecasted Spend ($)" : "Current Spend ($)";
   let getSpend = function (budget) {
     if (state.checked) {
-      return budget.forecastedSpend;
+      return budget.ForecastedSpend;
     }
 
-    return budget.currentSpend;
+    return budget.CurrentSpend;
   }
 
   return (
@@ -82,8 +82,8 @@ export default function BudgetsListing(props) {
           </TableHead>
           <TableBody>
             {AppState.AccountBudgets().map(budget => (
-              <TableRow key={budget.id}>
-                <TableCell>{budget.accountId}</TableCell>
+              <TableRow key={budget.UUID}>
+                <TableCell>{budget.AccountID}</TableCell>
                 <TableCell>
                   <BudgetName budget={budget} />
                 </TableCell>

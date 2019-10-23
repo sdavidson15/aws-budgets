@@ -9,7 +9,7 @@ import FooterButtons from './FooterButtons';
 import MenuWrapper from './../menu/MenuWrapper';
 
 export default function EditBudgetPage() {
-  let editedBudgetAmount = AppState.CurrentBudget().budgetAmount;
+  let editedBudgetAmount = AppState.CurrentBudget().BudgetAmount;
 
   function getEditedBudgetAmount() {
     return editedBudgetAmount;

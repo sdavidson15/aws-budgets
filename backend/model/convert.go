@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -64,12 +65,18 @@ func AwsBudgetToBudget(accountID string, awsBudget *awsbudgets.Budget) (*Budget,
 
 func AwsResultsByTimeToSpendHistory(results []*awscostexplorer.ResultByTime) (SpendHistory, error) {
 	spendHistory := make(SpendHistory, len(results))
+	seenDates := map[time.Time]bool{}
 	for i, res := range results {
 		spendHistoryItem, err := AwsResultByTimeToSpendHistoryItem(res)
 		if err != nil {
 			return SpendHistory{}, err
 		}
 
+		if _, ok := seenDates[spendHistoryItem.Date]; ok {
+			return SpendHistory{}, fmt.Errorf("Duplicate dates in spend history.\n")
+		}
+
+		seenDates[spendHistoryItem.Date] = true
 		spendHistory[i] = spendHistoryItem
 	}
 
@@ -77,7 +84,7 @@ func AwsResultsByTimeToSpendHistory(results []*awscostexplorer.ResultByTime) (Sp
 }
 
 func AwsResultByTimeToSpendHistoryItem(res *awscostexplorer.ResultByTime) (*SpendHistoryItem, error) {
-	amount, err := strconv.ParseFloat(*res.Total[`UnblendedCost`].Amount, 64)
+	spend, err := strconv.ParseFloat(*res.Total[`UnblendedCost`].Amount, 64)
 	if err != nil {
 		return nil, err
 	}
@@ -86,8 +93,10 @@ func AwsResultByTimeToSpendHistoryItem(res *awscostexplorer.ResultByTime) (*Spen
 		return nil, err
 	}
 
-	item := SpendHistoryItem(map[time.Time]float64{startDate: amount})
-	return &item, nil
+	return &SpendHistoryItem{
+		Date:  startDate,
+		Spend: spend,
+	}, nil
 }
 
 func MakeStringPointer(str string) *string {

@@ -18,6 +18,7 @@ var RestApp = (function () {
                     var resp = JSON.parse(req.responseText);
                     resolve(resp);
                 } else if (req.status === 500) {
+                    console.error(req.responseText);
                     alert('Something went wrong. Continue to reload.');
                     window.location.reload();
                 } else {

@@ -34,7 +34,7 @@ export default function Chart() {
         </Typography>
         <ResponsiveContainer>
           <LineChart
-            data={FormatChartData(AppState.CurrentBudget().budgetHistory)}
+            data={FormatChartData(AppState.CurrentBudget().SpendHistory)}
             margin={{
               top: 16,
               right: 16,

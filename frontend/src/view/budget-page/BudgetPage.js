@@ -2,7 +2,7 @@ import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
 
-import BudgetHistory from './BudgetHistory';
+import SpendHistory from './SpendHistory';
 import Chart from './Chart';
 import CurrentSpend from './CurrentSpend';
 import ForecastedSpend from './ForecastedSpend';
@@ -12,7 +12,7 @@ import AppState from './../../controller/State';
 
 export default function BudgetPage() {
   return (
-    <MenuWrapper title={AppState.CurrentBudget().name} inner={
+    <MenuWrapper title={AppState.CurrentBudget().BudgetName} inner={
       <Grid container spacing={3}>
         {/* Current Spend */}
         <Grid item xs={6}>
@@ -26,9 +26,9 @@ export default function BudgetPage() {
         <Grid item xs={12}>
           <Chart />
         </Grid>
-        {/* Budget History */}
+        {/* Spend History */}
         <Grid item xs={12}>
-          <BudgetHistory />
+          <SpendHistory />
         </Grid>
       </Grid>
     } />

@@ -19,14 +19,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function BudgetName(props) {
   function handleBudgetNameClick() {
-    Controller.LoadBudget(props.budget.id);
+    Controller.LoadBudget(props.budget.UUID);
     View.RenderBudgetPage();
   }
 
   const classes = useStyles();
   return (
     <Button className={classes.button} onClick={handleBudgetNameClick}>
-      {props.budget.name}
+      {props.budget.BudgetName}
     </Button>
   );
 }

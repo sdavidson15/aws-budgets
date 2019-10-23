@@ -13,7 +13,7 @@ export default function AccountBudgetsPage(props) {
   let editedBudgets = {};
   function addEditedBudget(budget) {
     if (props.budgetsEditable)
-      editedBudgets[budget.id] = budget;
+      editedBudgets[budget.UUID] = budget;
   }
   function getEditedBudgets() {
     return editedBudgets;

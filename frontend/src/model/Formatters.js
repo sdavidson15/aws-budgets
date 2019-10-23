@@ -1,22 +1,10 @@
 const defaultCurrency = '$';
 
-export function FormatAccountBudgetsData(id, accountId, name, budgetAmount, suggestedBudget, currentSpend, forecastedSpend, budgetHistory) {
-    return { id, accountId, name, budgetAmount, suggestedBudget, currentSpend, forecastedSpend, budgetHistory };
-}
-
-export function FormatAccountBudgetsUploadData(AccountID, BudgetName, BudgetAmount, CurrentSpend, ForecastedSpend, BudgetHistory = []) {
-    return { AccountID, BudgetName, BudgetAmount, CurrentSpend, ForecastedSpend, BudgetHistory };
-}
-
-export function FormatBudgetHistoryData(id, date, actual, budgeted, variance, varianceDescr) {
-    return { id, date, actual, budgeted, variance, varianceDescr };
-}
-
 export function FormatChartData(data) {
     data.reverse(); // Read left to right chronologically
     data.pop(); // Don't include current month
-    return data.map(function (row) {
-        return FormatChartDataRow(row.date, row.actual, row.budgeted);
+    return data.map(function (item) {
+        return FormatChartDataRow(item.Date, item.Spend, item.BudgetAmount);
     });
 }
 

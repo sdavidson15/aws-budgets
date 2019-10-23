@@ -40,13 +40,13 @@ export default function EditFields(props) {
       <TextField
         fullWidth
         variant="outlined"
-        defaultValue={AppState.CurrentBudget().name}
+        defaultValue={AppState.CurrentBudget().BudgetName}
       />
       <Typography className={classes.textBox}>Budget Amount</Typography>
       <TextField
         fullWidth
         variant="outlined"
-        defaultValue={AppState.CurrentBudget().budgetAmount}
+        defaultValue={AppState.CurrentBudget().BudgetAmount}
         InputProps={{
           startAdornment:
             <InputAdornment position="start">
