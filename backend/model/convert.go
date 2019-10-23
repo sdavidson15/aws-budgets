@@ -1,9 +1,9 @@
 package model
 
 import (
-	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	awsbudgets "github.com/aws/aws-sdk-go/service/budgets"
 	awscostexplorer "github.com/aws/aws-sdk-go/service/costexplorer"
@@ -28,69 +28,66 @@ func AwsBudgetsToBudgets(accountID string, awsBudgets []*awsbudgets.Budget) (Bud
 	return budgets, nil
 }
 
-func AwsBudgetToBudget(accountID string, awsBudget *awsbudgets.Budget) (Budget, error) {
+func AwsBudgetToBudget(accountID string, awsBudget *awsbudgets.Budget) (*Budget, error) {
 	if awsBudget == nil || awsBudget.BudgetLimit == nil || awsBudget.BudgetLimit.Amount == nil ||
 		awsBudget.CalculatedSpend == nil || awsBudget.CalculatedSpend.ActualSpend == nil ||
 		awsBudget.CalculatedSpend.ActualSpend.Amount == nil ||
 		awsBudget.CalculatedSpend.ForecastedSpend == nil ||
 		awsBudget.CalculatedSpend.ForecastedSpend.Amount == nil {
 		log.Printf("[WARN] AWS Budget in account %s is unprocessable: %+v", accountID, awsBudget)
-		return Budget{}, nil
+		return nil, nil
 	}
 
 	budgetAmount, err := strconv.ParseFloat(*awsBudget.BudgetLimit.Amount, 64)
 	if err != nil {
-		return Budget{}, err
+		return nil, err
 	}
 
 	currentSpend, err := strconv.ParseFloat(*awsBudget.CalculatedSpend.ActualSpend.Amount, 64)
 	if err != nil {
-		return Budget{}, err
+		return nil, err
 	}
 
 	forecastedSpend, err := strconv.ParseFloat(*awsBudget.CalculatedSpend.ForecastedSpend.Amount, 64)
 	if err != nil {
-		return Budget{}, err
+		return nil, err
 	}
 
-	return Budget{
+	return &Budget{
 		AccountID:       accountID,
 		BudgetName:      *awsBudget.BudgetName,
 		BudgetAmount:    budgetAmount,
 		CurrentSpend:    currentSpend,
 		ForecastedSpend: forecastedSpend,
-		BudgetHistory:   BudgetHistory{},
 	}, nil
 }
 
-func AwsResultsByTimeToBudgetHistory(results []*awscostexplorer.ResultByTime) (BudgetHistory, error) {
-	budgetHistory := make(BudgetHistory, len(results))
+func AwsResultsByTimeToSpendHistory(results []*awscostexplorer.ResultByTime) (SpendHistory, error) {
+	spendHistory := make(SpendHistory, len(results))
 	for i, res := range results {
-		budgetHistoryItem, err := AwsResultByTimeToBudgetHistoryItem(res)
+		spendHistoryItem, err := AwsResultByTimeToSpendHistoryItem(res)
 		if err != nil {
-			return BudgetHistory{}, err
+			return SpendHistory{}, err
 		}
 
-		budgetHistory[i] = budgetHistoryItem
+		spendHistory[i] = spendHistoryItem
 	}
 
-	return budgetHistory, nil
+	return spendHistory, nil
 }
 
-func AwsResultByTimeToBudgetHistoryItem(res *awscostexplorer.ResultByTime) (BudgetHistoryItem, error) {
+func AwsResultByTimeToSpendHistoryItem(res *awscostexplorer.ResultByTime) (*SpendHistoryItem, error) {
 	amount, err := strconv.ParseFloat(*res.Total[`UnblendedCost`].Amount, 64)
 	if err != nil {
-		return BudgetHistoryItem{}, err
+		return nil, err
 	}
-	yearStr := (*res.TimePeriod.Start)[:4]
-	monthNum, err := strconv.Atoi((*res.TimePeriod.Start)[5:7])
+	startDate, err := time.Parse(`2006-01-02`, *res.TimePeriod.Start)
 	if err != nil {
-		return BudgetHistoryItem{}, nil
+		return nil, err
 	}
-	monthStr := MONTH_STRINGS[monthNum-1]
-	dateStr := fmt.Sprintf("%s %s", monthStr, yearStr)
 
-	return BudgetHistoryItem(map[string]float64{dateStr: amount}), nil
+	item := SpendHistoryItem(map[time.Time]float64{startDate: amount})
+	return &item, nil
 }
 
 func MakeStringPointer(str string) *string {
@@ -99,4 +96,14 @@ func MakeStringPointer(str string) *string {
 
 func MakeInt64Pointer(n int64) *int64 {
 	return &n
+}
+
+func AwsNotificationsToNotifications(awsNotifications []*awsbudgets.Notification) (Notifications, error) {
+	// TODO: stub
+	return Notifications{}, nil
+}
+
+func AwsSubscribersToSubscribers(awsSubscribers []*awsbudgets.Subscriber) (Subscribers, error) {
+	// TODO: stub
+	return Subscribers{}, nil
 }

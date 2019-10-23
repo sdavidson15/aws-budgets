@@ -11,7 +11,7 @@ import (
 const byteLimit int64 = 1048576
 
 type route struct {
-	name        string
+	name    string
 	method      string
 	pattern     string
 	handlerFunc http.HandlerFunc
@@ -19,16 +19,19 @@ type route struct {
 
 type routes []route
 
-func restRoutes(controller *Controller) routes {
+func initRoutes(
+	getBudgets func() (model.Budgets, error),
+	updateBudgets func(model.Budgets) error,
+) routes {
 	return routes{
-		route{`Get account budgets`, `GET`, `/accountbudgets`, getAccountBudgetsHandler(controller)},
-		route{`Update account budgets`, `PUT`, `/updateaccountbudgets`, updateAccountBudgetsHandler(controller)},
+		route{`Get account budgets`, `GET`, `/accountbudgets`, getAccountBudgetsHandler(getBudgets)},
+		route{`Update account budgets`, `PUT`, `/updateaccountbudgets`, updateAccountBudgetsHandler(updateBudgets)},
 	}
 }
 
-func getAccountBudgetsHandler(controller *Controller) http.HandlerFunc {
+func getAccountBudgetsHandler(getBudgets func() (model.Budgets, error)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		accountBudgets, err := controller.getAccountBudgets()
+		accountBudgets, err := getBudgets()
 		if err != nil {
 			sendServerError(w, r, err)
 			return
@@ -37,7 +40,7 @@ func getAccountBudgetsHandler(controller *Controller) http.HandlerFunc {
 	}
 }
 
-func updateAccountBudgetsHandler(controller *Controller) http.HandlerFunc {
+func updateAccountBudgetsHandler(updateBudgets func(model.Budgets) error) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := ioutil.ReadAll(io.LimitReader(r.Body, byteLimit))
 		if err != nil {
@@ -55,7 +58,7 @@ func updateAccountBudgetsHandler(controller *Controller) http.HandlerFunc {
 			return
 		}
 
-		if err := controller.updateAccountBudgets(newBudgets); err != nil {
+		if err := updateBudgets(newBudgets); err != nil {
 			sendServerError(w, r, err)
 		}
 

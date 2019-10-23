@@ -1,6 +1,7 @@
 package rest
 
 import (
+	"aws-budgets/backend/model"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -10,14 +11,30 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func Start(controller *Controller) {
+type RestApp struct {
+	restRoutes routes
+}
+
+func NewRestApp(
+	getBudgets func() (model.Budgets, error),
+	updateBudgets func(model.Budgets) error,
+) *RestApp {
+	return &RestApp{
+		restRoutes: initRoutes(
+			getBudgets,
+			updateBudgets,
+		),
+	}
+}
+
+func (r *RestApp) Start() {
 	router := mux.NewRouter().StrictSlash(true)
 
-	for _, route := range restRoutes(controller) {
+	for _, route := range r.restRoutes {
 		var handler http.Handler
 
 		handler = route.handlerFunc
-		handler = logger(handler, route.name)
+		handler = r.logger(handler, route.name)
 
 		router.Methods(route.method).Path(route.pattern).Name(route.name).Handler(handler)
 	}
@@ -28,7 +45,7 @@ func Start(controller *Controller) {
 	log.Fatal(http.ListenAndServe(DEFAULT_PORT, handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
 }
 
-func logger(inner http.Handler, name string) http.Handler {
+func (r *RestApp) logger(inner http.Handler, name string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		t0 := time.Now()
 		inner.ServeHTTP(w, r)
