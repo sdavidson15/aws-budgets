@@ -35,9 +35,9 @@ export default function Summary() {
           <TableBody>
             <TableRow>
               {/* TODO: get rid of dummy data */}
-              <TableCell>36</TableCell>
-              <TableCell>28.8%</TableCell>
-              <TableCell>$159288.37</TableCell>
+              <TableCell>16</TableCell>
+              <TableCell>12.8%</TableCell>
+              <TableCell>$21979.89</TableCell>
             </TableRow>
           </TableBody>
         </Table>
