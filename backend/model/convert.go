@@ -19,7 +19,7 @@ func AwsBudgetsToBudgets(accountID string, awsBudgets []*awsbudgets.Budget) (Bud
 		if err != nil {
 			return Budgets{}, err
 		}
-		if budget.AccountID == `` {
+		if budget == nil {
 			continue
 		}
 

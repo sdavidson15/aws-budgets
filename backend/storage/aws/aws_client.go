@@ -8,6 +8,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 )
 
+const MAX_BATCH_SIZE int = 50
+
 type awsClient struct {
 	accountID          string
 	region             string

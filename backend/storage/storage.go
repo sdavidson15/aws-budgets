@@ -5,6 +5,7 @@ import (
 	"aws-budgets/backend/storage/aws"
 	"aws-budgets/backend/storage/cache"
 	"sync"
+	"time"
 )
 
 type Storage struct {
@@ -27,7 +28,13 @@ func (s *Storage) GetBudgets(skipCache bool) (model.Budgets, error) {
 	// Collect the budgets in a mapping of accountID to budgets
 	budgetsMap := model.NewThreadSafeMap()
 
+	count := 0
 	for account, budgetMetas := range s.watchedBudgets {
+		if count >= aws.MAX_BATCH_SIZE {
+			count = 0
+			time.Sleep(time.Second)
+		}
+
 		go func(accountID string, budgeMetas model.BudgetMetas) {
 			defer wg.Done()
 
