@@ -7,5 +7,4 @@ start:
 .PHONY: clean
 clean:
 	go clean
-	rm -f aws/cache/accountbudgets/*.json
-	rm -f aws/cache/budgetHistory/*.json
+	rm -f storage/cache/accountbudgets/*.json
