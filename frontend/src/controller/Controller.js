@@ -60,8 +60,7 @@ var Controller = (function () {
         validateAccountBudgets = function (accountBudgets) {
             let validatedBudgets = [];
             for (let i = 0; i < accountBudgets.length; i++) {
-                let budget = NewBudget(accountBudgets[i]),
-                    spendHistory = [];
+                let budget = NewBudget(accountBudgets[i]);
 
                 let notifications = [];
                 for (let j = 0; j < budget.Notifications.length; j++) {
@@ -77,7 +76,7 @@ var Controller = (function () {
                 spendHistory.reverse();
                 budget.SpendHistory = spendHistory;
 
-                validateAccountBudgets.push(budget);
+                validatedBudgets.push(budget);
             }
 
             return validatedBudgets;
