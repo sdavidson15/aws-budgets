@@ -93,9 +93,16 @@ func (aws *awsClient) GetBudgets(accountID string, budgetMetas model.BudgetMetas
 			notifications[j].EmailSubscribers = subscribers
 		}
 
+		// Get the suggested budget amount for this budget
+		budget.SpendHistory = spendHistory
+		suggestedBudget, err := aws.getSuggestedBudgetAmount(budget)
+		if err != nil {
+			return model.Budgets{}, err
+		}
+
 		budget.UUID = uuid
 		budget.Notifications = notifications
-		budget.SpendHistory = spendHistory
+		budget.SuggestedBudget = suggestedBudget
 		budgets = append(budgets, budget)
 	}
 
@@ -143,4 +150,16 @@ func (aws *awsClient) RenameBudget(accountID string, budget *model.Budget, oldBu
 
 func (aws *awsClient) UpdateBudget(accountID string, budget *model.Budget) error {
 	return aws.budgetsClient.UpdateBudget(accountID, budget.BudgetName, budget.BudgetAmount)
+}
+
+func (aws *awsClient) getSuggestedBudgetAmount(budget *model.Budget) (float64, error) {
+	// TODO: currently I'm calculating a 3 month spend budget suggestion manually.
+	// This should call a lambda that takes spend history as input and calculates
+	// the suggested amount that way.
+
+	var total float64
+	for _, spend := range budget.SpendHistory[len(budget.SpendHistory)-3:] {
+		total += spend.Spend
+	}
+	return total / 3, nil
 }
