@@ -48,7 +48,7 @@ var Controller = (function () {
                 alert('Error: could not find report.'); // TODO: throw an exception
                 return;
             }
-            AppState.SetCurrentReport(report);
+            // AppState.SetCurrentReport(report);
         },
 
         UpdateAccountBudgets = async function (accountBudgets) {
