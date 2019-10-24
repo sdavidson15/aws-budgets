@@ -4,6 +4,7 @@ import (
 	"aws-budgets/backend/model"
 	"aws-budgets/backend/storage/aws"
 	"aws-budgets/backend/storage/cache"
+	"log"
 	"sync"
 	"time"
 )
@@ -131,23 +132,14 @@ func (s *Storage) PopulateCache() error {
 		budgetsMap[budget.AccountID] = append(budgetsMap[budget.AccountID], budget)
 	}
 
-	// Use a goroutine per account to populate the cache
-	var wg sync.WaitGroup
-	wg.Add(len(budgetsMap))
-	terr := model.NewThreadSafeError()
-
+	// Populate the cache
 	for accountID, budgets := range budgetsMap {
-		go func(accountID string, budgets model.Budgets) {
-			defer wg.Done()
-
-			if err := s.cache.CacheBudgets(accountID, budgets); err != nil {
-				terr.Set(err)
-			}
-		}(accountID, budgets)
+		if err = s.cache.CacheBudgets(accountID, budgets); err != nil {
+			log.Printf("[ERROR] Failed to cache budgets for account %s: %s", err.Error())
+		}
 	}
 
-	wg.Wait()
-	return terr.Get()
+	return nil
 }
 
 func (s *Storage) UpdateBudgets(accountID string, budgets model.Budgets) error {

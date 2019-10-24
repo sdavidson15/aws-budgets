@@ -35,9 +35,7 @@ func (c *Cache) CacheBudgets(accountID string, budgets model.Budgets) error {
 	if err != nil {
 		return err
 	}
-	if err := os.Remove(filepath); err != nil {
-		return err
-	}
+	os.Remove(filepath)
 	return c.writeFile(filepath, budgets)
 }
 

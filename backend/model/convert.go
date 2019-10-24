@@ -35,7 +35,7 @@ func AwsBudgetToBudget(accountID string, awsBudget *awsbudgets.Budget) (*Budget,
 		awsBudget.CalculatedSpend.ActualSpend.Amount == nil ||
 		awsBudget.CalculatedSpend.ForecastedSpend == nil ||
 		awsBudget.CalculatedSpend.ForecastedSpend.Amount == nil {
-		log.Printf("[WARN] AWS Budget in account %s is unprocessable: %+v", accountID, awsBudget)
+		log.Printf("[WARN] AWS Budget %s in account %s is unprocessable", *awsBudget.BudgetName, accountID)
 		return nil, nil
 	}
 
