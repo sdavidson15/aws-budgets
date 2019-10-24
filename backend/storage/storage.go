@@ -30,12 +30,12 @@ func (s *Storage) GetBudgets(skipCache bool) (model.Budgets, error) {
 	budgetsToFlatten := make([]model.Budgets, len(s.watchedBudgets))
 
 	i := 0
-	for account, budgetMetas := range s.watchedBudgets {
+	for account, metas := range s.watchedBudgets {
 		if ((i + 1) % aws.MAX_BATCH_SIZE) == 0 {
 			time.Sleep(time.Second)
 		}
 
-		go func(index int, accountID string, budgeMetas model.BudgetMetas) {
+		go func(index int, accountID string, budgetMetas model.BudgetMetas) {
 			defer wg.Done()
 
 			// Check to see if the cache already has these budgets
@@ -60,7 +60,7 @@ func (s *Storage) GetBudgets(skipCache bool) (model.Budgets, error) {
 			}
 
 			budgetsToFlatten[index] = budgets
-		}(i, account, budgetMetas)
+		}(i, account, metas)
 		i++
 	}
 
@@ -125,7 +125,7 @@ func (s *Storage) PopulateCache() error {
 	// Map budgets by account ID
 	budgetsMap := map[string]model.Budgets{}
 	for _, budget := range budgets {
-		if _, ok := budgetsMap[budget.AccountID]; ok {
+		if _, ok := budgetsMap[budget.AccountID]; !ok {
 			budgetsMap[budget.AccountID] = model.Budgets{}
 		}
 		budgetsMap[budget.AccountID] = append(budgetsMap[budget.AccountID], budget)
