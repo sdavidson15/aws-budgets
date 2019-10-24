@@ -10,7 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import { NumToCurrencyString, FormatVarianceDescription } from './../../model/Formatters';
+import { FormatDate, FormatVarianceDescription, NumToCurrencyString } from './../../model/Formatters';
 import AppState from './../../controller/State';
 
 const useStyles = makeStyles(theme => ({
@@ -40,7 +40,7 @@ export default function SpendHistory() {
           <TableBody>
             {AppState.CurrentBudget().SpendHistory.map(item => (
               <TableRow key={item.Date}>
-                <TableCell>{item.Date}</TableCell>
+                <TableCell>{FormatDate(item.Date)}</TableCell>
                 <TableCell>{NumToCurrencyString(item.Spend)}</TableCell>
                 <TableCell>{NumToCurrencyString(item.BudgetAmount)}</TableCell>
                 <TableCell>{NumToCurrencyString(item.BudgetAmount - item.Spend)}</TableCell>

@@ -1,19 +1,24 @@
 const defaultCurrency = '$';
 
+var monthStrings = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
 export function FormatChartData(data) {
     data.reverse(); // Read left to right chronologically
-    data.pop(); // Don't include current month
     return data.map(function (item) {
         return FormatChartDataRow(item.Date, item.Spend, item.BudgetAmount);
     });
 }
 
 export function FormatChartDataRow(date, actual, budgeted) {
-    var month = date.substring(0, 3),
-        year = date.substring(date.length - 2, date.length);
-
-    date = month.concat(" ", year);
+    date = FormatDate(date);
     return { date, actual, budgeted };
+}
+
+export function FormatDate(date) {
+    var month = monthStrings[parseInt(date.substring(5, 7))-1],
+        year = date.substring(0, 4);
+
+    return month.concat(" ", year);
 }
 
 export function FormatSpend(spend, budgetAmount) {
