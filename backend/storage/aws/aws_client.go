@@ -161,5 +161,6 @@ func (aws *awsClient) getSuggestedBudgetAmount(budget *model.Budget) (float64, e
 	for _, spend := range budget.SpendHistory[len(budget.SpendHistory)-3:] {
 		total += spend.Spend
 	}
-	return total / 3, nil
+	rounded := float64(((int(total/3) + 99) / 100) * 100)
+	return rounded, nil
 }
