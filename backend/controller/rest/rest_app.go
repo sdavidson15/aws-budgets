@@ -42,6 +42,7 @@ func (r *RestApp) Start() {
 	allowedHeaders := handlers.AllowedHeaders([]string{ALLOWED_HEADER})
 	allowedOrigins := handlers.AllowedOrigins([]string{ALLOWED_ORIGIN})
 	allowedMethods := handlers.AllowedMethods(ALLOWED_METHODS)
+	log.Printf("[INFO] Listening and serving on port %s\n", DEFAULT_PORT)
 	log.Fatal(http.ListenAndServe(DEFAULT_PORT, handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
 }
 
