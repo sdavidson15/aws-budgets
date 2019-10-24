@@ -26,18 +26,16 @@ func (s *Storage) GetBudgets(skipCache bool) (model.Budgets, error) {
 	wg.Add(len(s.watchedBudgets))
 	terr := model.NewThreadSafeError()
 
-	// Collect the budgets in a mapping of accountID to budgets
-	budgetsMap := model.NewThreadSafeMap()
+	// Collect the budgets in groups by account
+	budgetsToFlatten := make([]model.Budgets, len(s.watchedBudgets))
 
-	count := 0
+	i := 0
 	for account, budgetMetas := range s.watchedBudgets {
-		if count >= aws.MAX_BATCH_SIZE {
-			count = 0
+		if ((i + 1) % aws.MAX_BATCH_SIZE) == 0 {
 			time.Sleep(time.Second)
 		}
-		count++
 
-		go func(accountID string, budgeMetas model.BudgetMetas) {
+		go func(index int, accountID string, budgeMetas model.BudgetMetas) {
 			defer wg.Done()
 
 			// Check to see if the cache already has these budgets
@@ -49,7 +47,7 @@ func (s *Storage) GetBudgets(skipCache bool) (model.Budgets, error) {
 				}
 
 				if len(budgets) > 0 {
-					budgetsMap.Set(accountID, budgets)
+					budgetsToFlatten[index] = budgets
 					return
 				}
 			}
@@ -61,8 +59,9 @@ func (s *Storage) GetBudgets(skipCache bool) (model.Budgets, error) {
 				return
 			}
 
-			budgetsMap.Set(accountID, budgets)
-		}(account, budgetMetas)
+			budgetsToFlatten[index] = budgets
+		}(i, account, budgetMetas)
+		i++
 	}
 
 	wg.Wait()
@@ -72,8 +71,7 @@ func (s *Storage) GetBudgets(skipCache bool) (model.Budgets, error) {
 
 	// Flatten the budgets map into a list
 	budgets := model.Budgets{}
-	for _, accountID := range budgetsMap.Keys() {
-		accountBudgets := budgetsMap.Get(accountID).(model.Budgets)
+	for _, accountBudgets := range budgetsToFlatten {
 		budgets = append(budgets, accountBudgets...)
 	}
 	return budgets, nil
