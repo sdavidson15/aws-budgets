@@ -40,7 +40,7 @@ func (s *Storage) GetBudgets(skipCache bool) (model.Budgets, error) {
 
 			// Check to see if the cache already has these budgets
 			if !skipCache {
-				budgets, err := s.cache.GetBudgets(accountID)
+				budgets, err := s.cache.GetBudgets(accountID, false)
 				if err != nil {
 					terr.Set(err)
 					return

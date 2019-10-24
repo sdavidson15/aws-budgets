@@ -38,7 +38,7 @@ func (c *Cache) CacheBudgets(accountID string, budgets model.Budgets) error {
 	return c.writeFile(filepath, budgets)
 }
 
-func (c *Cache) GetBudgets(accountID string) (model.Budgets, error) {
+func (c *Cache) GetBudgets(accountID string, skipLock bool) (model.Budgets, error) {
 	// Check if a lock exists for this account. If it doesn't,
 	// then the specified account's budgets have not been cached.
 	lock, ok := c.locks[accountID]
@@ -46,8 +46,10 @@ func (c *Cache) GetBudgets(accountID string) (model.Budgets, error) {
 		return model.Budgets{}, nil
 	}
 
-	lock.RLock()
-	defer lock.RUnlock()
+	if !skipLock {
+		lock.RLock()
+		defer lock.RUnlock()
+	}
 
 	// Read the budgets as bytes from the file
 	filePath, err := c.getFilePath(accountID)
@@ -77,7 +79,7 @@ func (c *Cache) UpdateBudget(accountID string, budget *model.Budget) error {
 	defer lock.Unlock()
 
 	// Get existing budgets as Budget models
-	existing, err := c.GetBudgets(accountID)
+	existing, err := c.GetBudgets(accountID, true)
 	if err != nil {
 		return err
 	}
