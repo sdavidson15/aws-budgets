@@ -35,6 +35,7 @@ func (s *Storage) GetBudgets(skipCache bool) (model.Budgets, error) {
 			count = 0
 			time.Sleep(time.Second)
 		}
+		count++
 
 		go func(accountID string, budgeMetas model.BudgetMetas) {
 			defer wg.Done()
