@@ -24,10 +24,11 @@ export function NewBudget(budget) {
     return newBudget;
 }
 
-export function NewSpendHistoryItem(item) {
+// TODO: use the item's budget amount
+export function NewSpendHistoryItem(item, budgetAmount) {
     var newSpendHistoryItem = {
         Date: item.Date,
-        BudgetAmount: item.BudgetAmount,
+        BudgetAmount: budgetAmount,
         Spend: item.Spend
     }
     if (Object.keys(item).length !== Object.keys(newSpendHistoryItem).length) {

@@ -71,7 +71,7 @@ var Controller = (function () {
 
                 let spendHistory = [];
                 for (let j = 0; j < budget.SpendHistory.length; j++) {
-                    spendHistory.push(NewSpendHistoryItem(budget.SpendHistory[j]));
+                    spendHistory.push(NewSpendHistoryItem(budget.SpendHistory[j], budget.BudgetAmount));
                 }
                 spendHistory.reverse();
                 budget.SpendHistory = spendHistory;
