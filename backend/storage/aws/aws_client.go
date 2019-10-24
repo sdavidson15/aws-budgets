@@ -3,6 +3,7 @@ package aws
 import (
 	"aws-budgets/backend/model"
 	"fmt"
+	"math"
 
 	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -162,5 +163,8 @@ func (aws *awsClient) getSuggestedBudgetAmount(budget *model.Budget) (float64, e
 		total += spend.Spend
 	}
 	rounded := float64(((int(total/3) + 99) / 100) * 100)
+	if math.Abs(rounded-budget.BudgetAmount) < 500 {
+		return budget.BudgetAmount, nil
+	}
 	return rounded, nil
 }
